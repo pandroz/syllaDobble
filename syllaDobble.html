@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+
+    <style>
+        body {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            padding: 0;
+            margin: 0;
+        }
+
+        .page {
+            /* 21,0 cm x 29,7 cm */
+            max-width: 21cm !important;
+            min-width: 21cm !important;
+            width: 21cm !important;
+            height: 29.7cm;
+            max-height: 29.7cm;
+            min-height: 29.7cm;
+        }
+
+        .header {
+            text-align: center;
+        }
+
+        .buttonSect {
+            padding: 2%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #flexTest {
+            border: 1px solid black;
+        }
+
+        #flexTest>div {
+            border: 1px solid black;
+        }
+
+        button {
+            width: 15%;
+            height: 30px;
+            border-radius: 3px;
+        }
+
+        button>img {
+            width: 25px;
+            height: 25px;
+        }
+
+        button:hover,
+        button:active,
+        button:focus {
+            background-color: rgb(159, 167, 175);
+            border: 1px solid white;
+        }
+
+        .activeBtn {
+            background-color: rgb(159, 167, 175);
+            border: 1px solid white;
+        }
+
+        .buttonSect>div {
+            padding-top: 5px;
+        }
+
+        .cardsContainer {
+            padding: 2%;
+        }
+
+        .cardsSect {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+        }
+
+        .templateCard {
+            width: 30%;
+        }
+
+        .textColorPicker {
+            width: 15px;
+            height: 21px;
+            margin-left: -15px;
+        }
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid black;
+            border-radius: 100%;
+            width: 6cm;
+            height: 6cm;
+            margin-right: 5px;
+            font-size: 24px;
+        }
+
+        .cardRowTop {
+            width: 80%;
+            height: 33%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: flex-end;
+        }
+
+        .cardRowTop>div:nth-child(2) {
+            padding-bottom: 15%;
+        }
+
+        .cardRowTop>input:nth-child(3),
+        .cardRowTop>input:nth-child(4) {
+            margin-bottom: 15%;
+        }
+
+        input:nth-child(4) {
+            margin-left: -14px;
+        }
+
+        .cardRowBottom {
+            width: 80%;
+            height: 33%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: flex-start;
+        }
+
+        .cardRowBottom>div:nth-child(2) {
+            padding-top: 15%;
+        }
+
+        .cardRowBottom>input:nth-child(3),
+        .cardRowBottom>input:nth-child(4) {
+            margin-top: 15%;
+        }
+
+        .cardRowMid {
+            width: 90%;
+            height: 33%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cardRowMid>input:nth-child(3) {
+            margin-left: 2%;
+        }
+
+        .cardRowMid>input:nth-child(4) {
+            margin-right: 2%;
+        }
+
+        .settingsSect {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            align-content: normal;
+            justify-content: flex-start;
+            align-items: normal;
+        }
+
+        .settingsSect>label {
+            font-weight: bold;
+        }
+
+        .settingsSect>input {
+            margin-bottom: 5px;
+        }
+
+        .addItemInput {
+            width: 30%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+        <div class="header">
+            <h2>CIRCLES!</h2> <br />
+        </div>
+
+        <hr>
+
+        <div class="buttonSect">
+            <div class="settingsSect">
+                <label>Add one item</label>
+                <input type="text" id="sillabaValue" class="addItemInput" />
+
+                <label>Colore sfondo carta</label>
+                <input type="color" id="cardBg" name="cardBg" value="#e66465" />
+
+                <label>Colore bordo carta</label>
+                <input type="color" id="cardBorder" name="cardBorder" value="#B00B13" />
+
+                <label>Colore testo carta</label>
+                <input type="color" id="cardBorder" name="cardBorder" value="#B00B13" />
+
+                <button type="button" id="addItem" onclick="addItem()"><span
+                        style="font-weight:bold">Aggiungi</span></button>
+
+                <button type="button" id="addItem" onclick="testCall()"><span
+                        style="font-weight:bold">TEST</span></button>
+            </div>
+
+            <table>
+                <tr style="display: none">
+                    <th>flex-direction: </th>
+                    <th>
+                        <button type="button" class="activeBtn" id="btn01"
+                            onclick="changeFlexDirection(row, btn01, [btn02, btn03, btn04])">BT0</button>
+                        <button type="button" id="btn02"
+                            onclick="changeFlexDirection(column, btn02, [btn01, btn03, btn04])">BT1</button>
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                    </td>
+                    <th>
+
+                    </th>
+                </tr>
+            </table>
+
+        </div>
+
+        <hr>
+
+        <div class="cardsContainer">
+            <h2>
+                Template card
+            </h2>
+            <div class="cardsSect">
+                <form action="#">
+                    <div class="card cardTemplate">
+                        <div class="cardRowTop">
+                            <input type="text" class="templateCard" id="inTopRowL" name="inTopRowL">
+                            <input type="color" class="textColorPicker" id="colTopL" name="colTopL">
+                            <input type="text" class="templateCard" id="inTopRowM" name="inTopRowM">
+                            <input type="color" class="textColorPicker" id="colTopM" name="colTopM">
+                            <input type="text" class="templateCard" id="inTopRowR" name="inTopRowR">
+                            <input type="color" class="textColorPicker" id="colTopR" name="colTopR">
+                        </div>
+
+                        <div class="cardRowMid">
+                            <input type="text" class="templateCard" id="inMidRowL" name="inMidRowL">
+                            <input type="color" class="textColorPicker" id="colMidL" name="colMidL">
+                            <input type="text" class="templateCard" id="inMidRowM" name="inMidRowM">
+                            <input type="color" class="textColorPicker" id="colMidM" name="colMidM">
+                            <input type="text" class="templateCard" id="inMidRowR" name="inMidRowR">
+                            <input type="color" class="textColorPicker" id="colMidR" name="colMidR">
+                        </div>
+
+                        <div class="cardRowBottom">
+                            <input type="text" class="templateCard" id="inBotRowL" name="inBotRowL">
+                            <input type="color" class="textColorPicker" id="colBotL" name="colBotL">
+                            <input type="text" class="templateCard" id="inBotRowM" name="inBotRowM">
+                            <input type="color" class="textColorPicker" id="colBotM" name="colBotM">
+                            <input type="text" class="templateCard" id="inBotRowR" name="inBotRowR">
+                            <input type="color" class="textColorPicker" id="colBotR" name="colBotR">
+                        </div>
+                    </div>
+                    <input type="button" value="Add card" onclick="showValues()">
+                </form>
+
+                <div class="card">
+                    <div class="cardRowTop">
+                        <div>AAA</div>
+                        <div>AAA</div>
+                        <div>AAA</div>
+                    </div>
+
+                    <div class="cardRowMid">
+                        <div>AAA</div>
+                        <div>AAA</div>
+                        <div>AAA</div>
+                    </div>
+
+                    <div class="cardRowBottom">
+                        <div>AAA</div>
+                        <div>AAA</div>
+                        <div>AAA</div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+
+        <script>
+            function showValues() {
+                var fields = $(":input").serializeArray();                
+                let jsonData = {};
+                _.each(fields, d => {
+                    js = {}
+                        js[_.get(d, 'name')] = _.get(d,'value')
+                    _.assign(jsonData, js)
+                })
+                console.log(jsonData)
+
+            }
+
+
+
+
+            let counter = 0;
+
+            let normal = "normal";
+
+            // FLEX DIRECTION
+            let column = "column"; let row = "row"; let revRow = 'row-reverse'; let revCol = 'column-reverse';
+
+            // WRAP
+            let wrap = 'wrap'; let nowrap = 'nowrap';
+
+            // ALIGN CONTENT:
+            let center = 'center'; let flexStart = 'flex-start'; let flexEnd = 'flex-end'; let spaceAround = 'space-around'; let spaceBetween = 'space-between'; let stretch = 'stretch';
+
+            // JUSTIFY CONTENT
+            let spaceEvenly = "space-evenly";
+
+            // ALIGN ITEMS
+            let baseline = "baseline";
+
+
+
+            function changeJustifyContent(justifyContent, btn, removeFrom) {
+                let element = document.getElementById('flexTest');
+                element.style.justifyContent = justifyContent;
+                updateStyle();
+                updateButtons(btn, removeFrom);
+            }
+
+            function updateButtons(btn, clearList) {
+                btn.classList.add("activeBtn");
+
+                for (let i = 0; i < clearList.length; i++) {
+                    clearList[i].classList.remove("activeBtn")
+                }
+            }
+
+
+
+            function updateStyle() {
+                let style = document.getElementById('flexTest');
+                let styles = getComputedStyle(style);
+                document.getElementById("flexDirId").innerHTML = "flex-direction: " + styles.flexDirection
+                document.getElementById("wrapId").innerHTML = "flex-wrap: " + styles.flexWrap
+                document.getElementById("alignContentId").innerHTML = "align-content: " + styles.alignContent
+                document.getElementById("justifyContentId").innerHTML = "justify-content: " + styles.justifyContent
+                document.getElementById("alignItemsId").innerHTML = "align-items: " + styles.alignItems
+            }
+
+            function addItem() {
+                let flexTestHtml = document.getElementById("flexTest").innerHTML;
+                flexTestHtml += "<div id=\"remove" + counter + "\">Test Item " + counter + " <span onClick=\"removeThis(remove" + counter + ")\" class=\"spanItem\">X</span></div>"
+                document.getElementById("flexTest").innerHTML = flexTestHtml;
+                counter++;
+            }
+
+            function removeThis(element) {
+                document.getElementById(element.id).remove();
+
+            }
+
+            function chiamata() {
+                const myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+                myHeaders.append("Accept", "application/json, text/plain, */*");
+                myHeaders.append("Authorization", "Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IkRGNzQwOUY2OTcwNEVDRTQxODBEMTBEMTBDMTlFMzlCNjkyREI0NDBSUzI1NiIsInR5cCI6ImF0K2p3dCIsIng1dCI6IjMzUUo5cGNFN09RWURSRFJEQm5qbTJrdHRFQSJ9.eyJuYmYiOjE3MTQ0NjAwOTgsImV4cCI6MTcxNDQ2MzY5OCwiaXNzIjoiaHR0cDovLzEwLjEwLjEwLjI0NTo1NzkxIiwiYXVkIjpbIklkZW50aXR5LlNlcnZpY2UiLCJTb2dlYS5Qb250ZUt1Yml4LlNlcnZpY2UiXSwiY2xpZW50X2lkIjoiYW5ndWxhcl9zcGEiLCJzdWIiOiI2OWViMjBkNC00OGUzLTRlMDItYmFlMS0zZWExNTc1ZTZhYmUiLCJhdXRoX3RpbWUiOjE3MTQ0NjAwOTgsImlkcCI6ImxvY2FsIiwibmFtZSI6IlV0ZW50ZSBwZXIgS3ViaXgiLCJsb2NhbGUiOiJpdC1JVCIsImVtYWlsIjoia3ViaXhAa3ViaXguaXQiLCJyb2xlIjoiODFjOTg3MjgtYTNhYi00Y2IyLTgzM2MtMDk4ZTM1YmJkOTE4Iiwia2VlbF9iZWhhdmlvdXIiOiJBbW1pbmlzdHJhdG9yZSIsImtlZWxfdGVuYW50cyI6Ilt7XCJUZW5hbnRJZFwiOlwibnlreVwiLFwiVGVuYW50Q29kZVwiOlwibnlreVwiLFwiVGVuYW50TmFtZVwiOlwiTllLWVwiLFwiVXNlckNvZGVcIjpudWxsLFwiU3ViVGVuYW50c1wiOltdfV0iLCJrZWVsX2RlZmF1bHRfdGVuYW50IjoibnlreSIsImtlZWxfYXBpX2NoZWNrIjoiYlhnb29iNktOU253NWNUSHpweWcyYUppQ1l2UUFDYTFpaVdOcndOZ2NzND0iLCJqdGkiOiI5QzM3MzQ3QzdBQTU0MkMyQkJERkRCM0RCNTJBMUJCMyIsImlhdCI6MTcxNDQ2MDA5OCwic2NvcGUiOlsiZW1haWwiLCJJZGVudGl0eS5TZXJ2aWNlIiwia2VlbC5wcm9maWxlIiwibG9jYWxlIiwib3BlbmlkIiwicHJvZmlsZSIsInJvbGUiLCJTb2dlYS5Qb250ZUt1Yml4LlNlcnZpY2UiLCJvZmZsaW5lX2FjY2VzcyJdLCJhbXIiOlsicHdkIl19.Sksl-fKaItwCxHLbUMiF2sR2G80r7wjd8H0lG_f6zWPqmraMbbKIMeXZUjTHp14-PEOUy4aqv-ZDrL4f23D3C4VIX-UeI2pnUiRGxQ-CjWyxMWY0_vJUg9mbEq04nlg5DkKtnGoOLFXFY7FT_6ttSEuNR8rT-v7fGFESBP_rVJZKx4fF1iKYAqebHQzV4MvSc5Lb_0AZH3n6b-WBgqUnrG9MnMqn3GxNXtyKRMHO3IP2LgedylObtTArBXCoIUkd5UUt2t6zVAGO3mjXqJ9WVuN19gAAwEsQUMzP-wOlqtGWC1QAo-iVL9gBPi1NcU-J7okTe-JPOu-nyP78IGCB3w");
+                myHeaders.append("x-tenant", "");
+
+                const raw = JSON.stringify("f8a67e3039bd01be4d5cfa73");
+
+                const requestOptions = {
+                    method: "POST",
+                    headers: myHeaders,
+                    body: raw,
+                    redirect: "follow"
+                };
+
+                fetch("http://sogea4plm.nyky.it:5721/api/1.0/sogea.pontekubix.service/product", requestOptions)
+                    .then((response) => response.text())
+                    .then((result) => console.log(result))
+                    .catch((error) => console.error(error));
+            }
+
+        </script>
+
+    </div>
+</body>
+
+</html>

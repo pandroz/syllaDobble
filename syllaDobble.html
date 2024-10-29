@@ -2,16 +2,30 @@
 <html>
 
 <head>
+    <title>Log-obble</title>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"
+        integrity="sha512-csNcFYJniKjJxRWRV1R7fvnXrycHP6qDR21mgz1ZP55xY5d+aHLfo9/FcGDQLfn2IfngbAHd8LdfsagcCqgTcQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <style>
+        * {
+            color-adjust: exact;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
         body {
             width: 100%;
             height: 100%;
             border: 0;
             padding: 0;
             margin: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
 
         .page {
@@ -28,45 +42,14 @@
             text-align: center;
         }
 
+        .title {
+            text-align: center;
+        }
+
         .buttonSect {
             padding: 2%;
             display: flex;
             flex-direction: column;
-        }
-
-        #flexTest {
-            border: 1px solid black;
-        }
-
-        #flexTest>div {
-            border: 1px solid black;
-        }
-
-        button {
-            width: 15%;
-            height: 30px;
-            border-radius: 3px;
-        }
-
-        button>img {
-            width: 25px;
-            height: 25px;
-        }
-
-        button:hover,
-        button:active,
-        button:focus {
-            background-color: rgb(159, 167, 175);
-            border: 1px solid white;
-        }
-
-        .activeBtn {
-            background-color: rgb(159, 167, 175);
-            border: 1px solid white;
-        }
-
-        .buttonSect>div {
-            padding-top: 5px;
         }
 
         .cardsContainer {
@@ -77,6 +60,7 @@
             display: flex;
             flex-direction: row;
             justify-content: flex-start;
+            flex-wrap: wrap;
         }
 
         .templateCard {
@@ -95,10 +79,11 @@
             align-items: center;
             border: 1px solid black;
             border-radius: 100%;
-            width: 6cm;
-            height: 6cm;
-            margin-right: 5px;
+            width: 7cm;
+            height: 7cm;
+            margin: 5px;
             font-size: 24px;
+            page-break-inside: avoid;
         }
 
         .cardRowTop {
@@ -160,84 +145,120 @@
 
         .settingsSect {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             flex-wrap: nowrap;
             align-content: normal;
             justify-content: flex-start;
             align-items: normal;
         }
 
-        .settingsSect>label {
+        .settingsSect>div>label {
             font-weight: bold;
+            text-transform: uppercase;
         }
 
-        .settingsSect>input {
-            margin-bottom: 5px;
+        .settingsSect>div {
+            display: flex;
+            flex-direction: column;
+            padding: 0px 10px;
         }
 
         .addItemInput {
             width: 30%;
+        }
+
+        .cardContainer {
+            display: flex;
+            flex-direction: row-reverse;
+        }
+
+        .removeCardBtn {
+            width: 15px;
+            height: 20px;
+            padding: 0;
+            border: 1px solid;
+        }
+
+        .resetBtn {
+            margin-top: 3%;
+            width: 50px;
+        }
+
+        .saveBtn {
+            margin-top: 3%;
+        }
+
+        .smallText {
+            font-size: 0.7rem;
+            vertical-align: bottom;
+        }
+
+        .actionButtons {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-content: flex-end;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .fileManage {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            align-content: flex-end;
+            justify-content: flex-end;
+            align-items: flex-end;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media print {
+
+            .no-print,
+            .no-print * {
+                display: none !important;
+            }
         }
     </style>
 </head>
 
 <body>
     <div class="page">
-        <div class="header">
-            <h2>CIRCLES!</h2> <br />
+        <div class="header no-print">
+            <h2>Log-ooble!</h2>
         </div>
 
-        <hr>
+        <hr class="no-print">
 
-        <div class="buttonSect">
+        <div class="buttonSect no-print">
             <div class="settingsSect">
-                <label>Add one item</label>
-                <input type="text" id="sillabaValue" class="addItemInput" />
-
-                <label>Colore sfondo carta</label>
-                <input type="color" id="cardBg" name="cardBg" value="#e66465" />
-
-                <label>Colore bordo carta</label>
-                <input type="color" id="cardBorder" name="cardBorder" value="#B00B13" />
-
-                <label>Colore testo carta</label>
-                <input type="color" id="cardBorder" name="cardBorder" value="#B00B13" />
-
-                <button type="button" id="addItem" onclick="addItem()"><span
-                        style="font-weight:bold">Aggiungi</span></button>
-
-                <button type="button" id="addItem" onclick="testCall()"><span
-                        style="font-weight:bold">TEST</span></button>
+                <div>
+                    <label>Sfondo carta</label>
+                    <input type="color" id="cardBg" name="cardBg" value="#FFFFFF" />
+                </div>
+                <div>
+                    <label>Bordo carta</label>
+                    <input type="color" id="cardBorder" name="cardBorder" value="#000000" />
+                </div>
+                <div>
+                    <label>Testo carta</label>
+                    <input type="color" id="cardGlobalTextCol" name="cardGlobalTextCol" value="#000000" />
+                </div>
+                <div>
+                    <div><span class="smallText">Reset defaults<i class="fas fa-info-circle"
+                                title="Reimposta valori predefiniti dei campi per il template della carta"></i></span>
+                    </div>
+                    <input type="button" value="Reset" class="resetBtn" onclick="resetGlobals()" />
+                </div>
             </div>
 
-            <table>
-                <tr style="display: none">
-                    <th>flex-direction: </th>
-                    <th>
-                        <button type="button" class="activeBtn" id="btn01"
-                            onclick="changeFlexDirection(row, btn01, [btn02, btn03, btn04])">BT0</button>
-                        <button type="button" id="btn02"
-                            onclick="changeFlexDirection(column, btn02, [btn01, btn03, btn04])">BT1</button>
-                    </th>
-                </tr>
-                <tr>
-                    <td>
-                    </td>
-                    <th>
-
-                    </th>
-                </tr>
-            </table>
-
         </div>
 
-        <hr>
-
         <div class="cardsContainer">
-            <h2>
-                Template card
-            </h2>
-            <div class="cardsSect">
+            <div class="templateCardSect cardsSect no-print">
                 <form action="#">
                     <div class="card cardTemplate">
                         <div class="cardRowTop">
@@ -267,26 +288,52 @@
                             <input type="color" class="textColorPicker" id="colBotR" name="colBotR">
                         </div>
                     </div>
-                    <input type="button" value="Add card" onclick="showValues()">
                 </form>
-
-                <div class="card">
-                    <div class="cardRowTop">
-                        <div>AAA</div>
-                        <div>AAA</div>
-                        <div>AAA</div>
+                <div class="actionButtons">
+                    <button onclick="getValues()">Aggiungi carta</button>
+                    <button onclick="stampaPagine()">Stampa carte</button>
+                    <!-- SAVE BUTTON -->
+                    <div>
+                        <div><span style="text-align: start;" class="smallText">Salva carte <i
+                                    class="fas fa-info-circle"
+                                    title="Salva le carte presenti nella sezione 'LE TUE CARTE'"></i></span></div>
+                        <input type="button" value="Salva" class="saveBtn" onclick="saveCards()" />
                     </div>
+                    <!-- UPLOAD BUTTON -->
+                    <input type="file" id="cardsUpload" onchange="uploadCards(this)" />
 
-                    <div class="cardRowMid">
-                        <div>AAA</div>
-                        <div>AAA</div>
-                        <div>AAA</div>
-                    </div>
+                </div>
+            </div>
 
-                    <div class="cardRowBottom">
-                        <div>AAA</div>
-                        <div>AAA</div>
-                        <div>AAA</div>
+            <hr class="no-print">
+            <div class="loadedCardsSect">
+                <div class="title">
+                    <h3>LE TUE CARTE</h3>
+                </div>
+
+            </div>
+
+            <div class="cardsSect" id="cardsSectId">
+                <div class="cardContainer hidden" id="testCardContainer">
+                    <button class="removeCardBtn no-print" onclick="removeCard(testCardContainer)">X</button>
+                    <div class="card">
+                        <div class="cardRowTop">
+                            <div>AAA</div>
+                            <div>AAA</div>
+                            <div>AAA</div>
+                        </div>
+
+                        <div class="cardRowMid">
+                            <div>AAA</div>
+                            <div>AAA</div>
+                            <div>AAA</div>
+                        </div>
+
+                        <div class="cardRowBottom">
+                            <div>AAA</div>
+                            <div>AAA</div>
+                            <div>AAA</div>
+                        </div>
                     </div>
                 </div>
 
@@ -298,102 +345,130 @@
 
 
         <script>
-            function showValues() {
-                var fields = $(":input").serializeArray();                
-                let jsonData = {};
+            var CARDS = [];
+
+            function getValues() {
+                var fields = $(":input").serializeArray();
+                let cardData = {};
                 _.each(fields, d => {
-                    js = {}
-                        js[_.get(d, 'name')] = _.get(d,'value')
-                    _.assign(jsonData, js)
+                    js = {};
+                    js[_.get(d, 'name')] = _.get(d, 'value');
+                    _.assign(cardData, js);
                 })
-                console.log(jsonData)
+                // console.log(cardData);
+                CARDS.push(cardData)
+                loadCard(cardData)
 
+                let cardKeys = _.keys(cardData)
+                clearTemplate(cardKeys);
             }
 
+            function loadCard(cardData) {
+                let newCardUUID = _.uniqueId('card_')
+                // console.log('newUUID ==> ', [newCardUUID])
 
+                let cardBg = _.get(cardData, 'cardBg');
+                let cardBorder = _.get(cardData, 'cardBorder');
+                let cardGlobalTextCol = _.get(cardData, 'cardGlobalTextCol');
 
+                let isCardGlobalTextCol = cardGlobalTextCol !== '#000000';
 
-            let counter = 0;
+                let cardHtml = `<div class="cardContainer" id="${newCardUUID}">
+                    <button class="removeCardBtn no-print" onclick="removeCard(${newCardUUID})">X</button>
+                        <div class="card" style="background-color: ${cardBg} !important; border-color: ${cardBorder}; color: ${cardGlobalTextCol}" id="card_${newCardUUID}">
+                            <div class="cardRowTop">
+                                <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(cardData, 'colTopL')}">${_.get(cardData, 'inTopRowL', '')}</div>
+                                <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(cardData, 'colTopM')}">${_.get(cardData, 'inTopRowM', '')}</div>
+                                <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(cardData, 'colTopR')}">${_.get(cardData, 'inTopRowR', '')}</div>
+                            </div>
 
-            let normal = "normal";
+                            <div class="cardRowMid">
+                                <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(cardData, 'colMidL')}">${_.get(cardData, 'inMidRowL', '')}</div>
+                                <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(cardData, 'colMidM')}">${_.get(cardData, 'inMidRowM', '')}</div>
+                                <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(cardData, 'colMidR')}">${_.get(cardData, 'inMidRowR', '')}</div>
+                            </div>
 
-            // FLEX DIRECTION
-            let column = "column"; let row = "row"; let revRow = 'row-reverse'; let revCol = 'column-reverse';
+                            <div class="cardRowBottom">
+                                <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(cardData, 'colBotL')}">${_.get(cardData, 'inBotRowL', '')}</div>
+                                <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(cardData, 'colBotM')}">${_.get(cardData, 'inBotRowM', '')}</div>
+                                <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(cardData, 'colBotR')}">${_.get(cardData, 'inBotRowR', '')}</div>
+                            </div>
+                        </div>
+                    </div>`;
 
-            // WRAP
-            let wrap = 'wrap'; let nowrap = 'nowrap';
-
-            // ALIGN CONTENT:
-            let center = 'center'; let flexStart = 'flex-start'; let flexEnd = 'flex-end'; let spaceAround = 'space-around'; let spaceBetween = 'space-between'; let stretch = 'stretch';
-
-            // JUSTIFY CONTENT
-            let spaceEvenly = "space-evenly";
-
-            // ALIGN ITEMS
-            let baseline = "baseline";
-
-
-
-            function changeJustifyContent(justifyContent, btn, removeFrom) {
-                let element = document.getElementById('flexTest');
-                element.style.justifyContent = justifyContent;
-                updateStyle();
-                updateButtons(btn, removeFrom);
+                // console.log(cardHtml)
+                let cardsSectHtml = document.getElementById("cardsSectId").innerHTML
+                cardsSectHtml += cardHtml;
+                document.getElementById("cardsSectId").innerHTML = cardsSectHtml;
             }
 
-            function updateButtons(btn, clearList) {
-                btn.classList.add("activeBtn");
-
-                for (let i = 0; i < clearList.length; i++) {
-                    clearList[i].classList.remove("activeBtn")
-                }
-            }
-
-
-
-            function updateStyle() {
-                let style = document.getElementById('flexTest');
-                let styles = getComputedStyle(style);
-                document.getElementById("flexDirId").innerHTML = "flex-direction: " + styles.flexDirection
-                document.getElementById("wrapId").innerHTML = "flex-wrap: " + styles.flexWrap
-                document.getElementById("alignContentId").innerHTML = "align-content: " + styles.alignContent
-                document.getElementById("justifyContentId").innerHTML = "justify-content: " + styles.justifyContent
-                document.getElementById("alignItemsId").innerHTML = "align-items: " + styles.alignItems
-            }
-
-            function addItem() {
-                let flexTestHtml = document.getElementById("flexTest").innerHTML;
-                flexTestHtml += "<div id=\"remove" + counter + "\">Test Item " + counter + " <span onClick=\"removeThis(remove" + counter + ")\" class=\"spanItem\">X</span></div>"
-                document.getElementById("flexTest").innerHTML = flexTestHtml;
-                counter++;
-            }
-
-            function removeThis(element) {
+            function removeCard(element) {
                 document.getElementById(element.id).remove();
-
             }
 
-            function chiamata() {
-                const myHeaders = new Headers();
-                myHeaders.append("Content-Type", "application/json");
-                myHeaders.append("Accept", "application/json, text/plain, */*");
-                myHeaders.append("Authorization", "Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IkRGNzQwOUY2OTcwNEVDRTQxODBEMTBEMTBDMTlFMzlCNjkyREI0NDBSUzI1NiIsInR5cCI6ImF0K2p3dCIsIng1dCI6IjMzUUo5cGNFN09RWURSRFJEQm5qbTJrdHRFQSJ9.eyJuYmYiOjE3MTQ0NjAwOTgsImV4cCI6MTcxNDQ2MzY5OCwiaXNzIjoiaHR0cDovLzEwLjEwLjEwLjI0NTo1NzkxIiwiYXVkIjpbIklkZW50aXR5LlNlcnZpY2UiLCJTb2dlYS5Qb250ZUt1Yml4LlNlcnZpY2UiXSwiY2xpZW50X2lkIjoiYW5ndWxhcl9zcGEiLCJzdWIiOiI2OWViMjBkNC00OGUzLTRlMDItYmFlMS0zZWExNTc1ZTZhYmUiLCJhdXRoX3RpbWUiOjE3MTQ0NjAwOTgsImlkcCI6ImxvY2FsIiwibmFtZSI6IlV0ZW50ZSBwZXIgS3ViaXgiLCJsb2NhbGUiOiJpdC1JVCIsImVtYWlsIjoia3ViaXhAa3ViaXguaXQiLCJyb2xlIjoiODFjOTg3MjgtYTNhYi00Y2IyLTgzM2MtMDk4ZTM1YmJkOTE4Iiwia2VlbF9iZWhhdmlvdXIiOiJBbW1pbmlzdHJhdG9yZSIsImtlZWxfdGVuYW50cyI6Ilt7XCJUZW5hbnRJZFwiOlwibnlreVwiLFwiVGVuYW50Q29kZVwiOlwibnlreVwiLFwiVGVuYW50TmFtZVwiOlwiTllLWVwiLFwiVXNlckNvZGVcIjpudWxsLFwiU3ViVGVuYW50c1wiOltdfV0iLCJrZWVsX2RlZmF1bHRfdGVuYW50IjoibnlreSIsImtlZWxfYXBpX2NoZWNrIjoiYlhnb29iNktOU253NWNUSHpweWcyYUppQ1l2UUFDYTFpaVdOcndOZ2NzND0iLCJqdGkiOiI5QzM3MzQ3QzdBQTU0MkMyQkJERkRCM0RCNTJBMUJCMyIsImlhdCI6MTcxNDQ2MDA5OCwic2NvcGUiOlsiZW1haWwiLCJJZGVudGl0eS5TZXJ2aWNlIiwia2VlbC5wcm9maWxlIiwibG9jYWxlIiwib3BlbmlkIiwicHJvZmlsZSIsInJvbGUiLCJTb2dlYS5Qb250ZUt1Yml4LlNlcnZpY2UiLCJvZmZsaW5lX2FjY2VzcyJdLCJhbXIiOlsicHdkIl19.Sksl-fKaItwCxHLbUMiF2sR2G80r7wjd8H0lG_f6zWPqmraMbbKIMeXZUjTHp14-PEOUy4aqv-ZDrL4f23D3C4VIX-UeI2pnUiRGxQ-CjWyxMWY0_vJUg9mbEq04nlg5DkKtnGoOLFXFY7FT_6ttSEuNR8rT-v7fGFESBP_rVJZKx4fF1iKYAqebHQzV4MvSc5Lb_0AZH3n6b-WBgqUnrG9MnMqn3GxNXtyKRMHO3IP2LgedylObtTArBXCoIUkd5UUt2t6zVAGO3mjXqJ9WVuN19gAAwEsQUMzP-wOlqtGWC1QAo-iVL9gBPi1NcU-J7okTe-JPOu-nyP78IGCB3w");
-                myHeaders.append("x-tenant", "");
+            function resetGlobals() {
+                // #000000
+                let cardGlobalTextCol = document.getElementById('cardGlobalTextCol');
+                cardGlobalTextCol.value = "#000000";
 
-                const raw = JSON.stringify("f8a67e3039bd01be4d5cfa73");
+                let cardBg = document.getElementById('cardBg');
+                cardBg.value = "#FFFFFF";
 
-                const requestOptions = {
-                    method: "POST",
-                    headers: myHeaders,
-                    body: raw,
-                    redirect: "follow"
+                let cardBorder = document.getElementById('cardBorder');
+                cardBorder.value = "#000000";
+            }
+
+            function stampaPagine() {
+                window.print();
+            }
+
+            function saveCards() {
+                let date = new Date();
+                let fileName = `${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}_${date.getHours()}${date.getMinutes()}${date.getSeconds()}_carte`;
+                download(fileName, JSON.stringify(CARDS, null, 4));
+            }
+
+            function download(filename, text) {
+                var element = document.createElement('a');
+                element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+                element.setAttribute('download', filename);
+
+                element.style.display = 'none';
+                document.body.appendChild(element);
+                element.click();
+                document.body.removeChild(element);
+            }
+
+            function uploadCards(inputFile) {
+                file = _.head(_.get(inputFile, 'files'))
+                let reader = new FileReader();
+                fileText = reader.readAsText(file);
+
+                reader.onload = function () {
+                    let jsonCardsData = JSON.parse(_.get(reader, 'result'));
+                    _.each(jsonCardsData, card => {
+                        loadCard(card);
+                    })
                 };
-
-                fetch("http://sogea4plm.nyky.it:5721/api/1.0/sogea.pontekubix.service/product", requestOptions)
-                    .then((response) => response.text())
-                    .then((result) => console.log(result))
-                    .catch((error) => console.error(error));
             }
+
+            function clearTemplate(cardKeys) {
+                // Resetting global values
+                resetGlobals();
+
+                // Resetting values inside the card
+                _.each(cardKeys, key => {
+                    if(!_.includes(['cardBg', 'cardBorder', 'cardGlobalTextCol'], key)) {
+                        let element = document.getElementById(key);
+                        if(_.startsWith(key, 'in'))
+                            element.value = '';
+                        else if(_.startsWith(key, 'col'))
+                            element.value = '#000000';
+                    }
+                })
+            }
+
+
 
         </script>
 

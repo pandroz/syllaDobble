@@ -77,7 +77,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            border: 1px solid black;
+            border: 2px solid black;
             border-radius: 100%;
             width: 7cm;
             height: 7cm;
@@ -237,15 +237,16 @@
             <div class="settingsSect">
                 <div>
                     <label>Sfondo carta</label>
-                    <input type="color" id="cardBg" name="cardBg" value="#FFFFFF" />
+                    <input type="color" id="cardBg" name="cardBg" value="#FFFFFF" onchange="updateCard(this)" />
                 </div>
                 <div>
                     <label>Bordo carta</label>
-                    <input type="color" id="cardBorder" name="cardBorder" value="#000000" />
+                    <input type="color" id="cardBorder" name="cardBorder" value="#000000" onchange="updateCard(this)" />
                 </div>
                 <div>
                     <label>Testo carta</label>
-                    <input type="color" id="cardGlobalTextCol" name="cardGlobalTextCol" value="#000000" />
+                    <input type="color" id="cardGlobalTextCol" name="cardGlobalTextCol" value="#000000"
+                        onchange="updateCard(this)" />
                 </div>
                 <div>
                     <div><span class="smallText">Reset defaults<i class="fas fa-info-circle"
@@ -260,7 +261,7 @@
         <div class="cardsContainer">
             <div class="templateCardSect cardsSect no-print">
                 <form action="#">
-                    <div class="card cardTemplate">
+                    <div class="card" id="templateCard">
                         <div class="cardRowTop">
                             <input type="text" class="templateCard" id="inTopRowL" name="inTopRowL">
                             <input type="color" class="textColorPicker" id="colTopL" name="colTopL">
@@ -458,16 +459,36 @@
 
                 // Resetting values inside the card
                 _.each(cardKeys, key => {
-                    if(!_.includes(['cardBg', 'cardBorder', 'cardGlobalTextCol'], key)) {
+                    if (!_.includes(['cardBg', 'cardBorder', 'cardGlobalTextCol'], key)) {
                         let element = document.getElementById(key);
-                        if(_.startsWith(key, 'in'))
+                        if (_.startsWith(key, 'in'))
                             element.value = '';
-                        else if(_.startsWith(key, 'col'))
+                        else if (_.startsWith(key, 'col'))
                             element.value = '#000000';
                     }
                 })
             }
 
+            function updateCard(element) {
+                let elementId = element.id;
+                let templateCard = document.getElementById('templateCard')
+                switch (elementId) {
+                    case 'cardBg':
+                        templateCard.style.backgroundColor = element.value;
+                        break;
+                    case 'cardBorder':
+                        templateCard.style.borderColor = element.value;
+                        break;
+                    case 'cardGlobalTextCol':
+                        templateCard.style.color = element.value;
+                        break;
+                    default:
+                        break;
+                }
+
+                // console.log('element ==>', element.id)
+
+            }
 
 
         </script>

@@ -3,7 +3,7 @@
 3. DONE - Salvataggio carte su file o db
 4. DONE - Reset global values ai default
 5. DONE - Pulizia template dopo aver inserito carte
-6. Allineare colore selezionato della carta a template
+6. DONE - Allineare colore selezionato della carta a template
 
 
 

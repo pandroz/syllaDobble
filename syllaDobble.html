@@ -1,8 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="">
 
 <head>
     <title>Log-obble</title>
+    <link rel="stylesheet" href="syllaDobbleStyles.css">
+    <script src="syllaDobbleScripts.js" type="module"></script>
+
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"
@@ -12,487 +15,212 @@
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <style>
-        * {
-            color-adjust: exact;
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
-        }
 
-        body {
-            width: 100%;
-            height: 100%;
-            border: 0;
-            padding: 0;
-            margin: 0;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-        }
+    <script type="module">
+        import { openModal, getValues, loadCard, removeCard, resetGlobals, stampaPagine, saveCards, download, uploadCards, clearTemplate, updateCard, closeModal, logCards } from "./syllaDobbleScripts.js";
+        module.openModal = openModal;
+        module.getValues = getValues;
+        module.loadCard = loadCard;
+        module.removeCard = removeCard;
+        module.resetGlobals = resetGlobals;
+        module.stampaPagine = stampaPagine;
+        module.saveCards = saveCards;
+        module.download = download;
+        module.uploadCards = uploadCards;
+        module.clearTemplate = clearTemplate;
+        module.updateCard = updateCard;
+        module.openModal = openModal;
+        module.closeModal = closeModal;
+        module.logCards = logCards;
+    </script>
 
-        .page {
-            /* 21,0 cm x 29,7 cm */
-            max-width: 21cm !important;
-            min-width: 21cm !important;
-            width: 21cm !important;
-            height: 29.7cm;
-            max-height: 29.7cm;
-            min-height: 29.7cm;
-        }
+    <script type="text/javascript">
+        const module = {};
+    </script>
 
-        .header {
-            text-align: center;
-        }
-
-        .title {
-            text-align: center;
-        }
-
-        .buttonSect {
-            padding: 2%;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .cardsContainer {
-            padding: 2%;
-        }
-
-        .cardsSect {
-            display: flex;
-            flex-direction: row;
-            justify-content: flex-start;
-            flex-wrap: wrap;
-        }
-
-        .templateCard {
-            width: 30%;
-        }
-
-        .textColorPicker {
-            width: 15px;
-            height: 21px;
-            margin-left: -15px;
-        }
-
-        .card {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            border: 2px solid black;
-            border-radius: 100%;
-            width: 7cm;
-            height: 7cm;
-            margin: 5px;
-            font-size: 24px;
-            page-break-inside: avoid;
-        }
-
-        .cardRowTop {
-            width: 80%;
-            height: 33%;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-around;
-            align-items: flex-end;
-        }
-
-        .cardRowTop>div:nth-child(2) {
-            padding-bottom: 15%;
-        }
-
-        .cardRowTop>input:nth-child(3),
-        .cardRowTop>input:nth-child(4) {
-            margin-bottom: 15%;
-        }
-
-        input:nth-child(4) {
-            margin-left: -14px;
-        }
-
-        .cardRowBottom {
-            width: 80%;
-            height: 33%;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-around;
-            align-items: flex-start;
-        }
-
-        .cardRowBottom>div:nth-child(2) {
-            padding-top: 15%;
-        }
-
-        .cardRowBottom>input:nth-child(3),
-        .cardRowBottom>input:nth-child(4) {
-            margin-top: 15%;
-        }
-
-        .cardRowMid {
-            width: 90%;
-            height: 33%;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .cardRowMid>input:nth-child(3) {
-            margin-left: 2%;
-        }
-
-        .cardRowMid>input:nth-child(4) {
-            margin-right: 2%;
-        }
-
-        .settingsSect {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: nowrap;
-            align-content: normal;
-            justify-content: flex-start;
-            align-items: normal;
-        }
-
-        .settingsSect>div>label {
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        .settingsSect>div {
-            display: flex;
-            flex-direction: column;
-            padding: 0px 10px;
-        }
-
-        .addItemInput {
-            width: 30%;
-        }
-
-        .cardContainer {
-            display: flex;
-            flex-direction: row-reverse;
-        }
-
-        .removeCardBtn {
-            width: 15px;
-            height: 20px;
-            padding: 0;
-            border: 1px solid;
-        }
-
-        .resetBtn {
-            margin-top: 3%;
-            width: 50px;
-        }
-
-        .saveBtn {
-            margin-top: 3%;
-        }
-
-        .smallText {
-            font-size: 0.7rem;
-            vertical-align: bottom;
-        }
-
-        .actionButtons {
-            width: 100%;
-            display: flex;
-            flex-direction: row;
-            align-content: flex-end;
-            justify-content: space-between;
-            align-items: flex-end;
-        }
-
-        .fileManage {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: nowrap;
-            align-content: flex-end;
-            justify-content: flex-end;
-            align-items: flex-end;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        @media print {
-
-            .no-print,
-            .no-print * {
-                display: none !important;
-            }
-        }
-    </style>
 </head>
 
 <body>
     <div class="page">
         <div class="header no-print">
-            <h2>Log-ooble!</h2>
+            <span id="pageTitle">Log-ooble!</span>
         </div>
 
-        <hr class="no-print">
+        <script>
+            let delay = 200;
+            let title = document.getElementById("pageTitle");
+            title.innerHTML = "LOG-OBBLE!"
+                .split("")
+                .map(letter => {
+                    // console.log(letter);
+                    return `<span>` + letter + `</span>`;
+                })
+                .join("");
 
-        <div class="buttonSect no-print">
-            <div class="settingsSect">
-                <div>
-                    <label>Sfondo carta</label>
-                    <input type="color" id="cardBg" name="cardBg" value="#FFFFFF" onchange="updateCard(this)" />
-                </div>
-                <div>
-                    <label>Bordo carta</label>
-                    <input type="color" id="cardBorder" name="cardBorder" value="#000000" onchange="updateCard(this)" />
-                </div>
-                <div>
-                    <label>Testo carta</label>
-                    <input type="color" id="cardGlobalTextCol" name="cardGlobalTextCol" value="#000000"
-                        onchange="updateCard(this)" />
-                </div>
-                <div>
-                    <div><span class="smallText">Reset defaults<i class="fas fa-info-circle"
-                                title="Reimposta valori predefiniti dei campi per il template della carta"></i></span>
+            Array.from(title.children).forEach((span, index) => {
+                setTimeout(() => {
+                    span.classList.add("wavy");
+                }, index * 60 + delay);
+            });
+
+
+        </script>
+
+
+        <!-- <svg class="no-print" height="1" width="100%" xmlns="http://www.w3.org/2000/svg">
+            <line x1="0" y1="0" x2="100%" y2="0" style="stroke:rgba(102, 102, 102, 0.712);stroke-width:3" />
+            Sorry, your browser does not support inline SVG.
+        </svg> -->
+
+        <div class="templatingContainer no-print">
+            <div class="templateCardContainer">
+                <div class="buttonSect no-print">
+                    <div class="subtitle">
+                        <span>Impostazioni carta da aggiungere</span>
                     </div>
-                    <input type="button" value="Reset" class="resetBtn" onclick="resetGlobals()" />
+                    <div class="undertitle">
+                        <span>Premi sulle opzioni per cambiare la carta</span>
+                    </div>
+                    <div class="settingsSect">
+                        <div>
+                            <label for="cardBg">Sfondo</label>
+                            <input type="color" id="cardBg" name="cardBg" value="#FFFFFF"
+                                onchange="module.updateCard(this)" />
+                        </div>
+                        <div>
+                            <label for="cardBorder">Bordo</label>
+                            <input type="color" id="cardBorder" name="cardBorder" value="#000000"
+                                onchange="module.updateCard(this)" />
+                        </div>
+                        <div>
+                            <label for="cardGlobalTextCol">Colore testo</label>
+                            <input type="color" id="cardGlobalTextCol" name="cardGlobalTextCol" value="#000000"
+                                onchange="module.updateCard(this)" />
+                        </div>
+                        <div>
+                            <div><span class="smallText">Reset defaults <i class="fas fa-info-circle"
+                                        title="Reimposta valori predefiniti dei campi per il template della carta"></i></span>
+                            </div>
+                            <input type="button" value="Reset" class="resetBtn" onclick="module.resetGlobals()" />
+                        </div>
+                    </div>
+
+                </div>
+                <div class="templateCardSect cardsSect no-print">
+                    <form action="#">
+                        <div class="card templateCard" id="templateCard">
+                            <div class="cardRowTop">
+                                <input type="text" class="templateCard" id="inTopRowL" name="inTopRowL">
+                                <input type="color" class="textColorPicker" id="colTopL" name="colTopL">
+                                <input type="text" class="templateCard" id="inTopRowM" name="inTopRowM">
+                                <input type="color" class="textColorPicker" id="colTopM" name="colTopM">
+                                <input type="text" class="templateCard" id="inTopRowR" name="inTopRowR">
+                                <input type="color" class="textColorPicker" id="colTopR" name="colTopR">
+                            </div>
+
+                            <div class="cardRowMid">
+                                <input type="text" class="templateCard" id="inMidRowL" name="inMidRowL">
+                                <input type="color" class="textColorPicker" id="colMidL" name="colMidL">
+                                <input type="text" class="templateCard" id="inMidRowM" name="inMidRowM">
+                                <input type="color" class="textColorPicker" id="colMidM" name="colMidM">
+                                <input type="text" class="templateCard" id="inMidRowR" name="inMidRowR">
+                                <input type="color" class="textColorPicker" id="colMidR" name="colMidR">
+                            </div>
+
+                            <div class="cardRowBottom">
+                                <input type="text" class="templateCard" id="inBotRowL" name="inBotRowL">
+                                <input type="color" class="textColorPicker" id="colBotL" name="colBotL">
+                                <input type="text" class="templateCard" id="inBotRowM" name="inBotRowM">
+                                <input type="color" class="textColorPicker" id="colBotM" name="colBotM">
+                                <input type="text" class="templateCard" id="inBotRowR" name="inBotRowR">
+                                <input type="color" class="textColorPicker" id="colBotR" name="colBotR">
+                            </div>
+                        </div>
+                    </form>
+                    <div class="actionButtonsContainer">
+                        <div class="actionButtons">
+                            <button onclick="module.getValues()">Aggiungi carta</button>
+                            <button onclick="module.stampaPagine()">Stampa carte</button>
+                            <!-- SAVE BUTTON -->
+                            <div>
+                                <div><span style="text-align: start;" class="smallText">Salva carte <i
+                                            class="fas fa-info-circle"
+                                            title="Salva le carte presenti nella sezione 'LE TUE CARTE'"></i></span>
+                                </div>
+                                <input type="button" value="Salva" class="saveBtn" onclick="module.saveCards()" />
+                            </div>
+                            <!-- UPLOAD BUTTON -->
+                            <div>
+                                <div><span style="text-align: start;" class="smallText">Carica carte <i
+                                            class="fas fa-info-circle"
+                                            title="Seleziona il file salvato in precedenza per caricarle nella sezione 'LE TUE CARTE'"></i></span>
+                                </div>
+                                <input type="file" id="cardsUpload" onchange="module.uploadCards(this)" />
+                            </div>
+                            <button style="display: none" onclick="module.logCards()">LOG CARDS</button>
+
+
+                        </div>
+                    </div>
                 </div>
             </div>
 
+
+            <div class="descriptionSection">
+                <svg height="500" width="1" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="0" y1="0" x2="0" y2="100%" style="stroke:rgba(102, 102, 102, 0.712);stroke-width:3" />
+                    Sorry, your browser does not support inline SVG.
+                </svg>
+                <div class="instructionSect">
+                    <div class="subtitle">
+                        <span>Cosa puoi fare con questo tool:</span>
+                    </div>
+                    <div class="undertitle">
+                        <span>Premi sulle opzioni per aprire un tutorial di ognuna</span>
+                    </div>
+                    <ul>
+                        <li><button onclick="module.openModal('modal_createTutorial', modal_tutorial)"
+                                id="createTutorial">Creare
+                                carte</button></li>
+                        <li><button onclick="module.openModal('modal_saveTutorial', modal_tutorial)"
+                                id="saveTutorial">Salvare
+                                carte</button></li>
+                        <li><button onclick="module.openModal('modal_loadTutorial', modal_tutorial)"
+                                id="saveTutorial">Caricare carte</button></li>
+                        <li><button onclick="module.openModal('modal_printTutorial', modal_tutorial)"
+                                id="saveTutorial">Stampare carte</button></li>
+                    </ul>
+
+                </div>
+            </div>
         </div>
+
+        <!-- <svg class="no-print" height="1" width="100%" xmlns="http://www.w3.org/2000/svg">
+            <line x1="0" y1="0" x2="100%" y2="0" style="stroke:rgba(102, 102, 102, 0.712);stroke-width:3" />
+            Sorry, your browser does not support inline SVG.
+        </svg> -->
 
         <div class="cardsContainer">
-            <div class="templateCardSect cardsSect no-print">
-                <form action="#">
-                    <div class="card" id="templateCard">
-                        <div class="cardRowTop">
-                            <input type="text" class="templateCard" id="inTopRowL" name="inTopRowL">
-                            <input type="color" class="textColorPicker" id="colTopL" name="colTopL">
-                            <input type="text" class="templateCard" id="inTopRowM" name="inTopRowM">
-                            <input type="color" class="textColorPicker" id="colTopM" name="colTopM">
-                            <input type="text" class="templateCard" id="inTopRowR" name="inTopRowR">
-                            <input type="color" class="textColorPicker" id="colTopR" name="colTopR">
-                        </div>
-
-                        <div class="cardRowMid">
-                            <input type="text" class="templateCard" id="inMidRowL" name="inMidRowL">
-                            <input type="color" class="textColorPicker" id="colMidL" name="colMidL">
-                            <input type="text" class="templateCard" id="inMidRowM" name="inMidRowM">
-                            <input type="color" class="textColorPicker" id="colMidM" name="colMidM">
-                            <input type="text" class="templateCard" id="inMidRowR" name="inMidRowR">
-                            <input type="color" class="textColorPicker" id="colMidR" name="colMidR">
-                        </div>
-
-                        <div class="cardRowBottom">
-                            <input type="text" class="templateCard" id="inBotRowL" name="inBotRowL">
-                            <input type="color" class="textColorPicker" id="colBotL" name="colBotL">
-                            <input type="text" class="templateCard" id="inBotRowM" name="inBotRowM">
-                            <input type="color" class="textColorPicker" id="colBotM" name="colBotM">
-                            <input type="text" class="templateCard" id="inBotRowR" name="inBotRowR">
-                            <input type="color" class="textColorPicker" id="colBotR" name="colBotR">
-                        </div>
-                    </div>
-                </form>
-                <div class="actionButtons">
-                    <button onclick="getValues()">Aggiungi carta</button>
-                    <button onclick="stampaPagine()">Stampa carte</button>
-                    <!-- SAVE BUTTON -->
-                    <div>
-                        <div><span style="text-align: start;" class="smallText">Salva carte <i
-                                    class="fas fa-info-circle"
-                                    title="Salva le carte presenti nella sezione 'LE TUE CARTE'"></i></span></div>
-                        <input type="button" value="Salva" class="saveBtn" onclick="saveCards()" />
-                    </div>
-                    <!-- UPLOAD BUTTON -->
-                    <input type="file" id="cardsUpload" onchange="uploadCards(this)" />
-
-                </div>
-            </div>
-
-            <hr class="no-print">
             <div class="loadedCardsSect">
-                <div class="title">
+                <div class="title no-print">
                     <h3>LE TUE CARTE</h3>
                 </div>
 
             </div>
 
             <div class="cardsSect" id="cardsSectId">
-                <div class="cardContainer hidden" id="testCardContainer">
-                    <button class="removeCardBtn no-print" onclick="removeCard(testCardContainer)">X</button>
-                    <div class="card">
-                        <div class="cardRowTop">
-                            <div>AAA</div>
-                            <div>AAA</div>
-                            <div>AAA</div>
-                        </div>
-
-                        <div class="cardRowMid">
-                            <div>AAA</div>
-                            <div>AAA</div>
-                            <div>AAA</div>
-                        </div>
-
-                        <div class="cardRowBottom">
-                            <div>AAA</div>
-                            <div>AAA</div>
-                            <div>AAA</div>
-                        </div>
-                    </div>
-                </div>
 
             </div>
-
         </div>
+    </div>
+
+    <dialog class="dialogContainer" id="messageDialog">
 
 
+    </dialog>
 
-
-        <script>
-            var CARDS = [];
-
-            function getValues() {
-                var fields = $(":input").serializeArray();
-                let cardData = {};
-                _.each(fields, d => {
-                    js = {};
-                    js[_.get(d, 'name')] = _.get(d, 'value');
-                    _.assign(cardData, js);
-                })
-                // console.log(cardData);
-                CARDS.push(cardData)
-                loadCard(cardData)
-
-                let cardKeys = _.keys(cardData)
-                clearTemplate(cardKeys);
-            }
-
-            function loadCard(cardData) {
-                let newCardUUID = _.uniqueId('card_')
-                // console.log('newUUID ==> ', [newCardUUID])
-
-                let cardBg = _.get(cardData, 'cardBg');
-                let cardBorder = _.get(cardData, 'cardBorder');
-                let cardGlobalTextCol = _.get(cardData, 'cardGlobalTextCol');
-
-                let isCardGlobalTextCol = cardGlobalTextCol !== '#000000';
-
-                let cardHtml = `<div class="cardContainer" id="${newCardUUID}">
-                    <button class="removeCardBtn no-print" onclick="removeCard(${newCardUUID})">X</button>
-                        <div class="card" style="background-color: ${cardBg} !important; border-color: ${cardBorder}; color: ${cardGlobalTextCol}" id="card_${newCardUUID}">
-                            <div class="cardRowTop">
-                                <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(cardData, 'colTopL')}">${_.get(cardData, 'inTopRowL', '')}</div>
-                                <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(cardData, 'colTopM')}">${_.get(cardData, 'inTopRowM', '')}</div>
-                                <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(cardData, 'colTopR')}">${_.get(cardData, 'inTopRowR', '')}</div>
-                            </div>
-
-                            <div class="cardRowMid">
-                                <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(cardData, 'colMidL')}">${_.get(cardData, 'inMidRowL', '')}</div>
-                                <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(cardData, 'colMidM')}">${_.get(cardData, 'inMidRowM', '')}</div>
-                                <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(cardData, 'colMidR')}">${_.get(cardData, 'inMidRowR', '')}</div>
-                            </div>
-
-                            <div class="cardRowBottom">
-                                <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(cardData, 'colBotL')}">${_.get(cardData, 'inBotRowL', '')}</div>
-                                <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(cardData, 'colBotM')}">${_.get(cardData, 'inBotRowM', '')}</div>
-                                <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(cardData, 'colBotR')}">${_.get(cardData, 'inBotRowR', '')}</div>
-                            </div>
-                        </div>
-                    </div>`;
-
-                // console.log(cardHtml)
-                let cardsSectHtml = document.getElementById("cardsSectId").innerHTML
-                cardsSectHtml += cardHtml;
-                document.getElementById("cardsSectId").innerHTML = cardsSectHtml;
-            }
-
-            function removeCard(element) {
-                document.getElementById(element.id).remove();
-            }
-
-            function resetGlobals() {
-                // #000000
-                let cardGlobalTextCol = document.getElementById('cardGlobalTextCol');
-                cardGlobalTextCol.value = "#000000";
-
-                let cardBg = document.getElementById('cardBg');
-                cardBg.value = "#FFFFFF";
-
-                let cardBorder = document.getElementById('cardBorder');
-                cardBorder.value = "#000000";
-            }
-
-            function stampaPagine() {
-                window.print();
-            }
-
-            function saveCards() {
-                let date = new Date();
-                let fileName = `${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}_${date.getHours()}${date.getMinutes()}${date.getSeconds()}_carte`;
-                download(fileName, JSON.stringify(CARDS, null, 4));
-            }
-
-            function download(filename, text) {
-                var element = document.createElement('a');
-                element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-                element.setAttribute('download', filename);
-
-                element.style.display = 'none';
-                document.body.appendChild(element);
-                element.click();
-                document.body.removeChild(element);
-            }
-
-            function uploadCards(inputFile) {
-                file = _.head(_.get(inputFile, 'files'))
-                let reader = new FileReader();
-                fileText = reader.readAsText(file);
-
-                reader.onload = function () {
-                    let jsonCardsData = JSON.parse(_.get(reader, 'result'));
-                    _.each(jsonCardsData, card => {
-                        loadCard(card);
-                    })
-                };
-            }
-
-            function clearTemplate(cardKeys) {
-                // Resetting global values
-                resetGlobals();
-
-                // Resetting values inside the card
-                _.each(cardKeys, key => {
-                    if (!_.includes(['cardBg', 'cardBorder', 'cardGlobalTextCol'], key)) {
-                        let element = document.getElementById(key);
-                        if (_.startsWith(key, 'in'))
-                            element.value = '';
-                        else if (_.startsWith(key, 'col'))
-                            element.value = '#000000';
-                    }
-                })
-            }
-
-            function updateCard(element) {
-                let elementId = element.id;
-                let templateCard = document.getElementById('templateCard')
-                switch (elementId) {
-                    case 'cardBg':
-                        templateCard.style.backgroundColor = element.value;
-                        break;
-                    case 'cardBorder':
-                        templateCard.style.borderColor = element.value;
-                        break;
-                    case 'cardGlobalTextCol':
-                        templateCard.style.color = element.value;
-                        break;
-                    default:
-                        break;
-                }
-
-                // console.log('element ==>', element.id)
-
-            }
-
-
-        </script>
-
+    <div id="modal_tutorial" class="modal">
+        <!-- Modal content -->
     </div>
 </body>
 

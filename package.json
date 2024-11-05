@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "require": "^2.4.20",
+    "requirejs": "^2.3.7"
+  },
+  "name": "sylladobble",
+  "version": "1.0.0",
+  "main": "syllaDobbleScripts.js",
+  "type":"module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Pandro",
+  "license": "ISC",
+  "description": ""
+}

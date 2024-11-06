@@ -1,4 +1,15 @@
-import syllaDobble_modals from './syllaDobbleModals.json' with {type: "json"}
+// import syllaDobble_modals from './syllaDobbleModals.json' with {type: "json"}
+let syllaDobble_modals = {};
+
+fetch('./modalsData/syllaDobbleModals.json')
+    .then(response => response.json())  // Parse the JSON response
+    .then(data => {
+        syllaDobble_modals = data
+        // console.log(data);  // Log the data from the JSON file
+    })
+    .catch(error => {
+        console.error('Error loading the JSON file:', error);
+    });
 
 let CARDS = [];
 const dialogForm = "<form method=\"dialog\"><button>OK</button></form>"
@@ -86,7 +97,7 @@ export function resetGlobals() {
 }
 
 export function stampaPagine() {
-    if(_.size(CARDS) < 1) {
+    if (_.size(CARDS) < 1) {
         onerror('<i class="fa-solid fa-triangle-exclamation"></i> Non è possibile stampare senza carte create')
         return 1;
     }
@@ -94,7 +105,7 @@ export function stampaPagine() {
 }
 
 export function saveCards() {
-    if(_.size(CARDS) < 1) {
+    if (_.size(CARDS) < 1) {
         onerror('<i class="fa-solid fa-triangle-exclamation"></i> Non è possibile salvare senza carte create')
         return 1;
     }
@@ -168,8 +179,8 @@ export function updateCard(element) {
 
 
 export function openModal(modalJSONId, modalId) {
-    let baseModalHtml = _.find(syllaDobble_modals, {id: 'modal_baseHtml'});
-    let modalData = _.find(syllaDobble_modals, {id: modalJSONId});
+    let baseModalHtml = _.find(syllaDobble_modals, { id: 'modal_baseHtml' });
+    let modalData = _.find(syllaDobble_modals, { id: modalJSONId });
 
     let modalHtml = _.get(baseModalHtml, 'body');
 

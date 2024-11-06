@@ -1,4 +1,4 @@
-import syllaDobble_modals from './syllaDobble_modals.json' with {type: "json"}
+import syllaDobble_modals from './syllaDobbleModals.json' with {type: "json"}
 
 let CARDS = [];
 const dialogForm = "<form method=\"dialog\"><button>OK</button></form>"
@@ -194,15 +194,6 @@ function onerror(errorMessage) {
     errorMessage = `<div><p>${errorMessage}</p>${dialogForm}</div>`
     dialog.innerHTML = errorMessage
     dialog.showModal()
-}
-
-window.onclick = function (event) {
-    let allModals = Array.from(document.querySelectorAll('[id^="modal_"]'));
-    _.each(allModals, modal => {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    });
 }
 
 

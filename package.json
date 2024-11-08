@@ -1,14 +1,28 @@
 {
-  "main": "syllaDobbleScripts.js",
   "name": "sylladobble",
-  "dependencies": {
-    "require": "^2.4.20",
-    "requirejs": "^2.3.7"
-  },
   "version": "1.0.0",
-  "type":"module",
-  "scripts": {
+  "main": "index.js",
+  "type": "module",
+  "dependencies": {
+    "amdefine": "^1.0.1",
+    "async": "^0.2.10",
+    "ejs": "^3.1.10",
+    "express": "^4.21.1",
+    "file-saver": "^2.0.5",
+    "lodash": "^4.17.21",
+    "nodemon": "^3.1.7",
+    "optimist": "^0.3.7",
+    "require": "^2.4.20",
+    "requirejs": "^2.3.7",
+    "source-map": "^0.1.43",
+    "std": "^0.1.40",
+    "uglify-js": "^2.3.0",
+    "wordwrap": "^0.0.3"
   },
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "keywords": [],
   "author": "Pandro",
   "license": "ISC",
   "description": ""

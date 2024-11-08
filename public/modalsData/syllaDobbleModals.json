@@ -1,0 +1,32 @@
+[
+    {
+        "id": "modal_baseHtml",
+        "title": "Basic Modal HTML",
+        "lang": "IT",
+        "body": "<div class=\"modal-content\">\n<div class=\"modal-header\">\n<button class=\"close\" onclick=\"closeModal(modal_tutorial)\">&times;</button>\n<h2 id=\"modal-header\">##TitleText##</h2>\n</div>\n<div class=\"modal-body\" id=\"modal-body\">\n##BodyText##\n</div>\n<div class=\"modal-footer\">\n<span></span>\n</div>\n</div>"
+    },
+    {
+        "id": "modal_createTutorial",
+        "title": "Crea carta",
+        "lang": "IT",
+        "bodyText": "<div><p>Per la creazione delle carte seguire questi semplici passi:</p><ul><li>Se necessario scegliere il colore di sfondo della carta tramite la casella di colore.</li><li>Se necessario scegliere il colore del bordo della carta.</li><li>Se necessario scegliere il colore globale del testo <span class=\"smallText bold\">(N.B. Se questo viene selezionato sovrascriverà il colore selezionato per ogni singola cella di testo).</span></li><li>Aggiugere nelle caselle di testo le sillabe necessarie.</li><li>Premere \"Aggiungi carta\" per aggiungere la carta appena creata nella sezione \"LE TUE CARTE\".</li></ul></div>"
+    },
+    {
+        "id": "modal_saveTutorial",
+        "title": "Salva carte",
+        "bodyText": "<div><p>Per il salvataggio delle carte seguire questi semplici passi:</p><ul><li>Una volta create o caricate le carte premere sul pulsante \"Salva\".</li><li>Premendo il tasto verrà scaricato un file di testo che contiene tutte le carte presenti nella sezione <b>\"LE TUE CARTE\"</b> in un formato che riconoscibile dal programma.<br><span class=\"undertitle bold\">(N.B. E' importante non modificare il contenuto del file in quanto potrebbe andare a rendere il file non leggibile dal programma).</span></li><li>Se si vogliono salvare le carte come PDF seguire viene spiegato nella sezione di Stampa delle carte.</li></ul></div>",
+        "lang": "IT"
+    },
+    {
+        "id": "modal_loadTutorial",
+        "title": "Carica carte",
+        "bodyText": "<div><p>Se si ha a disposizione un file creato in precedenza di carte è possibile caricarle per aggiungere o modificare il set di carte.</p><p>Per caricare delle carte seguire questi semplici passi:</p><ul><li>Premendo il tasto \"Scegli file\" si potrà selezionare il file di carte presente sul proprio computer.</li><li>Una volta selezionato il file verranno caricate le carte presenti al suo interno all'interno della sezione sezione <b>\"LE TUE CARTE\"</b> <br><span class=\"undertitle bold\">(N.B. E' importante che il contenuto del file non sia stato modificato e che sia un file creato dal programma in precedenza in quanto potrebbe essere non leggibile dal programma).</span></li></ul></div>",
+        "lang": "IT"
+    },
+    {
+        "id": "modal_printTutorial",
+        "title": "Stampa carte",
+        "bodyText": "<div><p>E' possibile stampare le carte o salvarle come file PDF.</p><p>Per stampare o salvare le carte seguire questi semplici passi:</p><ul><li>Una volta create o caricate le carte premere sul pulsante \"Stampa carte\".</li><li>Premendo apparirà una sezione per poter stampare le carte con mostrata una anteprima di stampa della sezione <b>\"LE TUE CARTE\".</b></li><li>Qui è possibile selezionare se si vuole salvare il file in formato PDF o stamparlo tramite una stampante collegata al computer modificando la \"Destinazione\".</li></ul></div>",
+        "lang": "IT"
+    }
+]

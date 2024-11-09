@@ -1,0 +1,14 @@
+<script>
+    window.onclick = function (event) {
+        let allModals = Array.from(document.querySelectorAll('[id^="modal_"]'));
+        _.each(allModals, modal => {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        });
+    }
+</script>
+
+<div id="modal_tutorial" class="modal">
+    <!-- Modal content -->
+</div>

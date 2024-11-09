@@ -4,7 +4,8 @@ import path from 'path';
 import _ from 'lodash';
 import { fileURLToPath } from 'url';
 
-import { openModal } from "./src/syllaDobbleScripts.js";
+// import { openModal } from "./src/syllaDobbleScripts.js";
+import { getGroupings } from "./src/managementScripts.js";
 
 
 const app = express();
@@ -18,6 +19,10 @@ app.use(express.static(path.join(__dirname, "./public")));
 
 app.get("/", (req, res) => {
     res.render('./syllaDobble.ejs', { _: _ });
+})
+
+app.get("/manage", (req, res) => {
+    res.render('./manageCards.ejs', { getGroupings: getGroupings, _: _ })
 })
 
 app.listen(3000, '0.0.0.0', () => {

@@ -1,0 +1,91 @@
+.pageContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.settingsContainer {
+    border-bottom: 1px solid #888;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding: 1%;
+}
+
+.syllableContainer {
+    padding: 2%;
+}
+
+.groupingsTitle {
+    width: inherit;
+    text-transform: uppercase;
+    padding: 0.5%;
+}
+
+.buttonContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0.5%;
+    width: 28%;
+}
+
+.groupingContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.grouping {
+    margin-right: 3%;
+    margin-bottom: 4%;
+}
+
+.groupingTitle {
+    width: 100%;
+    font-size: 1.4rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.groupingPairs>textarea {
+    resize: none;
+    min-height: 5cm;
+    font-size: 1.2rem;
+}
+
+.modal-body>.addGroupingContainer>.addGroupingTemplate>.grouping,
+.modal-body>.addGroupingContainer>.addGroupingTemplate>.grouping>.groupingTitle,
+.modal-body>.addGroupingContainer>.addGroupingTemplate>.grouping>.groupingPairs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.modal-body>.addGroupingContainer>.addGroupingTemplate>.grouping>.groupingTitle>input {
+    width: 100%;
+    margin-bottom: 0.5%;
+}
+
+.addGroupingContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    
+}
+
+.addGroupingInstructions {
+    width: 84%;
+    padding: 1%;
+}
+
+.addGroupingTemplate {
+    width: 16%;
+}
+
+.addGroupingTemplate > div {
+    width: 100%;
+}

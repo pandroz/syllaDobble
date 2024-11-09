@@ -1,18 +1,3 @@
-import syllaDobble_modals from './modalsData/syllaDobbleModals.json' with {type: "json"}
-
-
-// let syllaDobble_modals = {};
-
-// fetch('./modalsData/syllaDobbleModals.json')
-//     .then(response => response.json())  // Parse the JSON response
-//     .then(data => {
-//         syllaDobble_modals = data
-//         // console.log(data);  // Log the data from the JSON file
-//     })
-//     .catch(error => {
-//         console.error('Error loading the JSON file:', error);
-//     });
-
 let CARDS = [];
 const dialogForm = "<form method=\"dialog\"><button>OK</button></form>"
 
@@ -177,19 +162,6 @@ export function updateCard(element) {
 
     // console.log('element ==>', element.id)
 
-}
-
-export function openModal(modalJSONId) {
-    let baseModalHtml = _.find(syllaDobble_modals, { id: 'modal_baseHtml' });
-    let modalData = _.find(syllaDobble_modals, { id: modalJSONId });
-
-    let modalHtml = _.get(baseModalHtml, 'body');
-
-    modalHtml = _.replace(modalHtml, '##TitleText##', _.get(modalData, 'title'))
-    modalHtml = _.replace(modalHtml, '##BodyText##', _.get(modalData, 'bodyText'))
-    let modalElement = document.getElementById("modal_tutorial")
-    modalElement.innerHTML = modalHtml;
-    modalElement.style.display = "block";
 }
 
 export function closeModal(modalId) {

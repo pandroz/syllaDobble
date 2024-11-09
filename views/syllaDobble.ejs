@@ -3,22 +3,11 @@
 
 <head>
     <title>Log-obble</title>
-    <link rel="stylesheet" href="./syllaDobbleStyles.css">
-    <script src="./client.js" type="module"></script>
-    <!-- <script src="syllaDobbleScripts.js" type="module"></script> -->
-
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js" integrity="sha512-csNcFYJniKjJxRWRV1R7fvnXrycHP6qDR21mgz1ZP55xY5d+aHLfo9/FcGDQLfn2IfngbAHd8LdfsagcCqgTcQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+    <link rel="stylesheet" href="./common/commonStyles.css">
+    <link rel="stylesheet" href="./gameHomepage/syllaDobbleStyles.css">
 
     <script type="module">
-        import { openModal, getValues, loadCard, removeCard, resetGlobals, stampaPagine, saveCards, download, uploadCards, clearTemplate, updateCard, closeModal, logCards } from '/client.js';
-        window.openModal = openModal;
+        import { getValues, loadCard, removeCard, resetGlobals, stampaPagine, saveCards, download, uploadCards, clearTemplate, updateCard, closeModal, logCards } from './gameHomepage/homepageClient.js';
         window.getValues = getValues;
         window.loadCard = loadCard;
         window.removeCard = removeCard;
@@ -29,57 +18,18 @@
         window.uploadCards = uploadCards;
         window.clearTemplate = clearTemplate;
         window.updateCard = updateCard;
-        window.openModal = openModal;
         window.closeModal = closeModal;
         window.logCards = logCards;
+
+        import { openModal } from '../common/commonClient.js'
+        window.openModal = openModal;
     </script>
-
-    <script type="text/javascript">
-        const module = {};
-
-        window.onclick = function (event) {
-            let allModals = Array.from(document.querySelectorAll('[id^="modal_"]'));
-            _.each(allModals, modal => {
-                if (event.target == modal) {
-                    modal.style.display = "none";
-                }
-            });
-        }
-    </script>
-
 </head>
 
 <body>
     <div class="page">
-        <div class="header no-print">
-            <span id="pageTitle">Log-ooble!</span>
-        </div>
-
-        <script>
-            let delay = 200;
-            let title = document.getElementById("pageTitle");
-            title.innerHTML = "LOG-OBBLE!"
-                .split("")
-                .map(letter => {
-                    // console.log(letter);
-                    return `<span>` + letter + `</span>`;
-                })
-                .join("");
-
-            Array.from(title.children).forEach((span, index) => {
-                setTimeout(() => {
-                    span.classList.add("wavy");
-                }, index * 60 + delay);
-            });
-
-
-        </script>
-
-
-        <!-- <svg class="no-print" height="1" width="100%" xmlns="http://www.w3.org/2000/svg">
-            <line x1="0" y1="0" x2="100%" y2="0" style="stroke:rgba(102, 102, 102, 0.712);stroke-width:3" />
-            Sorry, your browser does not support inline SVG.
-        </svg> -->
+        <%- include('components/header.ejs'); %>
+        <%- include('components/modals.ejs'); %>
 
         <div class="templatingContainer no-print">
             <div class="templateCardContainer">
@@ -224,10 +174,6 @@
 
 
     </dialog>
-
-    <div id="modal_tutorial" class="modal">
-        <!-- Modal content -->
-    </div>
 </body>
 
 </html>

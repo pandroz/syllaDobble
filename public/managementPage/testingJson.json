@@ -1,0 +1,60 @@
+[
+    {
+        "_id": 1,
+        "groupingName": "Ale test",
+        "groups": [
+            {
+                "groupid": 1,
+                "syllable": "DA",
+                "possiblePairing": [ "DA", "RA", "TA", "LMAO" ]
+            },
+            {
+                "groupid": 2,
+                "syllable": "TA",
+                "possiblePairing": [ "BA", "GA", "JA", "AO" ]
+            },
+            {
+                "groupid": 3,
+                "syllable": "THE",
+                "possiblePairing": [ "GAB", "BA", "GO", "OOLS" ]
+            }
+        ]
+    },
+    {
+        "_id": 2,
+        "groupingName": "Ale test 2",
+        "groups": [
+            {
+                "groupid": 1,
+                "syllable": "TE",
+                "possiblePairing": [ "DA", "RA", "TA", "LMAO" ]
+            },
+            {
+                "groupid": 2,
+                "syllable": "ST",
+                "possiblePairing": [ "BA", "GA", "JA", "AO" ]
+            },
+            {
+                "groupid": 3,
+                "syllable": "GROUPING",
+                "possiblePairing": [ "GAB", "BA", "GO", "OOLS" ]
+            }
+        ]
+    },
+    {
+        "_id": 3,
+        "groupingName": "DIO STRA PORCO",
+        "groups": [
+            {
+                "groupid": 1,
+                "syllable": "DIO",
+                "possiblePairing": [ "DA", "RA", "TA", "LMAO" ]
+            },
+            {
+                "groupid": 2,
+                "syllable": "CAN",
+                "possiblePairing": [ "BA", "GA", "JA", "AO" ]
+            }
+        ]
+    }
+]

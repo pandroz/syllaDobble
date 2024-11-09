@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <title>Gestione Carte</title>
+    <link rel="stylesheet" href="./common/commonStyles.css">
+    <link rel="stylesheet" href="./managementPage/managementStyles.css">
+
+    <script type="module">
+        import { loadGroupings } from './managementPage/managementClient.js'
+        window.loadGroupings = loadGroupings;
+
+        import { openModal } from '../common/commonClient.js'
+        window.openModal = openModal;
+    </script>
+
+    <script type="text/javascript">
+        window.onload = function () {
+            loadGroupings(1);
+        };
+
+    </script>
+</head>
+
+<body>
+    <%- include('components/header.ejs'); %>
+    <%- include('components/modals.ejs'); %>
+
+    <div class="page">
+        <div class="pageContainer">
+            <div class="settingsContainer">
+                <div class="groupingsTitle subtitle">Settings</div>
+                <div class="buttonContainer">
+                    <button onclick="openModal('modal_addGrouping')">Aggiungi grouping</button>
+                    <button>Salva grouping</button>
+                    <select id="groupingSelected" onchange="loadGroupings(this.value);">
+                        <option value=""></option>
+                        <% let groups = getGroupings(); %>
+                        <% if(_.size(groups) > 0) { %>
+                            <% groups.forEach(group => { %>
+                                <option value="<%= _.get(group, '_id') %>"><%= _.get(group, 'groupingName') %></option>
+                            <% }); %>
+                        <% } %>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="groupingsTitle subtitle">Raggruppamenti selezionati</div>
+                <div class="syllableContainer">
+                <div class="groupingContainer" id="groupingContainer">
+
+                    <div class="grouping" id="grouping_1">
+                        <div class="groupingTitle" id="syllableGroup_1">DA</div>
+                        <div class="groupingPairs">
+                            <textarea id="1_textarea"></textarea>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

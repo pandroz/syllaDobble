@@ -1,6 +1,5 @@
-import syllaDobble_modals from '../public/modalsData/syllaDobbleModals.json' with {type: "json"}
+import syllaDobble_modals from '../public/gameHomepage/modalsData/syllaDobbleModals.json' with {type: "json"}
 import _ from 'lodash';
-
 // let syllaDobble_modals = {};
 
 // fetch('./modalsData/syllaDobbleModals.json')

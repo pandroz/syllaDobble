@@ -7,8 +7,6 @@
     <link rel="stylesheet" href="./managementPage/managementStyles.css">
 
     <script type="module">
-        // import { loadGroupings, addGrouping } from './managementPage/managementClient.js'
-        // window.loadGroupings = loadGroupings;
         // window.addGrouping = addGrouping;
         import * as client from './managementPage/managementClient.js'
         window.client = client;
@@ -22,7 +20,7 @@
     <script type="text/javascript">
         window.onload = function () {
             client.loadGroupings(1);
-            common.openDialog('dialog_saveError', 'error')
+            // common.openDialog('dialog_saveError', 'error')
         };
 
     </script>
@@ -37,7 +35,8 @@
     <dialog id="dialogData" class="dialogContainer">
         <div class="dialogBody">
             <div class="dialogTitle error">
-                <i class="fa-solid fa-triangle-exclamation"></i><span>&nbsp;&nbsp;ERRORE DI STAMPA&nbsp;&nbsp;</span><i class="fa-solid fa-triangle-exclamation"></i>
+                <i class="fa-solid fa-triangle-exclamation"></i><span>&nbsp;&nbsp;ERRORE DI STAMPA&nbsp;&nbsp;</span><i
+                    class="fa-solid fa-triangle-exclamation"></i>
             </div>
             <div class="dialogMessage">
                 <span>daw</span>
@@ -50,17 +49,29 @@
             <div class="settingsContainer">
                 <div class="groupingsTitle subtitle">Settings</div>
                 <div class="buttonContainer">
-                    <button onclick="common.openModal('modal_addGrouping')">Aggiungi grouping</button>
-                    <button onclick="common.openDialog('dialog_save', 'default')">Salva grouping</button>
+                    <!--
+                        OLD Button was
+                        <button onclick="common.openModal('modal_addGrouping')">Nuovo raggruppamento</button>
+                    -->
+                    <button id="toggle-btn" onclick="common.toggleForm(newGroupingForm)">Nuovo raggruppamento</button>
+                    <button onclick="common.openModal('modal_addGroup')">Aggiungi grouping</button>
+
                     <select id="groupingSelected" onchange="client.loadGroupings(this.value);">
-                        <option value=""></option>
-                        <% let groups = getGroupings(); %>
-                        <% if(_.size(groups) > 0) { %>
+                        <% let groups = getGroupings();  %>
+                        <% console.log('groups ==> ', groups) %>
                         <% groups.forEach(group => { %>
                         <option value="<%= _.get(group, '_id') %>"><%= _.get(group, 'groupingName') %></option>
                         <% }); %>
-                        <% } %>
                     </select>
+
+
+                </div>
+                <div id="newGroupingForm" class="form hidden">
+                    <div class="form-group">
+                        <label for="name">Raggruppamento:</label>
+                        <input type="text" id="groupingName" name="name">
+                    </div>
+                    <button class="submit-btn" onclick="client.saveGrouping(groupingName.value)">Submit</button>
                 </div>
             </div>
 

@@ -29,11 +29,15 @@ export function openDialog(dialogId, dialogType) {
     let dialogElement = document.getElementById('dialogData');
     dialogElement.className = 'dialogContainer';
 
-    let baseDialogHTML = _.get(_.find(dialogs, { _id: 'dialog_baseHtml' }), 'body');
+    let baseDialogData = _.find(dialogs, { _id: 'dialog_baseHtml' });
+    let baseDialogHTML = _.get(baseDialogData, 'body');
+    let baseDialogButton = _.get(baseDialogData, 'defaultButton');
     let dialogData = _.find(dialogs, { _id: dialogId });
 
     baseDialogHTML = _.replace(baseDialogHTML, '##DialogTitle##', _.get(dialogData, 'title'));
-    baseDialogHTML = _.replace(baseDialogHTML, '##DialogMessage##', _.get(dialogData, 'body'))
+    baseDialogHTML = _.replace(baseDialogHTML, '##DialogMessage##', _.get(dialogData, 'body'));
+    baseDialogHTML = _.replace(baseDialogHTML, '##DialogButton##', _.get(dialogData, 'customButton', baseDialogButton));
+
 
     dialogElement.innerHTML = baseDialogHTML;
 
@@ -48,4 +52,12 @@ export function openDialog(dialogId, dialogType) {
 
     dialogElement.showModal();
 
+}
+
+export function toggleForm(form, buttonId) {
+    if (form.classList.contains('hidden')) {
+        form.classList.remove('hidden');
+    } else {
+        form.classList.add('hidden');
+    }
 }

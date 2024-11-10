@@ -3,7 +3,8 @@
         "_id": "dialog_baseHtml",
         "title": "Basic Dialog HTML",
         "lang": "IT",
-        "body": "<div class=\"dialogBody\">##DialogTitle##<div class=\"dialogMessage\">##DialogMessage##</div><div class=\"dialogBtn\"><form method=\"dialog\"><button>OK</button></form></div>"
+        "body": "<div class=\"dialogBody\">##DialogTitle##<div class=\"dialogMessage\">##DialogMessage##</div><div class=\"dialogBtn\">##DialogButton##</div>",
+        "defaultButton": "<form method=\"dialog\"><button>OK</button></form>"
     },
     {
         "_id": "dialog_printError",
@@ -21,7 +22,8 @@
         "_id": "dialog_save",
         "title": "<div class=\"dialogTitle\"><span>&nbsp;&nbsp;NOME RAGGRUPPAMENTO&nbsp;&nbsp;</span></div>",
         "lang": "IT",
-        "body": "<div><input type=\"text\"></input></div>"
+        "body": "<div><input type=\"text\" id=\"groupingNameInput\"></input></div>",
+        "customButton": "<form method=\"dialog\"><button onclick=\"client.saveGrouping(groupingNameInput.value)\">Salva</button></form>"
     }
 
 ]

@@ -57,35 +57,55 @@
     font-size: 1.2rem;
 }
 
-.modal-body>.addGroupingContainer>.addGroupingTemplate>.grouping,
-.modal-body>.addGroupingContainer>.addGroupingTemplate>.grouping>form>.groupingTitle,
-.modal-body>.addGroupingContainer>.addGroupingTemplate>.grouping>form>.groupingPairs {
+.modal-body>.addGroupContainer>.addGroupTemplate>.grouping,
+.modal-body>.addGroupContainer>.addGroupTemplate>.grouping>form>.groupingTitle,
+.modal-body>.addGroupContainer>.addGroupTemplate>.grouping>form>.groupingPairs {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.modal-body>.addGroupingContainer>.addGroupingTemplate>.grouping>.groupingTitle>input {
+.modal-body>.addGroupContainer>.addGroupTemplate>.grouping>.groupingTitle>input {
     width: 100%;
     margin-bottom: 0.5%;
 }
 
-.addGroupingContainer {
+.addGroupContainer {
     width: 100%;
     display: flex;
     flex-direction: row;
-    
 }
 
-.addGroupingInstructions {
+.addGroupInstructions {
     width: 84%;
     padding: 1%;
 }
 
-.addGroupingTemplate {
+.addGroupTemplate {
     width: 16%;
 }
 
-.addGroupingTemplate > div {
+.addGroupTemplate>div {
     width: 100%;
+}
+
+.addGroupingInput {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 17%;
+}
+
+.addGroupingInput>input {
+    width: 100%;
+    border: 0;
+    border-bottom: 1px solid #888;
+}
+
+.addGroupingInput>input[type=text]:focus {
+    outline: none;
+}
+
+.addGroupingInput>input[type=text]:focus-visible {
+    outline: none;
 }

@@ -58,8 +58,8 @@
 }
 
 .modal-body>.addGroupingContainer>.addGroupingTemplate>.grouping,
-.modal-body>.addGroupingContainer>.addGroupingTemplate>.grouping>.groupingTitle,
-.modal-body>.addGroupingContainer>.addGroupingTemplate>.grouping>.groupingPairs {
+.modal-body>.addGroupingContainer>.addGroupingTemplate>.grouping>form>.groupingTitle,
+.modal-body>.addGroupingContainer>.addGroupingTemplate>.grouping>form>.groupingPairs {
     display: flex;
     flex-direction: column;
     align-items: center;

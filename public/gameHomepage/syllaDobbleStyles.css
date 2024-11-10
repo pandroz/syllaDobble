@@ -244,17 +244,3 @@ input:nth-child(4) {
     background-color: transparent;
     text-decoration: underline;
 }
-
-.dialogContainer {
-    border: 2px solid black;
-    border-radius: 5px;
-}
-
-.dialogContainer>div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    align-content: center;
-    justify-content: space-around;
-    flex-wrap: wrap;
-}

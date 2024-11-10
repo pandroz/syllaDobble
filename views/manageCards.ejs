@@ -7,16 +7,22 @@
     <link rel="stylesheet" href="./managementPage/managementStyles.css">
 
     <script type="module">
-        import { loadGroupings } from './managementPage/managementClient.js'
-        window.loadGroupings = loadGroupings;
+        // import { loadGroupings, addGrouping } from './managementPage/managementClient.js'
+        // window.loadGroupings = loadGroupings;
+        // window.addGrouping = addGrouping;
+        import * as client from './managementPage/managementClient.js'
+        window.client = client;
 
-        import { openModal } from '../common/commonClient.js'
-        window.openModal = openModal;
+        // import { openModal } from '../common/commonClient.js'
+        // window.openModal = openModal;
+        import * as common from '../common/commonClient.js'
+        window.common = common;
     </script>
 
     <script type="text/javascript">
         window.onload = function () {
-            loadGroupings(1);
+            client.loadGroupings(1);
+            common.openDialog('dialog_saveError', 'error')
         };
 
     </script>
@@ -25,28 +31,41 @@
 <body>
     <%- include('components/header.ejs'); %>
     <%- include('components/modals.ejs'); %>
+    <%- include('components/dialog.ejs'); %>
+
+
+    <dialog id="dialogData" class="dialogContainer">
+        <div class="dialogBody">
+            <div class="dialogTitle error">
+                <i class="fa-solid fa-triangle-exclamation"></i><span>&nbsp;&nbsp;ERRORE DI STAMPA&nbsp;&nbsp;</span><i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <div class="dialogMessage">
+                <span>daw</span>
+            </div>
+        </div>
+    </dialog>
 
     <div class="page">
         <div class="pageContainer">
             <div class="settingsContainer">
                 <div class="groupingsTitle subtitle">Settings</div>
                 <div class="buttonContainer">
-                    <button onclick="openModal('modal_addGrouping')">Aggiungi grouping</button>
-                    <button>Salva grouping</button>
-                    <select id="groupingSelected" onchange="loadGroupings(this.value);">
+                    <button onclick="common.openModal('modal_addGrouping')">Aggiungi grouping</button>
+                    <button onclick="common.openDialog('dialog_save', 'default')">Salva grouping</button>
+                    <select id="groupingSelected" onchange="client.loadGroupings(this.value);">
                         <option value=""></option>
                         <% let groups = getGroupings(); %>
                         <% if(_.size(groups) > 0) { %>
-                            <% groups.forEach(group => { %>
-                                <option value="<%= _.get(group, '_id') %>"><%= _.get(group, 'groupingName') %></option>
-                            <% }); %>
+                        <% groups.forEach(group => { %>
+                        <option value="<%= _.get(group, '_id') %>"><%= _.get(group, 'groupingName') %></option>
+                        <% }); %>
                         <% } %>
                     </select>
                 </div>
             </div>
-            
+
             <div class="groupingsTitle subtitle">Raggruppamenti selezionati</div>
-                <div class="syllableContainer">
+            <div class="syllableContainer">
                 <div class="groupingContainer" id="groupingContainer">
 
                     <div class="grouping" id="grouping_1">

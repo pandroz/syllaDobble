@@ -1,0 +1,27 @@
+[
+    {
+        "_id": "dialog_baseHtml",
+        "title": "Basic Dialog HTML",
+        "lang": "IT",
+        "body": "<div class=\"dialogBody\">##DialogTitle##<div class=\"dialogMessage\">##DialogMessage##</div><div class=\"dialogBtn\"><form method=\"dialog\"><button>OK</button></form></div>"
+    },
+    {
+        "_id": "dialog_printError",
+        "title": "<div class=\"dialogTitle error\"> <i class=\"fa-solid fa-triangle-exclamation\"></i><span>&nbsp;&nbsp;ERRORE DI STAMPA&nbsp;&nbsp;</span><i class=\"fa-solid fa-triangle-exclamation\"></i> </div>",
+        "lang": "IT",
+        "body": "<span>Non è possibile stampare senza aver creato carte</span>"
+    },
+    {
+        "_id": "dialog_saveError",
+        "title": "<div class=\"dialogTitle error\"> <i class=\"fa-solid fa-triangle-exclamation\"></i><span>&nbsp;&nbsp;ERRORE DI SALVATAGGIO&nbsp;&nbsp;</span><i class=\"fa-solid fa-triangle-exclamation\"></i> </div>",
+        "lang": "IT",
+        "body": "<span>Non è possibile salvare senza aver creato carte</span>"
+    },
+    {
+        "_id": "dialog_save",
+        "title": "<div class=\"dialogTitle\"><span>&nbsp;&nbsp;NOME RAGGRUPPAMENTO&nbsp;&nbsp;</span></div>",
+        "lang": "IT",
+        "body": "<div><input type=\"text\"></input></div>"
+    }
+
+]

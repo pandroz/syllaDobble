@@ -7,22 +7,11 @@
     <link rel="stylesheet" href="./gameHomepage/syllaDobbleStyles.css">
 
     <script type="module">
-        import { getValues, loadCard, removeCard, resetGlobals, stampaPagine, saveCards, download, uploadCards, clearTemplate, updateCard, closeModal, logCards } from './gameHomepage/homepageClient.js';
-        window.getValues = getValues;
-        window.loadCard = loadCard;
-        window.removeCard = removeCard;
-        window.resetGlobals = resetGlobals;
-        window.stampaPagine = stampaPagine;
-        window.saveCards = saveCards;
-        window.download = download;
-        window.uploadCards = uploadCards;
-        window.clearTemplate = clearTemplate;
-        window.updateCard = updateCard;
-        window.closeModal = closeModal;
-        window.logCards = logCards;
+        import * as client from './gameHomepage/homepageClient.js';
+        window.client = client;
 
-        import { openModal } from '../common/commonClient.js'
-        window.openModal = openModal;
+        import * as common from '../common/commonClient.js'
+        window.common = common;
     </script>
 </head>
 
@@ -30,6 +19,7 @@
     <div class="page">
         <%- include('components/header.ejs'); %>
         <%- include('components/modals.ejs'); %>
+        <%- include('components/dialog.ejs'); %>
 
         <div class="templatingContainer no-print">
             <div class="templateCardContainer">
@@ -43,23 +33,23 @@
                     <div class="settingsSect">
                         <div>
                             <label for="cardBg">Sfondo</label>
-                            <input type="color" id="cardBg" name="cardBg" value="#FFFFFF" onchange="updateCard(this)" />
+                            <input type="color" id="cardBg" name="cardBg" value="#FFFFFF" onchange="client.updateCard(this)" />
                         </div>
                         <div>
                             <label for="cardBorder">Bordo</label>
                             <input type="color" id="cardBorder" name="cardBorder" value="#000000"
-                                onchange="updateCard(this)" />
+                                onchange="client.updateCard(this)" />
                         </div>
                         <div>
                             <label for="cardGlobalTextCol">Colore testo</label>
                             <input type="color" id="cardGlobalTextCol" name="cardGlobalTextCol" value="#000000"
-                                onchange="updateCard(this)" />
+                                onchange="client.updateCard(this)" />
                         </div>
                         <div>
                             <div><span class="smallText">Reset defaults <i class="fas fa-info-circle"
                                         title="Reimposta valori predefiniti dei campi per il template della carta"></i></span>
                             </div>
-                            <input type="button" value="Reset" class="resetBtn" onclick="resetGlobals()" />
+                            <input type="button" value="Reset" class="resetBtn" onclick="client.resetGlobals()" />
                         </div>
                     </div>
 
@@ -97,15 +87,15 @@
                     </form>
                     <div class="actionButtonsContainer">
                         <div class="actionButtons">
-                            <button onclick="getValues()">Aggiungi carta</button>
-                            <button onclick="stampaPagine()">Stampa carte</button>
+                            <button onclick="client.getValues()">Aggiungi carta</button>
+                            <button onclick="client.stampaPagine()">Stampa carte</button>
                             <!-- SAVE BUTTON -->
                             <div>
                                 <div><span style="text-align: start;" class="smallText">Salva carte <i
                                             class="fas fa-info-circle"
                                             title="Salva le carte presenti nella sezione 'LE TUE CARTE'"></i></span>
                                 </div>
-                                <input type="button" value="Salva" class="saveBtn" onclick="saveCards()" />
+                                <input type="button" value="Salva" class="saveBtn" onclick="client.saveCards()" />
                             </div>
                             <!-- UPLOAD BUTTON -->
                             <div>
@@ -113,9 +103,9 @@
                                             class="fas fa-info-circle"
                                             title="Seleziona il file salvato in precedenza per caricarle nella sezione 'LE TUE CARTE'"></i></span>
                                 </div>
-                                <input type="file" id="cardsUpload" onchange="uploadCards(this)" />
+                                <input type="file" id="cardsUpload" onchange="client.uploadCards(this)" />
                             </div>
-                            <button style="display: none" onclick="logCards()">LOG CARDS</button>
+                            <button style="display: none" onclick="client.logCards()">LOG CARDS</button>
 
 
                         </div>
@@ -137,24 +127,19 @@
                         <span>Premi sulle opzioni per aprire un tutorial di ognuna</span>
                     </div>
                     <ul>
-                        <li><button onclick="openModal('modal_createTutorial')" id="createTutorial">Creare
+                        <li><button onclick="common.openModal('modal_createTutorial')" id="createTutorial">Creare
                                 carte</button></li>
-                        <li><button onclick="openModal('modal_saveTutorial', modal_tutorial)" id="saveTutorial">Salvare
+                        <li><button onclick="common.openModal('modal_saveTutorial')" id="saveTutorial">Salvare
                                 carte</button></li>
-                        <li><button onclick="openModal('modal_loadTutorial', modal_tutorial)" id="saveTutorial">Caricare
+                        <li><button onclick="common.openModal('modal_loadTutorial')" id="saveTutorial">Caricare
                                 carte</button></li>
-                        <li><button onclick="openModal('modal_printTutorial', modal_tutorial)"
+                        <li><button onclick="common.openModal('modal_printTutorial')"
                                 id="saveTutorial">Stampare carte</button></li>
                     </ul>
 
                 </div>
             </div>
         </div>
-
-        <!-- <svg class="no-print" height="1" width="100%" xmlns="http://www.w3.org/2000/svg">
-            <line x1="0" y1="0" x2="100%" y2="0" style="stroke:rgba(102, 102, 102, 0.712);stroke-width:3" />
-            Sorry, your browser does not support inline SVG.
-        </svg> -->
 
         <div class="cardsContainer">
             <div class="loadedCardsSect">
@@ -169,11 +154,6 @@
             </div>
         </div>
     </div>
-
-    <dialog class="dialogContainer" id="messageDialog">
-
-
-    </dialog>
 </body>
 
 </html>

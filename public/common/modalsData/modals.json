@@ -1,38 +1,38 @@
 [
     {
-        "id": "modal_baseHtml",
+        "_id": "modal_baseHtml",
         "title": "Basic Modal HTML",
         "lang": "IT",
-        "body": "<div class=\"modal-content\">\n<div class=\"modal-header\">\n<button class=\"close\" onclick=\"closeModal(modal_tutorial)\">&times;</button>\n<h2 id=\"modal-header\">##TitleText##</h2>\n</div>\n<div class=\"modal-body\" id=\"modal-body\">\n##BodyText##\n</div>\n<div class=\"modal-footer\">\n<span></span>\n</div>\n</div>"
+        "body": "<div class=\"modal-content\">\n<div class=\"modal-header\">\n<button class=\"close\" onclick=\"common.closeModal(modal_tutorial)\">&times;</button>\n<h2 id=\"modal-header\">##TitleText##</h2>\n</div>\n<div class=\"modal-body\" id=\"modal-body\">\n##BodyText##\n</div>\n<div class=\"modal-footer\">\n<span></span>\n</div>\n</div>"
     },
     {
-        "id": "modal_createTutorial",
+        "_id": "modal_createTutorial",
         "title": "Crea carta",
         "lang": "IT",
         "bodyText": "<div><p>Per la creazione delle carte seguire questi semplici passi:</p><ul><li>Se necessario scegliere il colore di sfondo della carta tramite la casella di colore.</li><li>Se necessario scegliere il colore del bordo della carta.</li><li>Se necessario scegliere il colore globale del testo <span class=\"smallText bold\">(N.B. Se questo viene selezionato sovrascriverà il colore selezionato per ogni singola cella di testo).</span></li><li>Aggiugere nelle caselle di testo le sillabe necessarie.</li><li>Premere \"Aggiungi carta\" per aggiungere la carta appena creata nella sezione \"LE TUE CARTE\".</li></ul></div>"
     },
     {
-        "id": "modal_saveTutorial",
+        "_id": "modal_saveTutorial",
         "title": "Salva carte",
         "bodyText": "<div><p>Per il salvataggio delle carte seguire questi semplici passi:</p><ul><li>Una volta create o caricate le carte premere sul pulsante \"Salva\".</li><li>Premendo il tasto verrà scaricato un file di testo che contiene tutte le carte presenti nella sezione <b>\"LE TUE CARTE\"</b> in un formato che riconoscibile dal programma.<br><span class=\"undertitle bold\">(N.B. E' importante non modificare il contenuto del file in quanto potrebbe andare a rendere il file non leggibile dal programma).</span></li><li>Se si vogliono salvare le carte come PDF seguire viene spiegato nella sezione di Stampa delle carte.</li></ul></div>",
         "lang": "IT"
     },
     {
-        "id": "modal_loadTutorial",
+        "_id": "modal_loadTutorial",
         "title": "Carica carte",
         "bodyText": "<div><p>Se si ha a disposizione un file creato in precedenza di carte è possibile caricarle per aggiungere o modificare il set di carte.</p><p>Per caricare delle carte seguire questi semplici passi:</p><ul><li>Premendo il tasto \"Scegli file\" si potrà selezionare il file di carte presente sul proprio computer.</li><li>Una volta selezionato il file verranno caricate le carte presenti al suo interno all'interno della sezione sezione <b>\"LE TUE CARTE\"</b> <br><span class=\"undertitle bold\">(N.B. E' importante che il contenuto del file non sia stato modificato e che sia un file creato dal programma in precedenza in quanto potrebbe essere non leggibile dal programma).</span></li></ul></div>",
         "lang": "IT"
     },
     {
-        "id": "modal_printTutorial",
+        "_id": "modal_printTutorial",
         "title": "Stampa carte",
         "bodyText": "<div><p>E' possibile stampare le carte o salvarle come file PDF.</p><p>Per stampare o salvare le carte seguire questi semplici passi:</p><ul><li>Una volta create o caricate le carte premere sul pulsante \"Stampa carte\".</li><li>Premendo apparirà una sezione per poter stampare le carte con mostrata una anteprima di stampa della sezione <b>\"LE TUE CARTE\".</b></li><li>Qui è possibile selezionare se si vuole salvare il file in formato PDF o stamparlo tramite una stampante collegata al computer modificando la \"Destinazione\".</li></ul></div>",
         "lang": "IT"
     },
     {
-        "id": "modal_addGrouping",
+        "_id": "modal_addGrouping",
         "title": "Aggiungi un raggruppamento",
-        "bodyText": "<div class=\"addGroupingContainer\"> <div class=\"addGroupingTemplate\"> <div class=\"grouping\"> <div class=\"groupingTitle\"><label for=\"grouping_syllable\">Sillaba</label><input type=\"text\" id=\"grouping_syllable\" placeholder=\"Sillaba base\"></div> <div class=\"groupingPairs\"><label class=\"bold\">Possibili combinazioni</label><textarea id=\"grouping_syllables\"></textarea></div> </div> <div class=\"addGroupBtn\"> <div class=\"confirmBtn\"><button class=\"confirm\">AGGIUNGI</button></div> </div> </div> <div class=\"addGroupingInstructions\"> <p>Per aggiungere un raggruppamento seguire questi passi</p> <ul> <li>Nella casella della Sillaba aggiugnere una sillaba che andrà a unirsi con le sillaba che vogliamo andare a collegare</li> <li>All'interno della casella di testo \"Possibili combinazioni\", <b>andando a capo dopo ogni sillaba</b>, aggiungere tutte le sillabe che possono andarsi a unire con la sillaba di base</li> </ul><span>Il programma poi utilizzerà queste sillabe per creare combinazioni di carte e potrà utilizzarle prendendo casualmente le sillabe inserite nelle possibili combinazioni</span> </div> </div>",
+        "bodyText": "<div class=\"addGroupingContainer\"> <div class=\"addGroupingTemplate\"> <form action=\"#\"> <div class=\"grouping\" id=\"grouping_newData\"> <div class=\"groupingTitle\"><label for=\"grouping_syllable\">Sillaba</label><input type=\"text\" id=\"grouping_syllable\" placeholder=\"Sillaba base\" required></div> <div class=\"groupingPairs\"><label class=\"bold\">Possibili combinazioni</label><textarea id=\"grouping_syllables\" required></textarea></div> </div> <div class=\"addGroupBtn\"> <div class=\"confirmBtn\"><button class=\"confirm\" onclick=\"client.addGrouping()\">AGGIUNGI</button></div> </div> </form> </div> <div class=\"addGroupingInstructions\"> <p>Per aggiungere un raggruppamento seguire questi passi</p> <ul> <li>Nella casella della Sillaba aggiugnere una sillaba che andrà a unirsi con le sillaba che vogliamo andare a collegare</li> <li>All'interno della casella di testo \"Possibili combinazioni\", <b>andando a capo dopo ogni sillaba</b>, aggiungere tutte le sillabe che possono andarsi a unire con la sillaba di base</li> </ul><span>Il programma poi utilizzerà queste sillabe per creare combinazioni di carte e potrà utilizzarle prendendo casualmente le sillabe inserite nelle possibili combinazioni</span> </div> </div>",
         "lang": "IT"
     }
 ]

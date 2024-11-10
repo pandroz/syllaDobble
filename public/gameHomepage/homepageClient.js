@@ -1,5 +1,6 @@
+import * as common from '../common/commonClient.js'
 let CARDS = [];
-const dialogForm = "<form method=\"dialog\"><button>OK</button></form>"
+
 
 export function getValues() {
     let fields = $(":input").serializeArray();
@@ -31,7 +32,7 @@ export function loadCard(cardData) {
     let isCardGlobalTextCol = cardGlobalTextCol !== '#000000';
 
     let cardHtml = `<div class="cardContainer" id="${newCardUUID}">
-                    <button class="removeCardBtn no-print" onclick="removeCard(${newCardUUID})">X</button>
+                    <button class="removeCardBtn no-print" onclick="client.removeCard(${newCardUUID})">X</button>
                         <div class="card" style="background-color: ${cardBg} !important; border-color: ${cardBorder}; color: ${cardGlobalTextCol}" id="card_${newCardUUID}">
                             <div class="cardRowTop">
                                 <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(cardData, 'colTopL')}">${_.get(cardData, 'inTopRowL', '')}</div>
@@ -85,7 +86,7 @@ export function resetGlobals() {
 
 export function stampaPagine() {
     if (_.size(CARDS) < 1) {
-        onerror('<i class="fa-solid fa-triangle-exclamation"></i> Non è possibile stampare senza carte create')
+        common.onerror('<i class="fa-solid fa-triangle-exclamation"></i> Non è possibile stampare senza carte create')
         return 1;
     }
     window.print();
@@ -93,7 +94,7 @@ export function stampaPagine() {
 
 export function saveCards() {
     if (_.size(CARDS) < 1) {
-        onerror('<i class="fa-solid fa-triangle-exclamation"></i> Non è possibile salvare senza carte create')
+        common.onerror('<i class="fa-solid fa-triangle-exclamation"></i> Non è possibile salvare senza carte create')
         return 1;
     }
     let date = new Date();
@@ -164,18 +165,7 @@ export function updateCard(element) {
 
 }
 
-export function closeModal(modalId) {
-    modalId.style.display = "none";
-}
-
 export function logCards() {
     console.log('CARDS ==> ', CARDS);
     return CARDS;
-}
-
-export function onerror(errorMessage) {
-    let dialog = document.getElementById('messageDialog');
-    errorMessage = `<div><p>${errorMessage}</p>${dialogForm}</div>`
-    dialog.innerHTML = errorMessage
-    dialog.showModal()
 }

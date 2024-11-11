@@ -1,9 +1,20 @@
-import jsonData from '../public/managementPage/testingJson.json' with {type: "json"};
+// import jsonData from '../public/managementPage/testingJson.json' with {type: "json"};
 import _ from 'lodash';
 import fs from 'fs/promises';
-import { existsSync } from 'fs';
+import * as fsSync from 'fs';
+
+function getJsonData() {
+    try {
+        let jsonData = fsSync.readFileSync('./public/managementPage/testingJson.json', 'utf8');
+        return JSON.parse(jsonData);
+    } catch (e) {
+        console.log('[ERROR:getJsonData()]: ', e)
+        return []
+    }
+}
 
 export function getGroupings() {
+    let jsonData = getJsonData();
     let groupingNames = _.map(jsonData, d => {
         return {
             _id: _.get(d, '_id'),
@@ -20,7 +31,7 @@ export async function addNewGrouping(newGroupName) {
         let jsonData = [];
 
         // Check if file exists
-        if (existsSync(filePath)) {
+        if (fsSync.existsSync(filePath)) {
             const data = await fs.readFile(filePath, 'utf8');
             jsonData = JSON.parse(data);
         }

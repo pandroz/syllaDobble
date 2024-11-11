@@ -111,12 +111,10 @@ export function saveGrouping(newGroupingName) {
         .then(data => {
             if (data.success) {
                 console.log('Item added successfully');
-                newId = data.newId;
+                loadGroupings(data.newId);
             } else {
                 console.error('Failed to add item:', data.error);
             }
         })
         .catch(error => console.error('Error:', error));
-
-        refreshGroups(newId);
 }

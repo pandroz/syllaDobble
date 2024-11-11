@@ -3,6 +3,12 @@ import _ from 'lodash';
 import fs from 'fs/promises';
 import * as fsSync from 'fs';
 
+const filePath = './public/managementPage/testingJson.json';
+
+function uniqueID() {
+    return Math.floor(Math.random() * Date.now())
+}
+
 function getJsonData() {
     try {
         let jsonData = fsSync.readFileSync('./public/managementPage/testingJson.json', 'utf8');
@@ -25,22 +31,8 @@ export function getGroupings() {
 }
 
 export async function addNewGrouping(newGroupName) {
-    const filePath = './public/managementPage/testingJson.json';
-
     try {
-        let jsonData = [];
-
-        // Check if file exists
-        if (fsSync.existsSync(filePath)) {
-            const data = await fs.readFile(filePath, 'utf8');
-            jsonData = JSON.parse(data);
-        }
-
-        // Validate that jsonData is an array
-        if (!Array.isArray(jsonData)) {
-            jsonData = [];
-        }
-
+        let jsonData = getJsonData();
         let newId = uniqueID()
 
         let newItem = {
@@ -60,7 +52,7 @@ export async function addNewGrouping(newGroupName) {
             newId: newId
         };
     } catch (error) {
-        console.error('Error:', error);
+        console.error('[addNewGrouping] Error: ', error);
         return {
             success: false
         }
@@ -68,8 +60,28 @@ export async function addNewGrouping(newGroupName) {
 }
 
 
-function uniqueID() {
-    return Math.floor(Math.random() * Date.now())
+export async function saveGrouping(bodyData) {
+    try {
+        let jsonData = getJsonData();
+
+        let groupId = _.get(bodyData, 'groupid');
+        let groups = _.get(bodyData, 'groups');
+
+        let itemIx = _.findIndex(jsonData, {
+            "_id": _.toNumber(groupId)
+        });
+
+        if (!_.eq(itemIx, -1))
+            jsonData[itemIx].groups = groups;
+
+        await fs.writeFile(filePath, JSON.stringify(jsonData, null, 2));
+
+        return true;
+    } catch (error) {
+        console.log('[saveGroups] Error: ', error)
+        return false;
+    }
+
 }
 
 

@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { fileURLToPath } from 'url';
 
 // import { openModal } from "./src/syllaDobbleScripts.js";
-import { getGroupings, addNewGrouping } from "./src/managementScripts.js";
+import { getGroupings, addNewGrouping, saveGrouping } from "./src/managementScripts.js";
 
 
 const app = express();
@@ -33,7 +33,6 @@ app.listen(3000, '0.0.0.0', () => {
 
 app.get("/get-groups", (req, res) => {
     const groups = getGroupings();  // Your existing function
-    console.log('groups ==> ', groups)
     res.json(groups);
 });
 
@@ -43,6 +42,17 @@ app.post('/add-new-grouping', async (req, res) => {
 
     if (result.success) {
         res.json({ success: true, message: 'Item added successfully', newId: result.newId });
+    } else {
+        res.status(500).json({ success: false, error: 'Failed to add item' });
+    }
+});
+
+app.post('/save-grouping', async (req, res) => {
+    const body = req.body;
+    const success = await saveGrouping(body);
+
+    if (success) {
+        res.json({ success: true, message: 'Item saved successfully' });
     } else {
         res.status(500).json({ success: false, error: 'Failed to add item' });
     }

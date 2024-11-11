@@ -330,3 +330,13 @@ button.confirm {
 .submit-btn:hover {
     background: rgba(0, 21, 255, 0.65);
 }
+
+.navBar {
+    position: absolute;
+    right: 1%;
+    top: 0;
+}
+
+.navBar > a:visited {
+    color: rgba(0, 20, 255, 0.65)
+}

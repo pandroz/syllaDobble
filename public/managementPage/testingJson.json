@@ -4,7 +4,7 @@
     "groupingName": "Ale test",
     "groups": [
       {
-        "groupid": "grouping_1",
+        "groupid": "g_1",
         "syllable": "DA",
         "possiblePairing": [
           "DA",
@@ -14,7 +14,7 @@
         ]
       },
       {
-        "groupid": "grouping_2",
+        "groupid": "g_2",
         "syllable": "TA",
         "possiblePairing": [
           "BA",
@@ -24,13 +24,20 @@
         ]
       },
       {
-        "groupid": "grouping_3",
+        "groupid": "g_3",
         "syllable": "THE",
         "possiblePairing": [
           "GAB",
           "BA",
           "GO",
           "OOLS"
+        ],
+        "groups": [
+          "GAB",
+          "BA",
+          "GO",
+          "OOLS",
+          "daw"
         ]
       }
     ]
@@ -40,7 +47,7 @@
     "groupingName": "Ale test 2",
     "groups": [
       {
-        "groupid": "grouping_1",
+        "groupid": "g_1",
         "syllable": "TE",
         "possiblePairing": [
           "DA",
@@ -50,7 +57,7 @@
         ]
       },
       {
-        "groupid": "grouping_2",
+        "groupid": "g_2",
         "syllable": "ST",
         "possiblePairing": [
           "BA",
@@ -60,7 +67,7 @@
         ]
       },
       {
-        "groupid": "grouping_3",
+        "groupid": "g_3",
         "syllable": "GROUPING",
         "possiblePairing": [
           "GAB",
@@ -76,7 +83,7 @@
     "groupingName": "DIO STRA PORCO",
     "groups": [
       {
-        "groupid": "grouping_1",
+        "groupid": "g_1",
         "syllable": "DIO",
         "possiblePairing": [
           "DA",
@@ -86,7 +93,7 @@
         ]
       },
       {
-        "groupid": "grouping_2",
+        "groupid": "g_2",
         "syllable": "CAN",
         "possiblePairing": [
           "BA",
@@ -98,28 +105,16 @@
     ]
   },
   {
-    "_id": 4,
-    "groupingName": "AAAaa",
-    "groups": []
-  },
-  {
-    "_id": 256315749263,
-    "groupingName": "ng1",
-    "groups": []
-  },
-  {
-    "_id": 990421113404,
-    "groupingName": "daw",
-    "groups": []
-  },
-  {
-    "_id": 487957665609,
-    "groupingName": "dawdaw",
-    "groups": []
-  },
-  {
-    "_id": 979474873953,
-    "groupingName": "dawdawdaw",
-    "groups": []
+    "_id": 184882262627,
+    "groupingName": "TEST GROUP",
+    "groups": [
+      {
+        "groupid": "g_1",
+        "syllable": "daw",
+        "possiblePairing": [
+          "test new group"
+        ]
+      }
+    ]
   }
 ]

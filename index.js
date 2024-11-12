@@ -31,7 +31,7 @@ app.listen(3000, '0.0.0.0', () => {
 })
 
 
-app.get("/get-groups", (req, res) => {
+app.get("/get-groupings", (req, res) => {
     const groups = getGroupings();  // Your existing function
     res.json(groups);
 });

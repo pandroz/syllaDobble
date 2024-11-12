@@ -42,11 +42,10 @@
                     -->
                     <button id="toggle-btn" onclick="common.toggleForm(newGroupingForm)">Nuovo raggruppamento</button>
                     <button onclick="common.openModal('modal_addGroup')">Aggiungi grouping</button>
-                    <button onclick="client.saveGrouping(groupingSelected.value)">Salva</button>
 
                     <select id="groupingSelected" onchange="client.loadGroupings(this.value);">
                         <% let groups = getGroupings();  %>
-                        <% console.log('groups ==> ', groups) %>
+                        <%# console.log('groups ==> ', groups) %>
                         <% groups.forEach(group => { %>
                         <option value="<%= _.get(group, '_id') %>"><%= _.get(group, 'groupingName') %></option>
                         <% }); %>

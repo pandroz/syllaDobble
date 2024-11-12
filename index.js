@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { fileURLToPath } from 'url';
 
 // import { openModal } from "./src/syllaDobbleScripts.js";
-import { getGroupings, addNewGrouping, saveGrouping } from "./src/managementScripts.js";
+import { getGroupingsNames, getGroupings, getGroups, addNewGrouping, saveGrouping } from "./src/managementScripts.js";
 
 
 const app = express();
@@ -18,23 +18,37 @@ console.log(__dirname);
 app.use(express.static(path.join(__dirname, "./public")));
 app.use(express.json());
 
-app.get("/", (req, res) => {
-    res.render('./syllaDobble.ejs', { _: _ });
-})
-
-app.get("/manage", (req, res) => {
-    res.render('./manageCards.ejs', { getGroupings: getGroupings, _: _ })
-})
-
 app.listen(3000, '0.0.0.0', () => {
     console.log("server running on port 3000");
 })
 
 
+// PAGES
+
+app.get("/", (req, res) => {
+    res.render('./syllaDobble.ejs', { _: _ });
+})
+
+app.get("/manage", (req, res) => {
+    res.render('./manageCards.ejs', { getGroupingsNames: getGroupingsNames, _: _ })
+})
+
+
+// GET
+
 app.get("/get-groupings", (req, res) => {
-    const groups = getGroupings();  // Your existing function
-    res.json(groups);
+    const groupings = getGroupings();
+    res.json(groupings);
 });
+
+
+// POSTS
+
+app.post("/get-groups", async (req, res) => {
+    console.log('req ==> ', req.body.groupingId)
+    const groups = await getGroups(req.body.groupingId);
+    res.json(groups);
+})
 
 app.post('/add-new-grouping', async (req, res) => {
     const newGroupingName = req.body.groupName;

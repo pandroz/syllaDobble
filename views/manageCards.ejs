@@ -22,7 +22,7 @@
             client.loadGroupings(1);
             // common.openDialog('dialog_saveError', 'error')
         };
-        
+
     </script>
 </head>
 
@@ -36,23 +36,20 @@
             <div class="settingsContainer">
                 <div class="groupingsTitle subtitle">Settings</div>
                 <div class="buttonContainer">
-                    <!--
-                        OLD Button was
-                        <button onclick="common.openModal('modal_addGrouping')">Nuovo raggruppamento</button>
-                    -->
-                    <button id="toggle-btn" onclick="common.toggleForm(newGroupingForm)">Nuovo raggruppamento</button>
-                    <button onclick="common.openModal('modal_addGroup')">Aggiungi grouping</button>
-
-                    <select id="groupingSelected" onchange="client.loadGroupings(this.value);">
-                        <% let groups = getGroupings();  %>
+                    <button class="btn btn-primary" id="toggle-btn" onclick="common.toggleForm(newGroupingForm)">Nuovo raggruppamento</button>
+                    <button class="btn btn-primary" onclick="common.openModal('modal_addGroup')">Aggiungi grouping</button>
+                    <button class="btn btn-danger" onclick="client.deleteGrouping(groupingSelected.value)">Elimina grouping</button>
+                </div>
+                <div class="select-container">
+                    <select class="custom-select" id="groupingSelected" onchange="client.loadGroupings(this.value);">
+                        <% let groups = getGroupingsNames();  %>
                         <%# console.log('groups ==> ', groups) %>
                         <% groups.forEach(group => { %>
                         <option value="<%= _.get(group, '_id') %>"><%= _.get(group, 'groupingName') %></option>
                         <% }); %>
                     </select>
-
-
                 </div>
+
                 <div id="newGroupingForm" class="form hidden">
                     <div class="form-group">
                         <label for="name">Raggruppamento:</label>

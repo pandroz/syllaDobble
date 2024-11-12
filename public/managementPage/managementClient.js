@@ -1,6 +1,7 @@
-import GROUPINGS from './testingJson.json' with {type: "json"}
+import importedGroupings from './testingJson.json' with {type: "json"}
 
-var GROUPS = [];
+let GROUPS = [];
+let GROUPINGS = [];
 
 /**
  * Generates a random id by multiplying Math.Random and Date.now
@@ -11,7 +12,7 @@ function uniqueGroupID() {
 }
 
 /**
- * 
+ *
  * @returns The selected grouping from the select
  */
 function getSelectedGrouping() {
@@ -19,22 +20,29 @@ function getSelectedGrouping() {
 }
 
 /**
- * 
+ *
  * @returns the GROUPS array if existing, otherwise returns an empty Array
  */
 function getGroups() {
     return GROUPS || [];
 }
 
+export function logGroups() {
+    console.log('[logGroups] GROUPS ==> ', GROUPS);
+}
 
 /**
  * Loads the groups in the management client page retrieving them from the groupingId parameter
- 
+
  *  USES THE LOCAL SAVED GROUPS, DOES NOT CALL THE SERVER )
-    @param groupingId {string} 
+    @param groupingId {string}
 */
 export function loadGroupings(groupingId) {
     groupingId = _.toNumber(groupingId);
+
+    if (_.isEmpty(GROUPINGS)) {
+        GROUPINGS = importedGroupings;
+    }
 
     let groupingData = _.find(GROUPINGS, { _id: groupingId });
     GROUPS = _.get(groupingData, 'groups');
@@ -44,7 +52,7 @@ export function loadGroupings(groupingId) {
 
 /**
  * Adds a new group to the groupingId selected
- * 
+ *
  * Generates a random group id and adds the group to the client page
  * @param {*} grouping_syllable Syllable from the upper area of the group
  * @param {*} grouping_syllables Syllables in the textarea
@@ -71,7 +79,7 @@ export function addGroup(grouping_syllable, grouping_syllables) {
 
 /**
  * Handles the HTML instancing of the groups in the client page
- * @param {*} groups 
+ * @param {*} groups
  */
 function handleGroupHtml(groups) {
     let groupingContainer = document.getElementById('groupingContainer');
@@ -101,31 +109,46 @@ function handleGroupHtml(groups) {
 
 /**
  * Refreshes the groupings list only, generates the options and selectes the parameter
- * 
+ *
  * After getting the results will proceed to load the groups inside the grouping
  * @param {*} selectedGrouping Is the grouping that will be shown as selected and whose groups will be loaded
  */
 export function refreshGroupings(selectedGrouping) {
     fetch('/get-groupings')
         .then(response => response.json())
-        .then(groups => {
-            const select = document.querySelector('#groupingSelected');  // Make sure to add an ID to your select
+        .then(data => {
+            if(data.success) {
+                const select = document.querySelector('#groupingSelected');
 
-            // Clear existing options
-            select.innerHTML = '';
+                let groupings = _.get(data, 'groupings', []);
 
-            // Optional: Add default option
-            let defaultOption = new Option('Seleziona un raggruppamento', '', false, false);
-            defaultOption.disabled = true;
-            select.appendChild(defaultOption);
+                GROUPINGS = groupings;
+                let groups = _.map(groupings, d => {
+                    return {
+                        _id: _.get(d, '_id'),
+                        groupingName: _.get(d, 'groupingName')
+                    };
+                });
 
-            // Add new options
-            groups.forEach(group => {
-                if (_.get(group, '_id') === selectedGrouping)
-                    select.appendChild(new Option(_.get(group, 'groupingName'), _.get(group, '_id'), true, true));
-                else
-                    select.appendChild(new Option(_.get(group, 'groupingName'), _.get(group, '_id'), false, false));
-            });
+                // Clear existing options
+                select.innerHTML = '';
+
+                // Optional: Add default option
+                let defaultOption = new Option('Seleziona un raggruppamento', '', false, false);
+                defaultOption.disabled = true;
+                select.appendChild(defaultOption);
+
+                // Add new options
+                groups.forEach(group => {
+                    if (_.get(group, '_id') === selectedGrouping)
+                        select.appendChild(new Option(_.get(group, 'groupingName'), _.get(group, '_id'), true, true));
+                    else
+                        select.appendChild(new Option(_.get(group, 'groupingName'), _.get(group, '_id'), false, false));
+                });
+            } else {
+                console.error('Failed retrieve groupings data:', data.error);
+            }
+            
         })
         .catch(error => console.error('Error:', error));
 }
@@ -137,7 +160,6 @@ export function refreshGroupings(selectedGrouping) {
 export function saveNewGrouping(newGroupingName) {
     const data = { groupName: newGroupingName };
     console.log('Sending data:', data);  // Debug log
-    let newId = '';
 
     fetch('/add-new-grouping', {
         method: 'POST',
@@ -150,7 +172,9 @@ export function saveNewGrouping(newGroupingName) {
         .then(data => {
             if (data.success) {
                 console.log('Item added successfully');
-                loadGroupings(data.newId);
+                let newId = data.newId
+                loadGroupings(newId);
+                getServerGroups(newId);
             } else {
                 console.error('Failed to add item:', data.error);
             }
@@ -160,7 +184,7 @@ export function saveNewGrouping(newGroupingName) {
 
 /**
  * Saves the changes made to the groups of the selected grouping
- * @param {*} groupingid 
+ * @param {*} groupingid
  */
 export function saveGrouping(groupingid) {
     console.log('Saving groupingid:', groupingid);  // Debug log
@@ -205,14 +229,13 @@ export function allowEditing(textareaId, editGroupButton, saveGroupButton) {
 
 /**
  * Saves the edited group, disables the textarea, hides the save button and shows the edit button
- * @param {*} groupId 
- * @param {*} textareaId 
- * @param {*} editGroupButton 
- * @param {*} saveGroupButton 
+ * @param {*} groupId
+ * @param {*} textareaId
+ * @param {*} editGroupButton
+ * @param {*} saveGroupButton
  */
 export function updateGroup(groupId, textareaId, editGroupButton, saveGroupButton) {
     let groupingId = getSelectedGrouping();
-    console.log('groupingId ==> ', groupingId)
 
     editGroupButton.classList.remove('hidden');
     saveGroupButton.classList.add('hidden');
@@ -224,15 +247,41 @@ export function updateGroup(groupId, textareaId, editGroupButton, saveGroupButto
         "groupid": groupId
     });
 
-    console.log('groups ==> ', GROUPS)
-
     if (!_.eq(itemIx, -1)) {
         GROUPS[itemIx].possiblePairing = newPairings;
         saveGrouping(groupingId)
     }
 }
 
-/*
-    TODO
-    Create a function that refreshed the GROUPS array, retrieving them from the server
-*/
+export function getServerGroups(groupingId) {
+    let data = {
+        groupingId: _.toNumber(groupingId)
+    }
+
+    fetch('/get-groups', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                GROUPS = data.groups;
+                console.log('GROUPS ==> ', GROUPS);
+            } else {
+                console.error('Failed to add item:', data.error);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+export function deleteGrouping(groupingSelected) {
+    console.log('deleteGrouping - LOGIC TODO ')
+    // TODO LOGIC TO DELETE GROUPING
+}
+
+export function deleteGroup(groupSelected) {
+    // TODO LOGIC TO DELETE GROUP
+}

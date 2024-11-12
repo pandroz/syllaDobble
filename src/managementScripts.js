@@ -15,19 +15,60 @@ function getJsonData() {
         return JSON.parse(jsonData);
     } catch (e) {
         console.log('[ERROR:getJsonData()]: ', e)
-        return []
+        throw new Error('[ERROR: getJsonData()]: ', e)
     }
 }
 
 export function getGroupings() {
-    let jsonData = getJsonData();
-    let groupingNames = _.map(jsonData, d => {
+    try {
+        let jsonData = getJsonData() || [];
         return {
-            _id: _.get(d, '_id'),
-            groupingName: _.get(d, 'groupingName')
+            success: true,
+            groupings: jsonData
         };
-    });
-    return groupingNames;
+    } catch (e) {
+        console.log('[ERROR: getGroupings()]: ', e)
+        return {
+            success: true,
+            error: e
+        };
+    }
+}
+
+export function getGroupingsNames() {
+    try {
+        let jsonData = getJsonData();
+        let groupingNames = _.map(jsonData, d => {
+            return {
+                "_id": _.get(d, '_id'),
+                "groupingName": _.get(d, 'groupingName')
+            };
+        });
+        return groupingNames;
+    } catch (e) {
+        console.log('[ERROR: getGroupingsNames()]: ', e)
+    }
+}
+
+export async function getGroups(groupingId) {
+    try {
+        let jsonData = getJsonData();
+        let groupingData = _.find(jsonData, {
+            "_id": groupingId
+        });
+        let groups = _.get(groupingData, 'groups', []);
+
+        return {
+            success: true,
+            groups: groups
+        };
+    } catch (e) {
+        console.log('[ERROR: getGroups()]: ', e)
+        return {
+            success: false,
+            error: e
+        };
+    }
 }
 
 export async function addNewGrouping(newGroupName) {

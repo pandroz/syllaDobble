@@ -1,47 +1,79 @@
 import GROUPINGS from './testingJson.json' with {type: "json"}
 
-let groups = [];
+var GROUPS = [];
 
+/**
+ * Generates a random id by multiplying Math.Random and Date.now
+ * @returns A unique id with the prefix 'g_'
+ */
 function uniqueGroupID() {
     return 'g_' + Math.floor(Math.random() * Date.now())
 }
 
+/**
+ * 
+ * @returns The selected grouping from the select
+ */
 function getSelectedGrouping() {
     return document.getElementById('groupingSelected').value;
 }
 
+/**
+ * 
+ * @returns the GROUPS array if existing, otherwise returns an empty Array
+ */
+function getGroups() {
+    return GROUPS || [];
+}
+
+
+/**
+ * Loads the groups in the management client page retrieving them from the groupingId parameter
+ 
+ *  USES THE LOCAL SAVED GROUPS, DOES NOT CALL THE SERVER )
+    @param groupingId {string} 
+*/
 export function loadGroupings(groupingId) {
     groupingId = _.toNumber(groupingId);
 
-
     let groupingData = _.find(GROUPINGS, { _id: groupingId });
-    groups = _.get(groupingData, 'groups');
-    handleHtml(groups);
-    refreshGroups(groupingId);
+    GROUPS = _.get(groupingData, 'groups');
+    handleGroupHtml(GROUPS);
+    refreshGroupings(groupingId);
 }
 
+/**
+ * Adds a new group to the groupingId selected
+ * 
+ * Generates a random group id and adds the group to the client page
+ * @param {*} grouping_syllable Syllable from the upper area of the group
+ * @param {*} grouping_syllables Syllables in the textarea
+ */
 export function addGroup(grouping_syllable, grouping_syllables) {
+    GROUPS = getGroups();
     grouping_syllable = _.trim(grouping_syllable);
     grouping_syllables = _.compact(_.map(_.split(grouping_syllables, '\n'), _.trim));
 
-
-    let groupid = uniqueID()
+    let groupid = uniqueGroupID()
 
     if (!_.isEmpty(grouping_syllable) && !_.isEmpty(grouping_syllables)) {
 
-
-        groups.push({
+        GROUPS.push({
             groupid: groupid,
             syllable: grouping_syllable,
             possiblePairing: grouping_syllables
         });
 
-        handleHtml(groups);
+        handleGroupHtml(GROUPS);
         saveGrouping(getSelectedGrouping());
     }
 }
 
-function handleHtml(groups) {
+/**
+ * Handles the HTML instancing of the groups in the client page
+ * @param {*} groups 
+ */
+function handleGroupHtml(groups) {
     let groupingContainer = document.getElementById('groupingContainer');
 
     let groupingsHTML = [];
@@ -53,7 +85,7 @@ function handleHtml(groups) {
                                 <div class="groupingHeader">
                                     <div class="groupingTitle" id="syllableGroup_${groupId}">${_.get(grp, 'syllable', '')}</div>
                                     <button class="groupingButton" onclick="client.allowEditing(textarea_${groupId}, editGroup_${groupId}, saveGroup_${groupId})" id="editGroup_${groupId}"><i class="fa-solid fa-pencil"></i></button>
-                                    <button class="groupingButton hidden" onclick="client.updateGrouping(${groupId}.id, textarea_${groupId}, editGroup_${groupId}, saveGroup_${groupId})" id="saveGroup_${groupId}"><i class="fa-regular fa-floppy-disk"></i></button>
+                                    <button class="groupingButton hidden" onclick="client.updateGroup(${groupId}.id, textarea_${groupId}, editGroup_${groupId}, saveGroup_${groupId})" id="saveGroup_${groupId}"><i class="fa-regular fa-floppy-disk"></i></button>
                                 </div>
                             <div class="groupingPairs">
                                 <textarea id="textarea_${groupId}" disabled>${_.join(_.get(grp, 'possiblePairing'), '\n')}</textarea>
@@ -67,8 +99,14 @@ function handleHtml(groups) {
     groupingContainer.innerHTML = _.join(_.reverse(groupingsHTML), '\n');;
 }
 
-export function refreshGroups(selectedGrouping) {
-    fetch('/get-groups')
+/**
+ * Refreshes the groupings list only, generates the options and selectes the parameter
+ * 
+ * After getting the results will proceed to load the groups inside the grouping
+ * @param {*} selectedGrouping Is the grouping that will be shown as selected and whose groups will be loaded
+ */
+export function refreshGroupings(selectedGrouping) {
+    fetch('/get-groupings')
         .then(response => response.json())
         .then(groups => {
             const select = document.querySelector('#groupingSelected');  // Make sure to add an ID to your select
@@ -92,6 +130,10 @@ export function refreshGroups(selectedGrouping) {
         .catch(error => console.error('Error:', error));
 }
 
+/**
+ * Saves the new grouping and loads the new group for the user
+ * @param {string} newGroupingName Name of the new grouping that gets saved and added to the list
+ */
 export function saveNewGrouping(newGroupingName) {
     const data = { groupName: newGroupingName };
     console.log('Sending data:', data);  // Debug log
@@ -116,12 +158,16 @@ export function saveNewGrouping(newGroupingName) {
         .catch(error => console.error('Error:', error));
 }
 
+/**
+ * Saves the changes made to the groups of the selected grouping
+ * @param {*} groupingid 
+ */
 export function saveGrouping(groupingid) {
     console.log('Saving groupingid:', groupingid);  // Debug log
 
     let data = {
         groupid: groupingid,
-        groups: groups
+        groups: GROUPS
     };
 
     console.log('Saving data: ', data)
@@ -145,29 +191,48 @@ export function saveGrouping(groupingid) {
         .catch(error => console.error('Error:', error));
 }
 
+/**
+ * Enables the textarea with the id passed by parameter, hides the edit button and shows the save button
+ * @param {Element} textareaId Disabled textarea element
+ * @param {Element} editGroupButton Shown edit button
+ * @param {Element} saveGroupButton Hidden save button
+ */
 export function allowEditing(textareaId, editGroupButton, saveGroupButton) {
     editGroupButton.classList.add('hidden');
     saveGroupButton.classList.remove('hidden');
     textareaId.disabled = false;
 }
 
-export function updateGrouping(groupId, textareaId, editGroupButton, saveGroupButton) {
+/**
+ * Saves the edited group, disables the textarea, hides the save button and shows the edit button
+ * @param {*} groupId 
+ * @param {*} textareaId 
+ * @param {*} editGroupButton 
+ * @param {*} saveGroupButton 
+ */
+export function updateGroup(groupId, textareaId, editGroupButton, saveGroupButton) {
     let groupingId = getSelectedGrouping();
     console.log('groupingId ==> ', groupingId)
-    
+
     editGroupButton.classList.remove('hidden');
     saveGroupButton.classList.add('hidden');
     textareaId.disabled = true;
 
-    let newGroups = _.split(textareaId.value, '\n');
+    let newPairings = _.split(textareaId.value, '\n');
 
-    let itemIx = _.findIndex(groups, {
+    let itemIx = _.findIndex(GROUPS, {
         "groupid": groupId
     });
 
+    console.log('groups ==> ', GROUPS)
+
     if (!_.eq(itemIx, -1)) {
-        groups[itemIx].groups = newGroups;
+        GROUPS[itemIx].possiblePairing = newPairings;
         saveGrouping(groupingId)
     }
 }
 
+/*
+    TODO
+    Create a function that refreshed the GROUPS array, retrieving them from the server
+*/

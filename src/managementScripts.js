@@ -103,13 +103,12 @@ export async function addNewGrouping(newGroupName) {
 
 export async function saveGrouping(bodyData) {
     try {
+        let groupingId = _.get(bodyData, 'groupingId');
+        let groups = _.get(bodyData, 'groups');
         let jsonData = getJsonData();
 
-        let groupId = _.get(bodyData, 'groupid');
-        let groups = _.get(bodyData, 'groups');
-
         let itemIx = _.findIndex(jsonData, {
-            "_id": _.toNumber(groupId)
+            "_id": _.toNumber(groupingId)
         });
 
         if (!_.eq(itemIx, -1))
@@ -122,8 +121,38 @@ export async function saveGrouping(bodyData) {
         console.log('[saveGroups] Error: ', error)
         return false;
     }
-
 }
 
+export async function deleteGrouping(groupingId) {
+    try {
+        let jsonData = getJsonData();
+
+        let itemIx = _.findIndex(jsonData, {
+            "_id": _.toNumber(groupingId)
+        });
+
+        if (!_.eq(itemIx, -1)) {
+            console.log('jsonData ==> ', jsonData)
+            jsonData.splice(itemIx, 1);
+        } else {
+            return {
+                success: false,
+                error: "No grouping found with this id"
+            };
+        }
+
+        await fs.writeFile(filePath, JSON.stringify(jsonData, null, 2));
+
+        return {
+            success: true
+        };
+    } catch (error) {
+        console.log('[deleteGrouping] Error: ', error)
+        return false;
+    }
+
+    // jsonData.splice(objectIndex, 1);
+
+}
 
 

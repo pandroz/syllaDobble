@@ -33,21 +33,21 @@
 
     <div class="page">
         <div class="pageContainer">
+            <div class="groupingsTitle subtitle">Settings</div>
             <div class="settingsContainer">
-                <div class="groupingsTitle subtitle">Settings</div>
                 <div class="buttonContainer">
                     <button class="btn btn-primary" id="toggle-btn" onclick="common.toggleForm(newGroupingForm)">Nuovo raggruppamento</button>
                     <button class="btn btn-primary" onclick="common.openModal('modal_addGroup')">Aggiungi grouping</button>
+                    <div class="select-container">
+                        <select class="custom-select" id="groupingSelected" onchange="client.loadGroupings(this.value);">
+                            <% let groups = getGroupingsNames();  %>
+                            <%# console.log('groups ==> ', groups) %>
+                            <% groups.forEach(group => { %>
+                            <option value="<%= _.get(group, '_id') %>"><%= _.get(group, 'groupingName') %></option>
+                            <% }); %>
+                        </select>
+                    </div>
                     <button class="btn btn-danger" onclick="client.deleteGrouping(groupingSelected.value)">Elimina grouping</button>
-                </div>
-                <div class="select-container">
-                    <select class="custom-select" id="groupingSelected" onchange="client.loadGroupings(this.value);">
-                        <% let groups = getGroupingsNames();  %>
-                        <%# console.log('groups ==> ', groups) %>
-                        <% groups.forEach(group => { %>
-                        <option value="<%= _.get(group, '_id') %>"><%= _.get(group, 'groupingName') %></option>
-                        <% }); %>
-                    </select>
                 </div>
 
                 <div id="newGroupingForm" class="form hidden">

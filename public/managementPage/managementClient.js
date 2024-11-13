@@ -38,15 +38,16 @@ export function logGroups() {
     @param groupingId {string}
 */
 export function loadGroupings(groupingId) {
-    groupingId = _.toNumber(groupingId);
+    groupingId = _.isNil(groupingId) ? '' : _.toNumber(groupingId);
 
     if (_.isEmpty(GROUPINGS)) {
         GROUPINGS = importedGroupings;
     }
 
     let groupingData = _.find(GROUPINGS, { _id: groupingId });
-    GROUPS = _.get(groupingData, 'groups');
+    GROUPS = _.get(groupingData, 'groups', []);
     handleGroupHtml(GROUPS);
+    console.log('loadGroupings groupingId ==> ', groupingId, ' GROUPS ==> ', GROUPS)
     refreshGroupings(groupingId);
 }
 
@@ -75,6 +76,36 @@ export function addGroup(grouping_syllable, grouping_syllables) {
         handleGroupHtml(GROUPS);
         saveGrouping(getSelectedGrouping());
     }
+}
+
+function handleGroupingsHtml(groupings, selectedGrouping) {
+    const select = document.querySelector('#groupingSelected');
+
+    GROUPINGS = groupings;
+    let groups = _.map(groupings, d => {
+        return {
+            _id: _.get(d, '_id'),
+            groupingName: _.get(d, 'groupingName')
+        };
+    });
+
+    // Clear existing options
+    select.innerHTML = '';
+
+    let isDefSelected = _.isNil(selectedGrouping);
+
+    // Optional: Add default option
+    let defaultOption = new Option('Seleziona un raggruppamento', '', isDefSelected, isDefSelected);
+    defaultOption.disabled = true;
+    select.appendChild(defaultOption);
+
+    // Add new options
+    groups.forEach(group => {
+        if (_.get(group, '_id') === selectedGrouping)
+            select.appendChild(new Option(_.get(group, 'groupingName'), _.get(group, '_id'), true, true));
+        else
+            select.appendChild(new Option(_.get(group, 'groupingName'), _.get(group, '_id'), false, false));
+    });
 }
 
 /**
@@ -117,38 +148,12 @@ export function refreshGroupings(selectedGrouping) {
     fetch('/get-groupings')
         .then(response => response.json())
         .then(data => {
-            if(data.success) {
-                const select = document.querySelector('#groupingSelected');
-
-                let groupings = _.get(data, 'groupings', []);
-
-                GROUPINGS = groupings;
-                let groups = _.map(groupings, d => {
-                    return {
-                        _id: _.get(d, '_id'),
-                        groupingName: _.get(d, 'groupingName')
-                    };
-                });
-
-                // Clear existing options
-                select.innerHTML = '';
-
-                // Optional: Add default option
-                let defaultOption = new Option('Seleziona un raggruppamento', '', false, false);
-                defaultOption.disabled = true;
-                select.appendChild(defaultOption);
-
-                // Add new options
-                groups.forEach(group => {
-                    if (_.get(group, '_id') === selectedGrouping)
-                        select.appendChild(new Option(_.get(group, 'groupingName'), _.get(group, '_id'), true, true));
-                    else
-                        select.appendChild(new Option(_.get(group, 'groupingName'), _.get(group, '_id'), false, false));
-                });
+            if (data.success) {
+                handleGroupingsHtml(_.get(data, 'groupings'), selectedGrouping);
             } else {
                 console.error('Failed retrieve groupings data:', data.error);
             }
-            
+
         })
         .catch(error => console.error('Error:', error));
 }
@@ -190,7 +195,7 @@ export function saveGrouping(groupingid) {
     console.log('Saving groupingid:', groupingid);  // Debug log
 
     let data = {
-        groupid: groupingid,
+        groupingId: groupingid,
         groups: GROUPS
     };
 
@@ -269,7 +274,7 @@ export function getServerGroups(groupingId) {
         .then(data => {
             if (data.success) {
                 GROUPS = data.groups;
-                console.log('GROUPS ==> ', GROUPS);
+                console.log('[getServerGroups] GROUPS ==> ', GROUPS);
             } else {
                 console.error('Failed to add item:', data.error);
             }
@@ -278,7 +283,29 @@ export function getServerGroups(groupingId) {
 }
 
 export function deleteGrouping(groupingSelected) {
-    console.log('deleteGrouping - LOGIC TODO ')
+    console.log('deleteGrouping - LOGIC TODO ');
+    let data = {
+        "groupingId": groupingSelected
+    };
+
+    fetch('/delete-grouping', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log('Deleted grouping: "', groupingSelected, '", refreshing data');
+                loadGroupings();
+            } else {
+                console.error('Failed to add item:', data.error);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+
     // TODO LOGIC TO DELETE GROUPING
 }
 

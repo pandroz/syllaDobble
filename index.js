@@ -5,7 +5,9 @@ import _ from 'lodash';
 import { fileURLToPath } from 'url';
 
 // import { openModal } from "./src/syllaDobbleScripts.js";
-import { getGroupingsNames, getGroupings, getGroups, addNewGrouping, saveGrouping } from "./src/managementScripts.js";
+// import { getGroupingsNames, getGroupings, getGroups, addNewGrouping, saveGrouping } from "./src/managementScripts.js";
+import * as mgmt from "./src/managementScripts.js";
+
 
 
 const app = express();
@@ -30,14 +32,14 @@ app.get("/", (req, res) => {
 })
 
 app.get("/manage", (req, res) => {
-    res.render('./manageCards.ejs', { getGroupingsNames: getGroupingsNames, _: _ })
+    res.render('./manageCards.ejs', { getGroupingsNames: mgmt.getGroupingsNames, _: _ })
 })
 
 
 // GET
 
 app.get("/get-groupings", (req, res) => {
-    const groupings = getGroupings();
+    const groupings = mgmt.getGroupings();
     res.json(groupings);
 });
 
@@ -45,14 +47,13 @@ app.get("/get-groupings", (req, res) => {
 // POSTS
 
 app.post("/get-groups", async (req, res) => {
-    console.log('req ==> ', req.body.groupingId)
-    const groups = await getGroups(req.body.groupingId);
+    const groups = await mgmt.getGroups(req.body.groupingId);
     res.json(groups);
 })
 
 app.post('/add-new-grouping', async (req, res) => {
     const newGroupingName = req.body.groupName;
-    const result = await addNewGrouping(newGroupingName);
+    const result = await mgmt.addNewGrouping(newGroupingName);
 
     if (result.success) {
         res.json({ success: true, message: 'Item added successfully', newId: result.newId });
@@ -63,7 +64,7 @@ app.post('/add-new-grouping', async (req, res) => {
 
 app.post('/save-grouping', async (req, res) => {
     const body = req.body;
-    const success = await saveGrouping(body);
+    const success = await mgmt.saveGrouping(body);
 
     if (success) {
         res.json({ success: true, message: 'Item saved successfully' });
@@ -71,3 +72,14 @@ app.post('/save-grouping', async (req, res) => {
         res.status(500).json({ success: false, error: 'Failed to add item' });
     }
 });
+
+app.delete('/delete-grouping', async (req, res) => {
+    const groupingId = req.body.groupingId;
+    const success = await mgmt.deleteGrouping(groupingId);
+
+    if (success) {
+        res.json({ success: true, message: 'Item deleted successfully' });
+    } else {
+        res.status(500).json({ success: false, error: 'Failed to delete item' });
+    }
+})

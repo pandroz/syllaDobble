@@ -41,5 +41,11 @@
         "title": "Aggiungi un raggruppamento",
         "bodyText": "<div class=\"addGroupingContainer\"> <div class=\"\"> <form> <div class=\"\" id=\"grouping_newGrouping\"> <div class=\"addGroupingInput groupingTitle\"> <label for=\"grouping_name\">Nome raggruppamento</label> <input type=\"text\" id=\"grouping_name\" placeholder=\"Nome raggruppamento\" required> </div> </div> <div class=\"addGroupBtn\"> <div class=\"confirmBtn\"><button class=\"confirm\" onclick=\"client.saveGrouping()\">Aggiungi raggruppamento</button></div> </div> </form> </div> </div>",
         "lang": "IT"
+    },
+    {
+        "_id": "modal_tutorial_management",
+        "title": "Guida alla pagina",
+        "bodyText": "<div>Temporary text</div>",
+        "lang": "IT"
     }
 ]

@@ -19,9 +19,7 @@
 
     <script type="text/javascript">
         window.onload = function () {
-            client.freezePage(true);
-            client.loadGroupings(1);
-            client.freezePage(false);
+            client.loadGroupings()
             // common.openDialog('dialog_saveError', 'error')
         };
 
@@ -37,29 +35,28 @@
 
     <div class="page">
         <div class="pageContainer">
-            <div class="groupingsTitle subtitle">Settings</div>
+            <div class="groupingsTitle subtitle">
+                <div>Impostazioni</div>
+                <button onclick="common.openModal('modal_tutorial_management')" class="btn-info"><i class="fa-solid fa-question"></i></button>
+            </div>
             <div class="settingsContainer">
                 <div class="buttonContainer">
                     <button class="btn btn-primary" id="toggle-btn" onclick="common.toggleForm(newGroupingForm)">Nuovo raggruppamento</button>
-                    <button class="btn btn-primary" onclick="common.openModal('modal_addGroup')">Aggiungi grouping</button>
+                    <button class="btn btn-primary" id="addGroupBtn" onclick="common.openModal('modal_addGroup')">Aggiungi gruppo</button>
                     <div class="select-container">
                         <select class="custom-select" id="groupingSelected" onchange="client.loadGroupings(this.value);">
-                            <% let groups = getGroupingsNames();  %>
-                            <%# console.log('groups ==> ', groups) %>
-                            <% groups.forEach(group => { %>
-                            <option value="<%= _.get(group, '_id') %>"><%= _.get(group, 'groupingName') %></option>
-                            <% }); %>
+                            <option value="x" selected disabled>Seleziona un raggruppamento</option>
                         </select>
                     </div>
-                    <button class="btn btn-danger" onclick="client.deleteGrouping(groupingSelected.value)">Elimina grouping</button>
+                    <button class="btn btn-danger" id="deleteGroupingBtn" onclick="client.deleteGrouping(groupingSelected.value)">Elimina raggruppamento</button>
                 </div>
 
-                <div id="newGroupingForm" class="form hidden">
+                <div id="newGroupingForm" class="addGroupForm form hidden">
                     <div class="form-group">
-                        <label for="name">Raggruppamento:</label>
+                        <label for="name">Nome:</label>
                         <input type="text" id="groupingName" name="name">
                     </div>
-                    <button class="submit-btn" onclick="client.saveNewGrouping(groupingName.value);common.toggleForm(newGroupingForm)">Submit</button>
+                    <button class="btn btn-primary" onclick="client.saveNewGrouping(groupingName.value);common.toggleForm(newGroupingForm)">Aggiungi</button>
                 </div>
             </div>
 

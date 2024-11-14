@@ -91,10 +91,12 @@ function handleGroupingsHtml(groupings, selectedGrouping) {
     // Clear existing options
     select.innerHTML = '';
 
-    let isDefSelected = _.isEmpty(_.toNumber(selectedGrouping));
+    let isDefSelected = _.isString(selectedGrouping);
+    document.getElementById('addGroupBtn').disabled = isDefSelected;
+    document.getElementById('deleteGroupingBtn').disabled = isDefSelected;    
 
     // Optional: Add default option
-    let defaultOption = new Option('Seleziona un raggruppamento', '', isDefSelected, isDefSelected);
+    let defaultOption = new Option('Seleziona un raggruppamento', 'x', isDefSelected, isDefSelected);
     defaultOption.disabled = true;
     select.appendChild(defaultOption);
 
@@ -105,6 +107,7 @@ function handleGroupingsHtml(groupings, selectedGrouping) {
         else
             select.appendChild(new Option(_.get(group, 'groupingName'), _.get(group, '_id'), false, false));
     });
+    freezePage(false);
 }
 
 /**
@@ -145,6 +148,7 @@ function handleGroupHtml(groups) {
  * @param {*} selectedGrouping Is the grouping that will be shown as selected and whose groups will be loaded
  */
 export function refreshGroupings(selectedGrouping) {
+    freezePage(true);
     fetch('/get-groupings')
         .then(response => response.json())
         .then(data => {
@@ -349,7 +353,7 @@ export function deleteGroup(group) {
 
 /**
  * Renders the full page spinner, won't remove itself unless called again with false parameter
- * @param {Boolean} isToFreeze 
+ * @param {Boolean} isToFreeze
  */
 export function freezePage(isToFreeze) {
     let fullpageSpinner = document.getElementById('fullpage-spinner');
@@ -363,8 +367,8 @@ export function freezePage(isToFreeze) {
 
 /**
  * Sleep function
- * @param {number} ms 
- * @returns 
+ * @param {number} ms
+ * @returns
  */
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));

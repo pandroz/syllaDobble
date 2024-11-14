@@ -654,3 +654,19 @@ button.confirm {
         transform: rotate(360deg);
     }
 }
+
+.btn-info {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: 0;
+    padding: 0.5% 0.7%;
+    font-size: 1.4rem;
+    background-color: transparent;
+}
+
+
+.btn-info:hover {
+    border: 0;
+    transform: translateY(-1px);
+}

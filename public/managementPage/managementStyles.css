@@ -49,12 +49,13 @@
     font-size: 1.1rem;
     color: rgb(112, 128, 144);
     border: 1px solid transparent;
-    padding: 1% 2%;
+    padding: 0.5% 2%;
 }
 
 .groupingButton:hover {
     border: 1px solid rgb(112, 128, 144);
     border-radius: 4px;
+    transform: translateY(-1px);
 }
 
 .grouping {

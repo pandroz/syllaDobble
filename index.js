@@ -78,8 +78,19 @@ app.delete('/delete-grouping', async (req, res) => {
     const success = await mgmt.deleteGrouping(groupingId);
 
     if (success) {
-        res.json({ success: true, message: 'Item deleted successfully' });
+        res.json({ success: true, message: 'Grouping deleted successfully' });
     } else {
-        res.status(500).json({ success: false, error: 'Failed to delete item' });
+        res.status(500).json({ success: false, error: 'Failed to delete grouping' });
+    }
+})
+
+app.delete('/delete-group', async (req, res) => {
+    const data = req.body;
+    const result = await mgmt.deleteGroup(data);
+
+    if (result.success) {
+        res.json({ success: true, message: 'Group deleted successfully', groups: result.groups })
+    } else {
+        res.status(500).json({ success: false, error: 'Failed to delete group: ' + result.error })
     }
 })

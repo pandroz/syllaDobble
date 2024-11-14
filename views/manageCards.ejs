@@ -19,7 +19,9 @@
 
     <script type="text/javascript">
         window.onload = function () {
+            client.freezePage(true);
             client.loadGroupings(1);
+            client.freezePage(false);
             // common.openDialog('dialog_saveError', 'error')
         };
 
@@ -30,6 +32,7 @@
     <%- include('components/header.ejs'); %>
     <%- include('components/modals.ejs'); %>
     <%- include('components/dialog.ejs'); %>
+    <%- include('components/fullPage-spinner.ejs'); %>
 
     <div class="page">
         <div class="pageContainer">
@@ -55,7 +58,7 @@
                         <label for="name">Raggruppamento:</label>
                         <input type="text" id="groupingName" name="name">
                     </div>
-                    <button class="submit-btn" onclick="client.saveNewGrouping(groupingName.value)">Submit</button>
+                    <button class="submit-btn" onclick="client.saveNewGrouping(groupingName.value);common.toggleForm(newGroupingForm)">Submit</button>
                 </div>
             </div>
 

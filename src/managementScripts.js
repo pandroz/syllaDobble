@@ -132,7 +132,6 @@ export async function deleteGrouping(groupingId) {
         });
 
         if (!_.eq(itemIx, -1)) {
-            console.log('jsonData ==> ', jsonData)
             jsonData.splice(itemIx, 1);
         } else {
             return {
@@ -150,9 +149,54 @@ export async function deleteGrouping(groupingId) {
         console.log('[deleteGrouping] Error: ', error)
         return false;
     }
-
-    // jsonData.splice(objectIndex, 1);
-
 }
 
+export async function deleteGroup(data) {
+    try {
+        let jsonData = getJsonData();
+        let groupingId = _.get(data, '_id');
+        let groupToDelete = _.get(data, 'groupid');
+
+        let groups = [];
+
+        let itemIx = _.findIndex(jsonData, {
+            "_id": _.toNumber(groupingId)
+        });
+
+        if (!_.eq(itemIx, -1)) {
+            let groupIx = _.findIndex(jsonData[itemIx].groups, {
+                "groupid": groupToDelete
+            });
+
+            if (!_.eq(groupIx, -1)) {
+                jsonData[itemIx].groups.splice(groupIx, 1);
+                groups = jsonData[itemIx].groups;
+
+                await fs.writeFile(filePath, JSON.stringify(jsonData, null, 2));
+
+                return {
+                    groups: groups,
+                    success: true
+                }
+
+            } else {
+                return {
+                    success: false,
+                    error: "[deleteGroup()] No group found with id: " + groupToDelete
+                };
+            }
+        } else {
+            return {
+                success: false,
+                error: "[deleteGroup()] No grouping found with id" + groupingId
+            };
+        }
+    } catch (error) {
+        console.log('[deleteGrouping] Error: ', error)
+        return {
+            success: false,
+            error: error
+        };
+    }
+}
 

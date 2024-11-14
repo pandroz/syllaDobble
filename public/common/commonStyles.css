@@ -371,8 +371,9 @@ button.confirm {
 
 .custom-select:focus {
     outline: none;
-    border-color: #4CAF50;
-    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+    /* border-color: #4CAF50; */
+    box-shadow: 0 0 0 3px rgba(0, 20, 255, 0.2);
+    /* rgba(76, 175, 80, 0.2); */
 }
 
 /* Custom arrow */
@@ -485,6 +486,10 @@ button.confirm {
 .btn-success:hover {
     background: #047857;
     transform: translateY(-1px);
+}
+
+.btn-delete {
+    color: red;
 }
 
 /* Danger button */
@@ -630,3 +635,22 @@ button.confirm {
         border-color: #4d4d4d;
     }
 } */
+
+.spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

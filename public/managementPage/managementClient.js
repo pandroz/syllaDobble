@@ -47,7 +47,6 @@ export function loadGroupings(groupingId) {
     let groupingData = _.find(GROUPINGS, { _id: groupingId });
     GROUPS = _.get(groupingData, 'groups', []);
     handleGroupHtml(GROUPS);
-    console.log('loadGroupings groupingId ==> ', groupingId, ' GROUPS ==> ', GROUPS)
     refreshGroupings(groupingId);
 }
 
@@ -92,7 +91,7 @@ function handleGroupingsHtml(groupings, selectedGrouping) {
     // Clear existing options
     select.innerHTML = '';
 
-    let isDefSelected = _.isNil(selectedGrouping);
+    let isDefSelected = _.isEmpty(_.toNumber(selectedGrouping));
 
     // Optional: Add default option
     let defaultOption = new Option('Seleziona un raggruppamento', '', isDefSelected, isDefSelected);
@@ -123,8 +122,9 @@ function handleGroupHtml(groups) {
                             <div id="grouping_${groupId}">
                                 <div class="groupingHeader">
                                     <div class="groupingTitle" id="syllableGroup_${groupId}">${_.get(grp, 'syllable', '')}</div>
-                                    <button class="groupingButton" onclick="client.allowEditing(textarea_${groupId}, editGroup_${groupId}, saveGroup_${groupId})" id="editGroup_${groupId}"><i class="fa-solid fa-pencil"></i></button>
-                                    <button class="groupingButton hidden" onclick="client.updateGroup(${groupId}.id, textarea_${groupId}, editGroup_${groupId}, saveGroup_${groupId})" id="saveGroup_${groupId}"><i class="fa-regular fa-floppy-disk"></i></button>
+                                    <button class="groupingButton" onclick="client.allowEditing(textarea_${groupId}, editGroup_${groupId}, saveGroup_${groupId}, deleteGroup_${groupId})" id="editGroup_${groupId}"><i class="fa-solid fa-pencil"></i></button>
+                                    <button class="groupingButton hidden" onclick="client.deleteGroup(${groupId})" id="deleteGroup_${groupId}"><i class="fas fa-times btn-delete"></i></button>
+                                    <button class="groupingButton hidden" onclick="client.updateGroup(${groupId}.id, textarea_${groupId}, editGroup_${groupId}, saveGroup_${groupId}, deleteGroup_${groupId})" id="saveGroup_${groupId}"><i class="fa-regular fa-floppy-disk"></i></button>
                                 </div>
                             <div class="groupingPairs">
                                 <textarea id="textarea_${groupId}" disabled>${_.join(_.get(grp, 'possiblePairing'), '\n')}</textarea>
@@ -163,6 +163,7 @@ export function refreshGroupings(selectedGrouping) {
  * @param {string} newGroupingName Name of the new grouping that gets saved and added to the list
  */
 export function saveNewGrouping(newGroupingName) {
+    freezePage(true);
     const data = { groupName: newGroupingName };
     console.log('Sending data:', data);  // Debug log
 
@@ -176,12 +177,14 @@ export function saveNewGrouping(newGroupingName) {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                console.log('Item added successfully');
+                console.log('New grouping saved successfully');
                 let newId = data.newId
                 loadGroupings(newId);
                 getServerGroups(newId);
+                freezePage(false);
             } else {
                 console.error('Failed to add item:', data.error);
+                freezePage(false);
             }
         })
         .catch(error => console.error('Error:', error));
@@ -211,7 +214,7 @@ export function saveGrouping(groupingid) {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                console.log('Item added successfully');
+                console.log('Grouping saved successfully');
                 // loadGroupings(groupid);
             } else {
                 console.error('Failed to add item:', data.error);
@@ -226,9 +229,10 @@ export function saveGrouping(groupingid) {
  * @param {Element} editGroupButton Shown edit button
  * @param {Element} saveGroupButton Hidden save button
  */
-export function allowEditing(textareaId, editGroupButton, saveGroupButton) {
+export function allowEditing(textareaId, editGroupButton, saveGroupButton, deleteGroupButton) {
     editGroupButton.classList.add('hidden');
     saveGroupButton.classList.remove('hidden');
+    deleteGroupButton.classList.remove('hidden');
     textareaId.disabled = false;
 }
 
@@ -239,11 +243,12 @@ export function allowEditing(textareaId, editGroupButton, saveGroupButton) {
  * @param {*} editGroupButton
  * @param {*} saveGroupButton
  */
-export function updateGroup(groupId, textareaId, editGroupButton, saveGroupButton) {
+export function updateGroup(groupId, textareaId, editGroupButton, saveGroupButton, deleteGroupButton) {
     let groupingId = getSelectedGrouping();
 
     editGroupButton.classList.remove('hidden');
     saveGroupButton.classList.add('hidden');
+    deleteGroupButton.classList.add('hidden');
     textareaId.disabled = true;
 
     let newPairings = _.split(textareaId.value, '\n');
@@ -283,7 +288,8 @@ export function getServerGroups(groupingId) {
 }
 
 export function deleteGrouping(groupingSelected) {
-    console.log('deleteGrouping - LOGIC TODO ');
+    freezePage(true);
+
     let data = {
         "groupingId": groupingSelected
     };
@@ -300,15 +306,66 @@ export function deleteGrouping(groupingSelected) {
             if (data.success) {
                 console.log('Deleted grouping: "', groupingSelected, '", refreshing data');
                 loadGroupings();
+                freezePage(false);
             } else {
                 console.error('Failed to add item:', data.error);
+                freezePage(false);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+export function deleteGroup(group) {
+    // TODO LOGIC TO DELETE GROUP
+    let groupid = group.id;
+    console.log('deleteGroup: groupid: ', groupid)
+
+    let data = {
+        _id: getSelectedGrouping(),
+        groupid: groupid
+    };
+
+    fetch('/delete-group', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log('Deleted group: "', groupid, '", refreshing data');
+                let freshGroups = data.groups || [];
+                GROUPS = freshGroups
+                handleGroupHtml(freshGroups);
+            } else {
+                console.error('Failed to delete groups:', data.error);
             }
         })
         .catch(error => console.error('Error:', error));
 
-    // TODO LOGIC TO DELETE GROUPING
 }
 
-export function deleteGroup(groupSelected) {
-    // TODO LOGIC TO DELETE GROUP
+/**
+ * Renders the full page spinner, won't remove itself unless called again with false parameter
+ * @param {Boolean} isToFreeze 
+ */
+export function freezePage(isToFreeze) {
+    let fullpageSpinner = document.getElementById('fullpage-spinner');
+    console.log('toggling spinner ==> ', isToFreeze)
+    if (isToFreeze) {
+        fullpageSpinner.classList.remove('hidden');
+    } else {
+        fullpageSpinner.classList.add('hidden');
+    }
+}
+
+/**
+ * Sleep function
+ * @param {number} ms 
+ * @returns 
+ */
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }

@@ -70,7 +70,7 @@
     font-size: 1.4rem;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     font-weight: bold;
     text-align: center;
     background-color: transparent;
@@ -95,6 +95,10 @@
     width: 100%;
     display: flex;
     flex-direction: row;
+}
+
+.addGroupForm {
+    width: 11.5%;
 }
 
 .addGroupTemplate {
@@ -127,23 +131,32 @@
 }
 
 .addNewGroupForm {
-    width: 25%;
+    width: 12.5%;
     padding: 1%;
     background: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     animation: slideDown 0.3s ease-out;
     margin-left: 0.5%;
+
 }
 
 .groupingTemplate {
     margin: 2% 1.5%;
 }
 
+.groupAdd {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding: 3% 0%;
+}
 
 .groupingTemplate>.groupingTitle>input,
-.groupingTemplate>.groupingPairs>textarea,
-.groupAdd>div {
-    min-width: 60%;
-    width: 60%;
+.groupingTemplate>.groupingPairs>textarea {
+    width: 97%;
+}
+
+.padGroupspace {
+    margin-left: 14.5%;
 }

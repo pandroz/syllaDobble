@@ -49,8 +49,8 @@
     },
     {
         "_id": "modal_confirmDeletion",
-        "title": "Guida alla pagina",
-        "bodyText": "<div><div><p>Confermare eliminazione?</p></div><div class=\"confirmDeletionBtns\"><button class=\"btn btn-secondary\" onclick=\"common.closeModal(modal_tutorial)\">Annulla</button><button class=\"btn btn-danger\" id=\"deleteGroupingBtn\" onclick=\"client.deleteGrouping(groupingSelected.value)\">Conferma</button></div></div>",
+        "title": "Conferma eliminazione?",
+        "bodyText": "<div><div><p class=\"confirmText\">Confermare eliminazione?</p></div><div class=\"confirmDeletionBtns\"><button class=\"btn btn-secondary\" onclick=\"common.closeModal(modal_tutorial)\">Annulla</button><button class=\"btn btn-danger\" id=\"deleteGroupingBtn\" onclick=\"client.deleteGrouping(groupingSelected.value)\">Conferma</button></div></div>",
         "lang": "IT"
     }
 ]

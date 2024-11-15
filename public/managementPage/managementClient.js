@@ -271,7 +271,7 @@ export function updateGroup(groupId, inputId, textareaId, editGroupButton, saveG
             "syllable": newSyllable
         }
 
-        if(isGroupDifferent(GROUPS[itemIx], updatedGroup)) {
+        if (isGroupDifferent(GROUPS[itemIx], updatedGroup)) {
             GROUPS[itemIx] = updatedGroup;
             saveGrouping(groupingId);
         }
@@ -335,7 +335,6 @@ export function deleteGrouping(groupingSelected) {
 }
 
 export function deleteGroup(group) {
-    // TODO LOGIC TO DELETE GROUP
     let groupid = group.id;
     console.log('deleteGroup: groupid: ', groupid)
 
@@ -380,11 +379,10 @@ export function freezePage(isToFreeze) {
     }
 }
 
-/**
- * Sleep function
- * @param {number} ms
- * @returns
- */
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+export function checkGroupingForm(groupingForm, groupForm) {
+    if (groupingForm.classList.contains('hidden')) {
+        groupForm.classList.add('padGroupspace');
+    } else {
+        groupForm.classList.remove('padGroupspace')
+    }
 }

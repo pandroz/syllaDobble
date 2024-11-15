@@ -93,7 +93,7 @@ function handleGroupingsHtml(groupings, selectedGrouping) {
 
     let isDefSelected = _.isString(selectedGrouping);
     document.getElementById('addGroupBtn').disabled = isDefSelected;
-    document.getElementById('deleteGroupingBtn').disabled = isDefSelected;    
+    document.getElementById('deleteGroupingBtn').disabled = isDefSelected;
 
     // Optional: Add default option
     let defaultOption = new Option('Seleziona un raggruppamento', 'x', isDefSelected, isDefSelected);
@@ -124,10 +124,10 @@ function handleGroupHtml(groups) {
         let groupHtml = `<div class="grouping" id="${groupId}">
                             <div id="grouping_${groupId}">
                                 <div class="groupingHeader">
-                                    <div class="groupingTitle" id="syllableGroup_${groupId}">${_.get(grp, 'syllable', '')}</div>
-                                    <button class="groupingButton" onclick="client.allowEditing(textarea_${groupId}, editGroup_${groupId}, saveGroup_${groupId}, deleteGroup_${groupId})" id="editGroup_${groupId}"><i class="fa-solid fa-pencil"></i></button>
+                                    <input class="groupingTitle" id="syllableGroup_${groupId}" value="${_.get(grp, 'syllable', '')}" disabled></input>
+                                    <button class="groupingButton" onclick="client.allowEditing(syllableGroup_${groupId}, textarea_${groupId}, editGroup_${groupId}, saveGroup_${groupId}, deleteGroup_${groupId})" id="editGroup_${groupId}"><i class="fa-solid fa-pencil"></i></button>
                                     <button class="groupingButton hidden" onclick="client.deleteGroup(${groupId})" id="deleteGroup_${groupId}"><i class="fas fa-times btn-delete"></i></button>
-                                    <button class="groupingButton hidden" onclick="client.updateGroup(${groupId}.id, textarea_${groupId}, editGroup_${groupId}, saveGroup_${groupId}, deleteGroup_${groupId})" id="saveGroup_${groupId}"><i class="fa-regular fa-floppy-disk"></i></button>
+                                    <button class="groupingButton hidden" onclick="client.updateGroup(${groupId}.id, syllableGroup_${groupId}, textarea_${groupId}, editGroup_${groupId}, saveGroup_${groupId}, deleteGroup_${groupId})" id="saveGroup_${groupId}"><i class="fa-regular fa-floppy-disk"></i></button>
                                 </div>
                             <div class="groupingPairs">
                                 <textarea id="textarea_${groupId}" disabled>${_.join(_.get(grp, 'possiblePairing'), '\n')}</textarea>
@@ -233,10 +233,11 @@ export function saveGrouping(groupingid) {
  * @param {Element} editGroupButton Shown edit button
  * @param {Element} saveGroupButton Hidden save button
  */
-export function allowEditing(textareaId, editGroupButton, saveGroupButton, deleteGroupButton) {
+export function allowEditing(inputId, textareaId, editGroupButton, saveGroupButton, deleteGroupButton) {
     editGroupButton.classList.add('hidden');
     saveGroupButton.classList.remove('hidden');
     deleteGroupButton.classList.remove('hidden');
+    inputId.disabled = false;
     textareaId.disabled = false;
 }
 
@@ -247,24 +248,38 @@ export function allowEditing(textareaId, editGroupButton, saveGroupButton, delet
  * @param {*} editGroupButton
  * @param {*} saveGroupButton
  */
-export function updateGroup(groupId, textareaId, editGroupButton, saveGroupButton, deleteGroupButton) {
+export function updateGroup(groupId, inputId, textareaId, editGroupButton, saveGroupButton, deleteGroupButton) {
     let groupingId = getSelectedGrouping();
 
     editGroupButton.classList.remove('hidden');
     saveGroupButton.classList.add('hidden');
     deleteGroupButton.classList.add('hidden');
+    inputId.disabled = true;
     textareaId.disabled = true;
 
-    let newPairings = _.split(textareaId.value, '\n');
+    let newPairings = _.map(_.split(textareaId.value, '\n'), _.trim);
+    let newSyllable = _.trim(inputId.value);
 
     let itemIx = _.findIndex(GROUPS, {
         "groupid": groupId
     });
 
     if (!_.eq(itemIx, -1)) {
-        GROUPS[itemIx].possiblePairing = newPairings;
-        saveGrouping(groupingId)
+        let updatedGroup = {
+            "groupid": groupId,
+            "possiblePairing": newPairings,
+            "syllable": newSyllable
+        }
+
+        if(isGroupDifferent(GROUPS[itemIx], updatedGroup)) {
+            GROUPS[itemIx] = updatedGroup;
+            saveGrouping(groupingId);
+        }
     }
+}
+
+function isGroupDifferent(localGroup, newGroup) {
+    return (!_.isEqual(localGroup, newGroup));
 }
 
 export function getServerGroups(groupingId) {
@@ -357,7 +372,7 @@ export function deleteGroup(group) {
  */
 export function freezePage(isToFreeze) {
     let fullpageSpinner = document.getElementById('fullpage-spinner');
-    console.log('toggling spinner ==> ', isToFreeze)
+
     if (isToFreeze) {
         fullpageSpinner.classList.remove('hidden');
     } else {

@@ -6,6 +6,12 @@
         "body": "<div class=\"modal-content\">\n<div class=\"modal-header\">\n<button class=\"close\" onclick=\"common.closeModal(modal_tutorial)\">&times;</button>\n<h2 id=\"modal-header\">##TitleText##</h2>\n</div>\n<div class=\"modal-body\" id=\"modal-body\">\n##BodyText##\n</div>\n<div class=\"modal-footer\">\n<span></span>\n</div>\n</div>"
     },
     {
+        "_id": "modal_accordionBasic",
+        "title": "Basic Accordion Modal with scripts",
+        "lang": "IT",
+        "body": ""
+    },
+    {
         "_id": "modal_createTutorial",
         "title": "Crea carta",
         "lang": "IT",
@@ -32,20 +38,19 @@
     {
         "_id": "modal_addGroup",
         "title": "Aggiungi un gruppo",
-        "bodyText": "<div class=\"addGroupContainer\"> <div class=\"addGroupTemplate\"><div class=\"grouping\" id=\"grouping_newData\"> <div class=\"groupingTitle\"><label for=\"grouping_syllable\">Sillaba</label><input type=\"text\" id=\"grouping_syllable\" placeholder=\"Sillaba base\" required></div> <div class=\"groupingPairs\"><label class=\"bold\">Possibili combinazioni</label><textarea id=\"grouping_syllables\" required></textarea></div> </div> <div class=\"addGroupBtn\"> <div class=\"confirmBtn\"><button class=\"confirm\" onclick=\"client.addGroup(grouping_syllable.value, grouping_syllables.value)\">AGGIUNGI</button></div> </div></div> <div class=\"addGroupInstructions\"> <p>Per aggiungere un raggruppamento seguire questi passi</p> <ul> <li>Nella casella della Sillaba aggiugnere una sillaba che andrà a unirsi con le sillaba che vogliamo andare a collegare</li> <li>All'interno della casella di testo \"Possibili combinazioni\", <b>andando a capo dopo ogni sillaba</b>, aggiungere tutte le sillabe che possono andarsi a unire con la sillaba di base</li> </ul><span>Il programma poi utilizzerà queste sillabe per creare combinazioni di carte e potrà utilizzarle prendendo casualmente le sillabe inserite nelle possibili combinazioni</span> </div> </div>",
-        "lang": "IT"
-    },
-    {
-        "comment": "DEPRECATED - Non più utilizzata",
-        "_id": "modal_addGrouping",
-        "title": "Aggiungi un raggruppamento",
-        "bodyText": "<div class=\"addGroupingContainer\"> <div class=\"\"> <form> <div class=\"\" id=\"grouping_newGrouping\"> <div class=\"addGroupingInput groupingTitle\"> <label for=\"grouping_name\">Nome raggruppamento</label> <input type=\"text\" id=\"grouping_name\" placeholder=\"Nome raggruppamento\" required> </div> </div> <div class=\"addGroupBtn\"> <div class=\"confirmBtn\"><button class=\"confirm\" onclick=\"client.saveGrouping()\">Aggiungi raggruppamento</button></div> </div> </form> </div> </div>",
+        "bodyText": "<div class=\"addGroupContainer\"> <div class=\"addGroupTemplate\"><div class=\"grouping\" id=\"grouping_newData\"> <div class=\"groupingTitle\"><label for=\"grouping_syllable\">Sillaba</label><input type=\"text\" id=\"grouping_syllable\" placeholder=\"Sillaba base\" required></div> <div class=\"groupingPairs\"><label class=\"bold\">Possibili combinazioni</label><textarea id=\"grouping_syllables\" required></textarea></div> </div> <div class=\"addGroupBtn\"> <div class=\"confirmBtn\"><button class=\"confirm\" onclick=\"client.addGroup(grouping_syllable.value, grouping_syllables.value)\">AGGIUNGI</button></div> </div></div></div>",
         "lang": "IT"
     },
     {
         "_id": "modal_tutorial_management",
         "title": "Guida alla pagina",
-        "bodyText": "<div>Temporary text</div>",
+        "bodyText": "<button onclick=\"openAccordion(this)\" class=\"accordion\">Raggruppamento</button><div class=\"panel\"><p>Guida a cos'è un raggruppamento</p></div>  <button onclick=\"openAccordion(this)\" class=\"accordion\">Aggiungere un nuovo raggruppamento</button><div class=\"panel\"><div class=\"addGroupInstructions\"> <p>Per aggiungere un raggruppamento seguire questi passi</p> <ul> <li>Nella casella della Sillaba aggiugnere una sillaba che andrà a unirsi con le sillaba che vogliamo andare a collegare</li> <li>All'interno della casella di testo \"Possibili combinazioni\", <b>andando a capo dopo ogni sillaba</b>, aggiungere tutte le sillabe che possono andarsi a unire con la sillaba di base</li> </ul><span>Il programma poi utilizzerà queste sillabe per creare combinazioni di carte e potrà utilizzarle prendendo casualmente le sillabe inserite nelle possibili combinazioni</span> </div></div>",
+        "lang": "IT"
+    },
+    {
+        "_id": "modal_confirmDeletion",
+        "title": "Guida alla pagina",
+        "bodyText": "<div><div><p>Confermare eliminazione?</p></div><div class=\"confirmDeletionBtns\"><button class=\"btn btn-secondary\" onclick=\"common.closeModal(modal_tutorial)\">Annulla</button><button class=\"btn btn-danger\" id=\"deleteGroupingBtn\" onclick=\"client.deleteGrouping(groupingSelected.value)\">Conferma</button></div></div>",
         "lang": "IT"
     }
 ]

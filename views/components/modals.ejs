@@ -7,6 +7,18 @@
             }
         });
     }
+
+    function openAccordion(elem) {
+        elem.classList.toggle("active");
+        var panel = elem.nextElementSibling;
+        if (panel.style.maxHeight) {
+            panel.style.maxHeight = null;
+        } else {
+            panel.style.maxHeight = panel.scrollHeight + "px";
+        }
+    }
+
+
 </script>
 
 <div id="modal_tutorial" class="modal">

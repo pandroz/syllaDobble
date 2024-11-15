@@ -43,6 +43,7 @@
 .groupingHeader {
     display: flex;
     align-items: center;
+    width: 100%;
 }
 
 .groupingButton {
@@ -61,33 +62,34 @@
 
 .grouping {
     margin: 2% 1.5%;
+    width: 12.5%;
 }
 
 .groupingTitle {
     width: 100%;
     font-size: 1.4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     font-weight: bold;
     text-align: center;
+    background-color: transparent;
+    border: 0;
+}
+
+.groupingPairs {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .groupingPairs>textarea {
     resize: none;
     min-height: 5cm;
+    width: 95%;
     font-size: 1.2rem;
 }
 
-.modal-body>.addGroupContainer>.addGroupTemplate>.grouping,
-.modal-body>.addGroupContainer>.addGroupTemplate>.grouping>form>.groupingTitle,
-.modal-body>.addGroupContainer>.addGroupTemplate>.grouping>form>.groupingPairs {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.modal-body>.addGroupContainer>.addGroupTemplate>.grouping>.groupingTitle>input {
-    width: 100%;
-    margin-bottom: 0.5%;
-}
 
 .addGroupContainer {
     width: 100%;
@@ -95,13 +97,8 @@
     flex-direction: row;
 }
 
-.addGroupInstructions {
-    width: 84%;
-    padding: 1%;
-}
-
 .addGroupTemplate {
-    width: 16%;
+    width: 24%;
 }
 
 .addGroupTemplate>div {
@@ -127,4 +124,26 @@
 
 .addGroupingInput>input[type=text]:focus-visible {
     outline: none;
+}
+
+.addNewGroupForm {
+    width: 25%;
+    padding: 1%;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    animation: slideDown 0.3s ease-out;
+    margin-left: 0.5%;
+}
+
+.groupingTemplate {
+    margin: 2% 1.5%;
+}
+
+
+.groupingTemplate>.groupingTitle>input,
+.groupingTemplate>.groupingPairs>textarea,
+.groupAdd>div {
+    min-width: 60%;
+    width: 60%;
 }

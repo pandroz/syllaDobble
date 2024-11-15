@@ -42,15 +42,17 @@
             <div class="settingsContainer">
                 <div class="buttonContainer">
                     <button class="btn btn-primary" id="toggle-btn" onclick="common.toggleForm(newGroupingForm)">Nuovo raggruppamento</button>
-                    <button class="btn btn-primary" id="addGroupBtn" onclick="common.openModal('modal_addGroup')">Aggiungi gruppo</button>
+                    <button class="btn btn-primary" id="addGroupBtn" onclick="common.toggleForm(addNewGroupForm)">Aggiungi gruppo</button>
                     <div class="select-container">
                         <select class="custom-select" id="groupingSelected" onchange="client.loadGroupings(this.value);">
                             <option value="x" selected disabled>Seleziona un raggruppamento</option>
                         </select>
                     </div>
-                    <button class="btn btn-danger" id="deleteGroupingBtn" onclick="client.deleteGrouping(groupingSelected.value)">Elimina raggruppamento</button>
+                    <!-- <button class="btn btn-danger" id="deleteGroupingBtn" onclick="client.deleteGrouping(groupingSelected.value)">Elimina raggruppamento</button> -->
+                    <button class="btn btn-danger" id="deleteGroupingBtn" onclick="common.openModal('modal_confirmDeletion')">Elimina raggruppamento</button>
                 </div>
-
+                
+                <!-- New grouping form -->
                 <div id="newGroupingForm" class="addGroupForm form hidden">
                     <div class="form-group">
                         <label for="name">Nome:</label>
@@ -58,10 +60,33 @@
                     </div>
                     <button class="btn btn-primary" onclick="client.saveNewGrouping(groupingName.value);common.toggleForm(newGroupingForm)">Aggiungi</button>
                 </div>
+                <!-- END New grouping form -->
             </div>
 
-            <div class="groupingsTitle subtitle">Raggruppamenti selezionati</div>
+            <div class="groupingsTitle subtitle">Raggruppamenti</div>
             <div class="syllableContainer">
+                <!-- New group form -->
+                <div id="addNewGroupForm" class="addNewGroupForm hidden">
+                    <div class="groupingTemplate" id="grouping_newData">
+                        <div class="groupingTitle">
+                            <label for="grouping_syllable">Sillaba</label>
+                            <input type="text" id="grouping_syllable" placeholder="Sillaba base" required="">
+                        </div>
+                        <div class="groupingPairs">
+                            <label class="bold">Possibili combinazioni</label>
+                            <textarea id="grouping_syllables"required=""></textarea>
+                        </div>
+                        
+                        <div class="groupAdd">
+                            <button class="btn btn-primary" onclick="client.addGroup(grouping_syllable.value, grouping_syllables.value)">AGGIUNGI</button>
+                        </div>
+                    </div>
+                    
+                        
+                    
+                </div>
+                <!-- END New group form -->
+
                 <div class="groupingContainer" id="groupingContainer">
                 </div>
             </div>

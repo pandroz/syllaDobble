@@ -58,22 +58,27 @@ export function loadGroupings(groupingId) {
  * @param {*} grouping_syllables Syllables in the textarea
  */
 export function addGroup(grouping_syllable, grouping_syllables) {
-    GROUPS = getGroups();
-    grouping_syllable = _.trim(grouping_syllable);
-    grouping_syllables = _.compact(_.map(_.split(grouping_syllables, '\n'), _.trim));
+    
+    let syllable = _.trim(grouping_syllable.value);
+    let possiblePairing = _.compact(_.map(_.split(grouping_syllables.value, '\n'), _.trim));
 
+    GROUPS = getGroups();
+    
     let groupid = uniqueGroupID()
 
-    if (!_.isEmpty(grouping_syllable) && !_.isEmpty(grouping_syllables)) {
+    if (!_.isEmpty(syllable) && !_.isEmpty(possiblePairing)) {
 
         GROUPS.push({
             groupid: groupid,
-            syllable: grouping_syllable,
-            possiblePairing: grouping_syllables
+            syllable: syllable,
+            possiblePairing: possiblePairing
         });
 
         handleGroupHtml(GROUPS);
         saveGrouping(getSelectedGrouping());
+        
+        grouping_syllable.value = null;
+        grouping_syllables.value = null;
     }
 }
 

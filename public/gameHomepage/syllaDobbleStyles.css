@@ -17,26 +17,33 @@
     flex-direction: column;
 }
 
-.cardsContainer {
-    padding: 0% 2%
-}
-
 .templatingContainer {
-    width: 98%;
-    height: 100%;
-    padding: 0% 0% 0% 2%;
+    width: 100%;
+    min-height: 100%;
     display: flex;
     flex-direction: row;
     border-top: 1px solid rgba(102, 102, 102, 0.712);
-    border-bottom: 1px solid rgba(102, 102, 102, 0.712);
+    position: relative;
 }
 
-.templatingContainer>div {
-    width: 50%;
-    height: 100%;
+.templateCardContainer {
+    height: 100vh;
+    width: 65%;
+    padding: 1% 2%;
+}
+
+.cardsContainer {
+    width: 35%;
+    padding: 0% 2%;
+    border-left: 1px solid rgba(102, 102, 102, 0.712); 
+}
+
+.cardsContainer > .cardsSect {
+    width: 100%;
 }
 
 .descriptionSection {
+    position: relative;
     display: flex;
     flex-direction: row;
 }
@@ -48,6 +55,7 @@
 }
 
 .cardsSect {
+    width: 35%;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -76,6 +84,15 @@
     font-size: 24px;
     page-break-inside: avoid;
     background-color: white;
+}
+
+.card.templateCard {
+    width: 10cm;
+    height: 10cm;
+}
+
+.card.templateCard > div > input, .card.templateCard > div > div{
+    font-size: 2rem;
 }
 
 .card>div>input[type=text] {
@@ -156,14 +173,12 @@ input:nth-child(4) {
 }
 
 .settingsSect {
+    height: auto;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: nowrap;
-    align-content: normal;
-    justify-content: space-between;
-    align-items: normal;
-    width: 60%;
-    margin-top: 1%;
+    justify-content: flex-start;
+    margin-right: 5%;
 }
 
 .settingsSect>div>label {
@@ -174,7 +189,7 @@ input:nth-child(4) {
 .settingsSect>div {
     display: flex;
     flex-direction: column;
-    padding: 0px 10px 0px 0px;
+    align-items: flex-start;
 }
 
 .addItemInput {
@@ -187,10 +202,8 @@ input:nth-child(4) {
 }
 
 .removeCardBtn {
-    width: 15px;
-    height: 20px;
-    padding: 0;
-    border: 1px solid;
+    width: 25px !important;
+    height: 25px !important;
 }
 
 .resetBtn {
@@ -203,17 +216,19 @@ input:nth-child(4) {
 }
 
 .actionButtonsContainer {
-    width: 100%;
+    width: 15%;
     display: flex;
 }
 
 .actionButtons {
-    width: 65%;
+    padding: 0 2%;
     display: flex;
-    flex-direction: row;
-    align-content: flex-end;
-    justify-content: space-between;
-    align-items: flex-end;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.actionButtons > button, .actionButtons > label {
+    margin-top: 5%;
 }
 
 .fileManage {
@@ -243,4 +258,10 @@ input:nth-child(4) {
     border: 0px;
     background-color: transparent;
     text-decoration: underline;
+}
+
+.labelBtn {
+    width: 80px !important;
+    height: 18px !important;
+    padding: 10px 0px !important;
 }

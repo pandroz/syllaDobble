@@ -7,12 +7,31 @@
     .no-print * {
         display: none !important;
     }
+
+    .must-print {
+        display: block !important;
+        width: 100%;
+    }
+
+    .card {
+        width: 5cm;
+        height: 5cm;
+    }
+
+    .cardsContainer {
+        border: 0;
+        width: 100%;
+    }
+
+    .cardsContainer > .cardsSect {
+        width: 100%;
+    }
 }
 
 body {
     background-color: rgba(255, 253, 209, 0.1);
-    width: 100%;
-    height: 100%;
+    width: 100% !important;
+    height: 100% !important;
     border: 0;
     padding: 0;
     margin: 0;
@@ -42,7 +61,7 @@ body {
 .page {
     /* 21,0 cm x 29,7 cm */
     width: 100% !important;
-    height: 100%;
+    height: 100vh;
 }
 
 .header {
@@ -398,9 +417,7 @@ button.confirm {
 
 .custom-select:focus {
     outline: none;
-    /* border-color: #4CAF50; */
     box-shadow: 0 0 0 3px rgba(0, 20, 255, 0.2);
-    /* rgba(76, 175, 80, 0.2); */
 }
 
 /* Custom arrow */
@@ -438,19 +455,6 @@ button.confirm {
     opacity: 0.7;
 }
 
-/* .button-container {
-    display: grid;
-    gap: 20px;
-    padding: 20px;
-    max-width: 600px;
-    margin: 0 auto;
-} */
-
-/* .button-row {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-} */
 
 /* Base button styles */
 .btn {
@@ -710,6 +714,16 @@ button.confirm {
     font-weight: bold;
 }
 
+button.accordion:first-of-type {
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
+
+button.accordion:last-of-type {
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
 .active,
 .accordion:hover {
     background-color: #ccc;
@@ -717,7 +731,6 @@ button.confirm {
 
 .accordion:after {
     content: '\02C5';
-    /* color: #777; */
     font-weight: bold;
     float: right;
     margin-left: 5px;
@@ -743,10 +756,237 @@ button.confirm {
     margin-top: -2.5%;
 }
 
-.confirmDeletionBtns > button {
+.confirmDeletionBtns>button {
     margin-left: 1%
 }
 
 .confirmText {
     font-size: 1.4rem;
+}
+
+.tutorialHeader {
+    padding-bottom: 1%;
+}
+
+
+.color-input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    width: 1cm;
+    height: 1cm;
+    border: 1px solid rgb(95, 94, 94);
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 0;
+}
+
+/* Focus style for the wrapper */
+.color-input:focus+.color-preview {
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px #3b82f6;
+}
+
+/* Style for color input in Webkit browsers */
+.color-input::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.color-input::-webkit-color-swatch {
+    border: none;
+    border-radius: 8px;
+}
+
+/* Style for color input in Firefox */
+.color-input::-moz-color-swatch {
+    border: none;
+    border-radius: 8px;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .color-label {
+        color: #e5e7eb;
+    }
+
+    .color-preview {
+        background: #374151;
+    }
+
+    .selected-color {
+        color: #9ca3af;
+        background: #1f2937;
+    }
+
+    .color-input:focus+.color-preview {
+        box-shadow: 0 0 0 2px #1f2937, 0 0 0 4px #3b82f6;
+    }
+}
+
+/* Base tooltip styles */
+.tooltip-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip-trigger {
+    transition: all 0.2s ease;
+}
+
+.tooltip-trigger:hover {
+    background: #f9fafb;
+}
+
+.tooltip {
+    position: absolute;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    line-height: 1.4;
+    color: white;
+    background: #1f2937;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    pointer-events: none;
+    opacity: 0;
+    transition: all 0.2s ease;
+    max-width: 200px;
+    width: max-content;
+    z-index: 10;
+}
+
+/* Basic tooltip positions */
+.tooltip-top {
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(5px);
+    margin-bottom: 5px;
+}
+
+.tooltip-bottom {
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-5px);
+    margin-top: 5px;
+}
+
+.tooltip-left {
+    right: 100%;
+    top: 50%;
+    transform: translateY(-50%) translateX(5px);
+    margin-right: 5px;
+}
+
+.tooltip-right {
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%) translateX(-5px);
+    margin-left: 5px;
+}
+
+/* Show tooltip on hover */
+.tooltip-wrapper:hover .tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.tooltip-wrapper:hover .tooltip.tooltip-left {
+    transform: translateY(-50%) translateX(0);
+}
+
+.tooltip-wrapper:hover .tooltip.tooltip-right {
+    transform: translateY(-50%) translateX(0);
+}
+
+/* Arrows */
+.tooltip::before {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: inherit;
+    transform: rotate(45deg);
+}
+
+.tooltip-top::before {
+    bottom: -4px;
+    left: 50%;
+    margin-left: -4px;
+}
+
+.tooltip-bottom::before {
+    top: -4px;
+    left: 50%;
+    margin-left: -4px;
+}
+
+.tooltip-left::before {
+    right: -4px;
+    top: 50%;
+    margin-top: -4px;
+}
+
+.tooltip-right::before {
+    left: -4px;
+    top: 50%;
+    margin-top: -4px;
+}
+
+/* Variants */
+.tooltip-info {
+    background: #3b82f6;
+}
+
+.tooltip-success {
+    background: #059669;
+}
+
+.tooltip-warning {
+    background: #f59e0b;
+}
+
+.tooltip-error {
+    background: #dc2626;
+}
+
+/* Custom animations */
+.tooltip-fade {
+    transition: opacity 0.2s ease;
+    transform: none !important;
+}
+
+.tooltip-scale {
+    transition: all 0.2s ease;
+    transform: translateX(-50%) scale(0.9) !important;
+}
+
+.tooltip-wrapper:hover .tooltip-scale {
+    transform: translateX(-50%) scale(1) !important;
+}
+
+.rotate90 {
+    -webkit-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform-origin: center center;
+    /* Add both translate and rotate */
+    transform: translate(-33%, 115%) rotate(90deg);
+}
+
+.rotate0 {
+    transform-origin: center center;
+    /* Add both translate and rotate */
+    transform: translate(-33%, 115%) rotate(0deg);
+}
+
+.groupingButton {
+    background-color: transparent;
+    font-size: 1.1rem;
+    color: rgb(112, 128, 144);
+    border: 1px solid transparent;
+    padding: 0.5% 2%;
+}
+
+.groupingButton:hover {
+    border: 1px solid rgb(112, 128, 144);
+    border-radius: 4px;
+    transform: translateY(-1px);
 }

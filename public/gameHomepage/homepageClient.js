@@ -32,7 +32,7 @@ export function loadCard(cardData) {
     let isCardGlobalTextCol = cardGlobalTextCol !== '#000000';
 
     let cardHtml = `<div class="cardContainer" id="${newCardUUID}">
-                    <button class="removeCardBtn no-print" onclick="client.removeCard(${newCardUUID})">X</button>
+                        <button class="removeCardBtn groupingButton no-print" onclick="client.removeCard(${newCardUUID})"><i class="fas fa-times btn-delete"></i></button>
                         <div class="card" style="background-color: ${cardBg} !important; border-color: ${cardBorder}; color: ${cardGlobalTextCol}" id="card_${newCardUUID}">
                             <div class="cardRowTop">
                                 <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(cardData, 'colTopL')}">${_.get(cardData, 'inTopRowL', '')}</div>
@@ -68,7 +68,6 @@ export function removeCard(element) {
 }
 
 export function resetGlobals() {
-    // #000000
     let cardGlobalTextCol = document.getElementById('cardGlobalTextCol');
     cardGlobalTextCol.value = "#000000";
 
@@ -79,9 +78,12 @@ export function resetGlobals() {
     cardBorder.value = "#000000";
 
     let templateCard = document.getElementById('templateCard');
+    let previewCard = document.getElementById('previewCard');
+
     templateCard.style.backgroundColor = 'transparent';
     templateCard.style.borderColor = "#000000";
-
+    previewCard.style.backgroundColor = 'transparent';
+    previewCard.style.borderColor = "#000000";
 }
 
 export function stampaPagine() {
@@ -136,26 +138,33 @@ export function clearTemplate(cardKeys) {
     _.each(cardKeys, key => {
         if (!_.includes(['cardBg', 'cardBorder', 'cardGlobalTextCol'], key)) {
             let element = document.getElementById(key);
-            if (_.startsWith(key, 'in'))
+            let prevElement = document.getElementById('prev' + _.replace(_.replace(key, 'in', ''), 'Row', ''));
+            if (_.startsWith(key, 'in')) {
                 element.value = '';
-            else if (_.startsWith(key, 'col'))
+                prevElement.innerHTML = '';
+            } else if (_.startsWith(key, 'col')) {
                 element.value = '#000000';
+            }
         }
-    })
+    });
 }
 
 export function updateCard(element) {
     let elementId = element.id;
     let templateCard = document.getElementById('templateCard')
+    let previewCard = document.getElementById('previewCard')
     switch (elementId) {
         case 'cardBg':
             templateCard.style.backgroundColor = element.value;
+            previewCard.style.backgroundColor = element.value;
             break;
         case 'cardBorder':
             templateCard.style.borderColor = element.value;
+            previewCard.style.borderColor = element.value;
             break;
         case 'cardGlobalTextCol':
             templateCard.style.color = element.value;
+            previewCard.style.color = element.value;
             break;
         default:
             break;
@@ -168,4 +177,15 @@ export function updateCard(element) {
 export function logCards() {
     console.log('CARDS ==> ', CARDS);
     return CARDS;
+}
+
+export function syncPreview(itemToSync) {
+    let elemTemplId = itemToSync.id;
+    let elemPrevId = document.getElementById('prev' + _.replace(_.replace(_.replace(elemTemplId, 'in', ''), 'Row', ''), 'col', ''));
+
+    if (_.includes(elemTemplId, 'col')) {
+        elemPrevId.style.color = itemToSync.value;
+    } else {
+        elemPrevId.innerHTML = itemToSync.value;
+    }
 }

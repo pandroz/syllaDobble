@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="en">
 
 <head>
     <title>Log-obble</title>
@@ -18,141 +18,152 @@
 <body>
     <div class="page">
         <%- include('components/header.ejs'); %>
-        <%- include('components/modals.ejs'); %>
-        <%- include('components/dialog.ejs'); %>
 
-        <div class="templatingContainer no-print">
-            <div class="templateCardContainer">
-                <div class="buttonSect no-print">
+        <div class="templatingContainer">
+            <button onclick="common.openModal('modal_tutorial_cardCreation')" class="btn-info no-print"><i
+                    class="fa-solid fa-question"></i></button>
+            <div class="templateCardContainer  no-print">
+                <div class="buttonSect">
                     <div class="subtitle">
                         <span>Impostazioni carta da aggiungere</span>
                     </div>
                     <div class="undertitle">
                         <span>Premi sulle opzioni per cambiare la carta</span>
                     </div>
+                </div>
+
+                <div class="flexRow">
                     <div class="settingsSect">
                         <div>
                             <label for="cardBg">Sfondo</label>
-                            <input type="color" id="cardBg" name="cardBg" value="#FFFFFF" onchange="client.updateCard(this)" />
+                            <input type="color" class="color-input" id="cardBg" name="cardBg" value="#FFFFFF"
+                                onchange="client.updateCard(this)" />
                         </div>
                         <div>
                             <label for="cardBorder">Bordo</label>
-                            <input type="color" id="cardBorder" name="cardBorder" value="#000000"
+                            <input type="color" class="color-input" id="cardBorder" name="cardBorder" value="#000000"
                                 onchange="client.updateCard(this)" />
                         </div>
                         <div>
-                            <label for="cardGlobalTextCol">Colore testo</label>
-                            <input type="color" id="cardGlobalTextCol" name="cardGlobalTextCol" value="#000000"
-                                onchange="client.updateCard(this)" />
-                        </div>
-                        <div>
-                            <div><span class="smallText">Reset defaults <i class="fas fa-info-circle"
-                                        title="Reimposta valori predefiniti dei campi per il template della carta"></i></span>
-                            </div>
-                            <input type="button" value="Reset" class="resetBtn" onclick="client.resetGlobals()" />
+                            <label for="cardGlobalTextCol">Testo</label>
+                            <input type="color" class="color-input" id="cardGlobalTextCol" name="cardGlobalTextCol"
+                                value="#000000" onchange="client.updateCard(this)" />
                         </div>
                     </div>
 
-                </div>
-                <div class="templateCardSect cardsSect no-print">
-                    <form action="#">
+
+                    <div class="templateCardSect cardsSect no-print">
                         <div class="card templateCard" id="templateCard">
                             <div class="cardRowTop">
-                                <input type="text" class="templateCard" id="inTopRowL" name="inTopRowL">
-                                <input type="color" class="textColorPicker" id="colTopL" name="colTopL">
-                                <input type="text" class="templateCard" id="inTopRowM" name="inTopRowM">
-                                <input type="color" class="textColorPicker" id="colTopM" name="colTopM">
-                                <input type="text" class="templateCard" id="inTopRowR" name="inTopRowR">
-                                <input type="color" class="textColorPicker" id="colTopR" name="colTopR">
+                                <input type="text" class="templateCard" id="inTopRowL"
+                                    onchange="client.syncPreview(inTopRowL)" name="inTopRowL">
+                                <input type="color" class="textColorPicker" id="colTopL"
+                                    onchange="client.syncPreview(colTopL)" name="colTopL">
+                                <input type="text" class="templateCard" id="inTopRowM"
+                                    onchange="client.syncPreview(inTopRowM)" name="inTopRowM">
+                                <input type="color" class="textColorPicker" id="colTopM"
+                                    onchange="client.syncPreview(colTopM)" name="colTopM">
+                                <input type="text" class="templateCard" id="inTopRowR"
+                                    onchange="client.syncPreview(inTopRowR)" name="inTopRowR">
+                                <input type="color" class="textColorPicker" id="colTopR"
+                                    onchange="client.syncPreview(colTopR)" name="colTopR">
                             </div>
 
                             <div class="cardRowMid">
-                                <input type="text" class="templateCard" id="inMidRowL" name="inMidRowL">
-                                <input type="color" class="textColorPicker" id="colMidL" name="colMidL">
-                                <input type="text" class="templateCard" id="inMidRowM" name="inMidRowM">
-                                <input type="color" class="textColorPicker" id="colMidM" name="colMidM">
-                                <input type="text" class="templateCard" id="inMidRowR" name="inMidRowR">
-                                <input type="color" class="textColorPicker" id="colMidR" name="colMidR">
+                                <input type="text" class="templateCard" id="inMidRowL"
+                                    onchange="client.syncPreview(inMidRowL)" name="inMidRowL">
+                                <input type="color" class="textColorPicker" id="colMidL"
+                                    onchange="client.syncPreview(colMidL)" name="colMidL">
+                                <input type="text" class="templateCard" id="inMidRowM"
+                                    onchange="client.syncPreview(inMidRowM)" name="inMidRowM">
+                                <input type="color" class="textColorPicker" id="colMidM"
+                                    onchange="client.syncPreview(colMidM)" name="colMidM">
+                                <input type="text" class="templateCard" id="inMidRowR"
+                                    onchange="client.syncPreview(inMidRowR)" name="inMidRowR">
+                                <input type="color" class="textColorPicker" id="colMidR"
+                                    onchange="client.syncPreview(colMidR)" name="colMidR">
                             </div>
 
                             <div class="cardRowBottom">
-                                <input type="text" class="templateCard" id="inBotRowL" name="inBotRowL">
-                                <input type="color" class="textColorPicker" id="colBotL" name="colBotL">
-                                <input type="text" class="templateCard" id="inBotRowM" name="inBotRowM">
-                                <input type="color" class="textColorPicker" id="colBotM" name="colBotM">
-                                <input type="text" class="templateCard" id="inBotRowR" name="inBotRowR">
-                                <input type="color" class="textColorPicker" id="colBotR" name="colBotR">
+                                <input type="text" class="templateCard" id="inBotRowL"
+                                    onchange="client.syncPreview(inBotRowL)" name="inBotRowL">
+                                <input type="color" class="textColorPicker" id="colBotL"
+                                    onchange="client.syncPreview(colBotL)" name="colBotL">
+                                <input type="text" class="templateCard" id="inBotRowM"
+                                    onchange="client.syncPreview(inBotRowM)" name="inBotRowM">
+                                <input type="color" class="textColorPicker" id="colBotM"
+                                    onchange="client.syncPreview(colBotM)" name="colBotM">
+                                <input type="text" class="templateCard" id="inBotRowR"
+                                    onchange="client.syncPreview(inBotRowR)" name="inBotRowR">
+                                <input type="color" class="textColorPicker" id="colBotR"
+                                    onchange="client.syncPreview(colBotR)" name="colBotR">
                             </div>
                         </div>
-                    </form>
+                    </div>
+
+
                     <div class="actionButtonsContainer">
                         <div class="actionButtons">
-                            <button onclick="client.getValues()">Aggiungi carta</button>
-                            <button onclick="client.stampaPagine()">Stampa carte</button>
-                            <!-- SAVE BUTTON -->
-                            <div>
-                                <div><span style="text-align: start;" class="smallText">Salva carte <i
-                                            class="fas fa-info-circle"
-                                            title="Salva le carte presenti nella sezione 'LE TUE CARTE'"></i></span>
+                            <div class="tooltip-wrapper">
+                                <div class="tooltip tooltip-top tooltip-info">Reimposta valori predefiniti dei campi
                                 </div>
-                                <input type="button" value="Salva" class="saveBtn" onclick="client.saveCards()" />
+                                <button type="button" class="btn btn-secondary"
+                                    onclick="client.resetGlobals()">Reset</button>
                             </div>
+                            <button class="btn btn-primary" onclick="client.getValues()">Aggiungi</button>
+                            <button class="btn btn-primary" onclick="client.stampaPagine()">Stampa</button>
+                            <button class="btn btn-primary" class="saveBtn" onclick="client.saveCards()">Salva</button>
                             <!-- UPLOAD BUTTON -->
-                            <div>
-                                <div><span style="text-align: start;" class="smallText">Carica carte <i
-                                            class="fas fa-info-circle"
-                                            title="Seleziona il file salvato in precedenza per caricarle nella sezione 'LE TUE CARTE'"></i></span>
-                                </div>
-                                <input type="file" id="cardsUpload" onchange="client.uploadCards(this)" />
-                            </div>
-                            <button style="display: none" onclick="client.logCards()">LOG CARDS</button>
-
-
+                            <input type="file" id="cardsUpload" onchange="client.uploadCards(this)"
+                                style="display: none;" />
+                            <label for="cardsUpload" class="btn btn-primary labelBtn">Carica</label>
+                            <button class="btn btn-primary" style="display: none" onclick="client.logCards()">LOG
+                                CARDS</button>
                         </div>
                     </div>
+
+
+                    <div class="templateCardSect cardsSect no-print">
+                        <div class="card templateCard" id="previewCard">
+                            <div class="cardRowTop">
+                                <div class="templateCard" id="prevTopL" name="inTopRowL"></div>
+                                <div class="templateCard" id="prevTopM" name="inTopRowM"></div>
+                                <div class="templateCard" id="prevTopR" name="inTopRowR"></div>
+                            </div>
+
+                            <div class="cardRowMid">
+                                <div class="templateCard" id="prevMidL" name="inMidRowL"></div>
+                                <div class="templateCard" id="prevMidM" name="inMidRowM"></div>
+                                <div class="templateCard" id="prevMidR" name="inMidRowR"></div>
+                            </div>
+
+                            <div class="cardRowBottom">
+                                <div class="templateCard" id="prevBotL" name="inBotRowL"></div>
+                                <div class="templateCard" id="prevBotM" name="inBotRowM"></div>
+                                <div class="templateCard" id="prevBotR" name="inBotRowR"></div>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
 
+            <div class="cardsContainer">
+                <div class="loadedCardsSect">
+                    <div class="title no-print">
+                        <h3>LE TUE CARTE</h3>
+                    </div>
 
-            <div class="descriptionSection">
-                <svg height="500" width="1" xmlns="http://www.w3.org/2000/svg">
-                    <line x1="0" y1="0" x2="0" y2="100%" style="stroke:rgba(102, 102, 102, 0.712);stroke-width:3" />
-                    Sorry, your browser does not support inline SVG.
-                </svg>
-                <div class="instructionSect">
-                    <div class="subtitle">
-                        <span>Cosa puoi fare con questo tool:</span>
-                    </div>
-                    <div class="undertitle">
-                        <span>Premi sulle opzioni per aprire un tutorial di ognuna</span>
-                    </div>
-                    <ul>
-                        <li><button onclick="common.openModal('modal_createTutorial')" id="createTutorial">Creare
-                                carte</button></li>
-                        <li><button onclick="common.openModal('modal_saveTutorial')" id="saveTutorial">Salvare
-                                carte</button></li>
-                        <li><button onclick="common.openModal('modal_loadTutorial')" id="saveTutorial">Caricare
-                                carte</button></li>
-                        <li><button onclick="common.openModal('modal_printTutorial')"
-                                id="saveTutorial">Stampare carte</button></li>
-                    </ul>
+                </div>
+
+                <div class="cardsSect must-print" id="cardsSectId">
 
                 </div>
             </div>
         </div>
-
-        <div class="cardsContainer">
-            <div class="loadedCardsSect">
-                <div class="title no-print">
-                    <h3>LE TUE CARTE</h3>
-                </div>
-
-            </div>
-
-            <div class="cardsSect" id="cardsSectId">
-
-            </div>
-        </div>
+        <%- include('components/modals.ejs'); %>
+        <%- include('components/dialog.ejs'); %>
     </div>
 </body>
 

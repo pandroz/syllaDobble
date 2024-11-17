@@ -26,7 +26,7 @@
     {
         "_id": "modal_confirmDeletion",
         "title": "Conferma eliminazione?",
-        "bodyText": "<div><div><p class=\"confirmText\">Confermare eliminazione?</p></div><div class=\"confirmDeletionBtns\"><button class=\"btn btn-secondary\" onclick=\"common.closeModal(modal_tutorial)\">Annulla</button><button class=\"btn btn-danger\" id=\"deleteGroupingBtn\" onclick=\"client.deleteGrouping(groupingSelected.value)\">Conferma</button></div></div>",
+        "bodyText": "<div><div><p class=\"confirmText\">Confermare eliminazione?</p></div><div class=\"confirmDeletionBtns\"><button class=\"btn btn-secondary\" onclick=\"common.closeModal(modal_tutorial)\">Annulla</button><button class=\"btn btn-danger\" id=\"deleteGroupingBtn\" onclick=\"client.deleteGrouping(groupingSelected.value);common.closeModal(modal_tutorial)\">Conferma</button></div></div>",
         "lang": "IT"
     }
 ]

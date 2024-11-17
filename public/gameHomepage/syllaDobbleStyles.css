@@ -19,7 +19,6 @@
 
 .templatingContainer {
     width: 100%;
-    min-height: 100%;
     display: flex;
     flex-direction: row;
     border-top: 1px solid rgba(102, 102, 102, 0.712);
@@ -27,7 +26,6 @@
 }
 
 .templateCardContainer {
-    height: 100vh;
     width: 65%;
     padding: 1% 2%;
     position: relative;
@@ -35,12 +33,16 @@
 
 .cardsContainer {
     width: 35%;
-    padding: 0% 2%;
-    border-left: 1px solid rgba(102, 102, 102, 0.712);
 }
 
 .cardsContainer>.cardsSect {
     width: 100%;
+    overflow-y: scroll;
+}
+
+.cardsSectPad {
+    width: 100%;
+    height: 20vh;
 }
 
 .descriptionSection {
@@ -61,6 +63,7 @@
     flex-direction: row;
     justify-content: flex-start;
     flex-wrap: wrap;
+    max-height: 83.4vh;
 }
 
 .templateCard {
@@ -324,8 +327,8 @@ input:nth-child(4) {
 .dropdown-content button:hover,
 .dropdown-content div:hover,
 .dropdown-content label:hover {
-    /* background-color: rgba(247, 250, 252); */
-    background-color: rgb(156, 159, 161);
+    background-color: rgba(247, 250, 252);
+    /* background-color: rgb(156, 159, 161); */
     color: #1a202c;
 }
 

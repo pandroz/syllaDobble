@@ -23,6 +23,22 @@
             <button onclick="common.openModal('modal_tutorial_cardCreation')" class="btn-info no-print"><i
                     class="fa-solid fa-question"></i></button>
             <div class="templateCardContainer  no-print">
+
+                <div class="dropdown btn-info no-print">
+                    <button class="dropdown-button"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                    <div class="dropdown-content">
+                        <button onclick="client.stampaPagine()">Stampa</button>
+                        
+                        <input type="file" id="cardsUpload" onchange="client.uploadCards(this)" style="display: none;" />
+                        <label for="cardsUpload">Carica</label>
+                        
+                    </div>
+                </div>
+
+                <!-- <button onclick="common.openModal('modal_tutorial_cardCreation')" class="btn-info no-print">
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                </button> -->
+
                 <div class="buttonSect">
                     <div class="subtitle">
                         <span>Impostazioni carta da aggiungere</span>
@@ -111,12 +127,12 @@
                                     onclick="client.resetGlobals()">Reset</button>
                             </div>
                             <button class="btn btn-primary" onclick="client.getValues()">Aggiungi</button>
-                            <button class="btn btn-primary" onclick="client.stampaPagine()">Stampa</button>
+                            <!-- <button class="btn btn-primary" onclick="client.stampaPagine()">Stampa</button> -->
                             <button class="btn btn-primary" class="saveBtn" onclick="client.saveCards()">Salva</button>
                             <!-- UPLOAD BUTTON -->
-                            <input type="file" id="cardsUpload" onchange="client.uploadCards(this)"
+                            <!-- <input type="file" id="cardsUpload" onchange="client.uploadCards(this)"
                                 style="display: none;" />
-                            <label for="cardsUpload" class="btn btn-primary labelBtn">Carica</label>
+                            <label for="cardsUpload" class="btn btn-primary labelBtn">Carica</label> -->
                             <button class="btn btn-primary" style="display: none" onclick="client.logCards()">LOG
                                 CARDS</button>
                         </div>

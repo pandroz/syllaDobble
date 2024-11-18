@@ -21,11 +21,7 @@
     .cardsContainer {
         border: 0;
         width: 100vh !important;
-        display: flex !important;
-        flex-wrap: wrap !important;
-        flex-direction: row !important;
-        justify-content: center !important;
-        align-items: center !important;
+        
     }
 
     .cardContainer:nth-child(15n) {
@@ -34,6 +30,14 @@
 
     .templatingContainer {
         border: 0;
+    }
+
+    .cardsContainer>.cardsSect {
+        overflow-y: initial;
+    }
+
+    .cardsSectPad {
+        display: none;
     }
 }
 

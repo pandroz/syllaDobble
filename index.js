@@ -31,6 +31,18 @@ app.get("/", (req, res) => {
     res.render('./syllaDobble.ejs', { _: _ });
 })
 
+
+
+
+
+
+
+/*
+
+    MANAGEMENT PAGE
+
+*/
+
 app.get("/manage", (req, res) => {
     res.render('./manageCards.ejs', { getGroupingsNames: mgmt.getGroupingsNames, _: _ })
 })

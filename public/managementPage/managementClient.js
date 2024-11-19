@@ -1,4 +1,4 @@
-import importedGroupings from './testingJson.json' with {type: "json"}
+import importedGroupings from './groupings.json' with {type: "json"}
 
 let GROUPS = [];
 let GROUPINGS = [];

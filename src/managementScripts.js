@@ -1,9 +1,9 @@
-// import jsonData from '../public/managementPage/testingJson.json' with {type: "json"};
+// import jsonData from '../public/managementPage/groupings.json' with {type: "json"};
 import _ from 'lodash';
 import fs from 'fs/promises';
 import * as fsSync from 'fs';
 
-const filePath = './public/managementPage/testingJson.json';
+const filePath = './public/managementPage/groupings.json';
 
 function uniqueID() {
     return Math.floor(Math.random() * Date.now())
@@ -11,7 +11,7 @@ function uniqueID() {
 
 function getJsonData() {
     try {
-        let jsonData = fsSync.readFileSync('./public/managementPage/testingJson.json', 'utf8');
+        let jsonData = fsSync.readFileSync(filePath, 'utf8');
         return JSON.parse(jsonData);
     } catch (e) {
         console.log('[ERROR:getJsonData()]: ', e)

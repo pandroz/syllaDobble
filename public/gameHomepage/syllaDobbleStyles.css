@@ -26,19 +26,23 @@
 }
 
 .templateCardContainer {
-    width: 65%;
+    width: 60%;
     padding: 1% 2%;
     position: relative;
 }
 
 .cardsContainer {
-    width: 35%;
+    width: 40%;
     border-left: 1px solid rgba(102, 102, 102, 0.712);
 }
 
 .cardsContainer>.cardsSect {
     width: 100%;
     overflow-y: scroll;
+    padding-top: 1%;
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 2%;
 }
 
 .cardsSectPad {
@@ -88,7 +92,8 @@
     margin: 5px;
     font-size: 24px;
     page-break-inside: avoid;
-    background-color: white;
+    background-color: transparent;
+    position: relative;
 }
 
 .card.templateCard {
@@ -207,7 +212,7 @@ input:nth-child(4) {
     flex-direction: row-reverse;
 }
 
-.removeCardBtn {
+.cardBtn {
     width: 25px !important;
     height: 25px !important;
 }
@@ -329,7 +334,6 @@ input:nth-child(4) {
 .dropdown-content div:hover,
 .dropdown-content label:hover {
     background-color: rgba(247, 250, 252);
-    /* background-color: rgb(156, 159, 161); */
     color: #1a202c;
 }
 

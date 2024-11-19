@@ -35,10 +35,6 @@
                     </div>
                 </div>
 
-                <!-- <button onclick="common.openModal('modal_tutorial_cardCreation')" class="btn-info no-print">
-                    <i class="fa-solid fa-ellipsis-vertical"></i>
-                </button> -->
-
                 <div class="buttonSect">
                     <div class="subtitle">
                         <span>Impostazioni carta da aggiungere</span>
@@ -53,20 +49,19 @@
                         <div>
                             <label for="cardBg">Sfondo</label>
                             <input type="color" class="color-input" id="cardBg" name="cardBg" value="#FFFFFF"
-                                onchange="client.updateCard(this)" />
+                                onchange="client.updatePrevCard(this)" />
                         </div>
                         <div>
                             <label for="cardBorder">Bordo</label>
                             <input type="color" class="color-input" id="cardBorder" name="cardBorder" value="#000000"
-                                onchange="client.updateCard(this)" />
+                                onchange="client.updatePrevCard(this)" />
                         </div>
                         <div>
                             <label for="cardGlobalTextCol">Testo</label>
                             <input type="color" class="color-input" id="cardGlobalTextCol" name="cardGlobalTextCol"
-                                value="#000000" onchange="client.updateCard(this)" />
+                                value="#000000" onchange="client.updatePrevCard(this)" />
                         </div>
                     </div>
-
 
                     <div class="templateCardSect cardsSect">
                         <div class="card templateCard" id="templateCard">
@@ -117,7 +112,6 @@
                         </div>
                     </div>
 
-
                     <div class="actionButtonsContainer">
                         <div class="actionButtons">
                             <div class="tooltip-wrapper">
@@ -127,17 +121,11 @@
                                     onclick="client.resetGlobals()">Reset</button>
                             </div>
                             <button class="btn btn-primary" onclick="client.getValues()">Aggiungi</button>
-                            <!-- <button class="btn btn-primary" onclick="client.stampaPagine()">Stampa</button> -->
                             <button class="btn btn-primary" class="saveBtn" onclick="client.saveCards()">Salva</button>
-                            <!-- UPLOAD BUTTON -->
-                            <!-- <input type="file" id="cardsUpload" onchange="client.uploadCards(this)"
-                                style="display: none;" />
-                            <label for="cardsUpload" class="btn btn-primary labelBtn">Carica</label> -->
                             <button class="btn btn-primary" style="display: none" onclick="client.logCards()">LOG
                                 CARDS</button>
                         </div>
                     </div>
-
 
                     <div class="templateCardSect cardsSect">
                         <div class="card templateCard" id="previewCard">
@@ -161,7 +149,6 @@
                         </div>
                     </div>
 
-
                 </div>
             </div>
 
@@ -179,6 +166,7 @@
                 </div>
             </div>
         </div>
+        
         <%- include('components/modals.ejs'); %>
         <%- include('components/dialog.ejs'); %>
     </div>

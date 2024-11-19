@@ -999,7 +999,9 @@ button.accordion:last-of-type {
     font-size: 1.1rem;
     color: rgb(112, 128, 144);
     border: 1px solid transparent;
-    padding: 0.5% 2%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .groupingButton:hover {

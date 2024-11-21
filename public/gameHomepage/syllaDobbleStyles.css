@@ -361,7 +361,7 @@ input:nth-child(4) {
 .selectedEditCard {
     border: 1px solid rgba(102, 102, 102, 0.712);
     border-radius: 5px;
-    background-color: rgba(102, 102, 102, 0.40) !important;
+    background-color: rgba(102, 102, 102, 0.40);
 }
 
 .blackFont {

@@ -39,6 +39,11 @@
     .cardsSectPad {
         display: none;
     }
+
+    .selectedEditCard {
+        border: 0;
+        background-color: transparent;
+    }
 }
 
 body {

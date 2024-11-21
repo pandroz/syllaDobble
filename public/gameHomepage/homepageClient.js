@@ -21,6 +21,9 @@ export function getValues() {
 }
 
 export function loadCard(cardData, isNewCard) {
+    isEditingCard = false;
+    editingCardId = null;
+
     let cardUUID = '';
 
     if (isNewCard) {
@@ -52,8 +55,8 @@ export function loadCard(cardData, isNewCard) {
         let isCardGlobalTextCol = cardGlobalTextCol !== '#000000';
 
         cardsHTML.push(`<div class="cardContainer" id="container_${cardId}">
-            <button id="editCard_${cardId}" class="groupingButton" onclick="client.allowEditing(${cardId}, editCard_${cardId}, saveCard_${cardId})"><i class="fa-solid fa-pencil"></i></button>
-            <button id="saveCard_${cardId}" class="groupingButton hidden blackFont" onclick="client.updateCard(${cardId}, editCard_${cardId}, saveCard_${cardId})" ><i class="fa-regular fa-floppy-disk"></i></button>
+            <button id="editCard_${cardId}" class="groupingButton no-print" onclick="client.allowEditing(${cardId}, editCard_${cardId}, saveCard_${cardId})"><i class="fa-solid fa-pencil"></i></button>
+            <button id="saveCard_${cardId}" class="groupingButton no-print hidden blackFont" onclick="client.updateCard(${cardId}, editCard_${cardId}, saveCard_${cardId})" ><i class="fa-regular fa-floppy-disk"></i></button>
             <button id="deleteCard_${cardId}" class="groupingButton no-print" onclick="client.removeCard(${cardId}.id, container_${cardId})"><i class="fas fa-times btn-delete"></i></button>
             <div class="card" style="background-color: ${cardBg} !important; border-color: ${cardBorder}; color: ${cardGlobalTextCol}" id="${cardId}">
                 <div class="cardRowTop">
@@ -125,7 +128,11 @@ export function resetGlobals() {
 export function stampaPagine() {
     if (_.size(CARDS) < 1) {
         common.onerror('<i class="fa-solid fa-triangle-exclamation"></i> Non è possibile stampare senza carte create')
-        return 1;
+        return;
+    }
+    if(isEditingCard) {
+        common.onerror('<i class="fa-solid fa-triangle-exclamation"></i> Non é possibile stampare mentre una carta viene modificata.<br/>Terminare la modifica prima di stampare.')
+        return;
     }
     window.print();
 }

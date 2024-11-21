@@ -1,5 +1,7 @@
 import * as common from '../common/commonClient.js'
 let CARDS = [];
+let isEditingCard = false;
+let editingCardId = '';
 
 function uniqueID(prefix) {
     prefix = prefix || '';
@@ -75,19 +77,30 @@ export function loadCard(cardData, isNewCard) {
         </div>`)
     });
 
+    cardsHTML = _.reverse(cardsHTML);
     
-    // console.log(cardHtml)
-    document.getElementById("cardsSectId").innerHTML = _.join(_.reverse(cardsHTML), '\n');
+    let paddingHtml = '<div class="cardsSectPad">&nbsp;</div>'
+    cardsHTML.push(paddingHtml);
+
+    document.getElementById("cardsSectId").innerHTML = _.join(cardsHTML, '\n');
 
     let cardKeys = _.keys(cardData)
     clearTemplate(cardKeys);
 }
 
 export function removeCard(cardId, element) {
+    if (isEditingCard && cardId !== editingCardId) {
+        common.onerror('<i class="fa-solid fa-triangle-exclamation"></i> Non possono essere eliminate altre carte mentre una carta viene modificata.<br/>Terminare la modifica prima di cancellare altre carte.');
+        return;
+    }
+
     CARDS = _.filter(CARDS, c => {
         return _.get(c, 'cardId') !== cardId;
     });
     element.remove();
+
+    isEditingCard = false;
+    editingCardId = null;
 }
 
 export function resetGlobals() {
@@ -223,6 +236,14 @@ export function syncPreview(itemToSync) {
  * @param {HTMLElement} saveCardBtn the "Save" button of the card
  */
 export function allowEditing(card, editCardBtn, saveCardBtn) {
+    if (isEditingCard && card.id !== editingCardId) {
+        common.onerror('<i class="fa-solid fa-triangle-exclamation"></i> Non possono essere modificate altre carte mentre una carta viene modificata.<br/>Terminare la modifica prima di modificare altre carte.');
+        return;
+    }
+
+    isEditingCard = true;
+    editingCardId = card.id;
+
     editCardBtn.classList.add('hidden');
     saveCardBtn.classList.remove('hidden');
 
@@ -247,6 +268,9 @@ export function allowEditing(card, editCardBtn, saveCardBtn) {
 }
 
 export function updateCard(card, editCardBtn, saveCardBtn) {
+    isEditingCard = false;
+    editingCardId = null;
+
     editCardBtn.classList.remove('hidden');
     saveCardBtn.classList.add('hidden');
 

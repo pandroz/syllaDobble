@@ -65,6 +65,7 @@
 
                     <div class="templateCardSect cardsSect">
                         <div class="card templateCard" id="templateCard">
+                            <input type="hidden" id="cardId" name="cardId" />
                             <div class="cardRowTop">
                                 <input type="text" class="templateCard" id="inTopRowL"
                                     onchange="client.syncPreview(inTopRowL)" name="inTopRowL">
@@ -118,9 +119,9 @@
                                 <div class="tooltip tooltip-top tooltip-info">Reimposta valori predefiniti dei campi
                                 </div>
                                 <button type="button" class="btn btn-secondary"
-                                    onclick="client.resetGlobals()">Reset</button>
+                                    onclick="client.resetGlobals()">Reset colori</button>
                             </div>
-                            <button class="btn btn-primary" onclick="client.getValues()">Aggiungi</button>
+                            <button class="btn btn-primary" onclick="client.loadCard([], true)">Aggiungi</button>
                             <button class="btn btn-primary" class="saveBtn" onclick="client.saveCards()">Salva</button>
                             <button class="btn btn-primary" style="display: none" onclick="client.logCards()">LOG
                                 CARDS</button>

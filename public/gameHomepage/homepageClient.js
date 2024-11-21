@@ -1,6 +1,10 @@
 import * as common from '../common/commonClient.js'
 let CARDS = [];
 
+function uniqueID(prefix) {
+    prefix = prefix || '';
+    return prefix + Math.floor(Math.random() * Date.now())
+}
 
 export function getValues() {
     let fields = $(":input").serializeArray();
@@ -11,60 +15,79 @@ export function getValues() {
         _.assign(cardData, js);
     })
     // console.log(cardData);
-    loadCard(cardData)
+    return cardData;
+}
+
+export function loadCard(cardData, isNewCard) {
+    let cardUUID = '';
+
+    if (isNewCard) {
+        cardData = getValues();
+        cardUUID = uniqueID('card_');
+        _.assign(cardData, {
+            cardId: cardUUID
+        });
+        CARDS.push(cardData);
+    } else {
+        cardUUID = _.get(cardData, 'cardId');
+        let cardIx = _.findIndex(CARDS, c => {
+            return _.get(c, 'cardId') === cardUUID;
+        });
+        if (cardIx === -1)
+            CARDS.push(cardData);
+        else
+            CARDS[cardIx] = cardData;
+    }
+
+    let cardsHTML = [];
+
+    _.each(CARDS, card => {
+        let cardId = _.get(card, 'cardId');
+        let cardBg = _.get(card, 'cardBg');
+        let cardBorder = _.get(card, 'cardBorder');
+        let cardGlobalTextCol = _.get(card, 'cardGlobalTextCol');
+
+        let isCardGlobalTextCol = cardGlobalTextCol !== '#000000';
+
+        cardsHTML.push(`<div class="cardContainer" id="container_${cardId}">
+            <button id="editCard_${cardId}" class="groupingButton" onclick="client.allowEditing(${cardId}, editCard_${cardId}, saveCard_${cardId})"><i class="fa-solid fa-pencil"></i></button>
+            <button id="saveCard_${cardId}" class="groupingButton hidden blackFont" onclick="client.updateCard(${cardId}, editCard_${cardId}, saveCard_${cardId})" ><i class="fa-regular fa-floppy-disk"></i></button>
+            <button id="deleteCard_${cardId}" class="groupingButton no-print" onclick="client.removeCard(${cardId}.id, container_${cardId})"><i class="fas fa-times btn-delete"></i></button>
+            <div class="card" style="background-color: ${cardBg} !important; border-color: ${cardBorder}; color: ${cardGlobalTextCol}" id="${cardId}">
+                <div class="cardRowTop">
+                    <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(card, 'colTopL')}">${_.get(card, 'inTopRowL', '')}</div>
+                    <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(card, 'colTopM')}">${_.get(card, 'inTopRowM', '')}</div>
+                    <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(card, 'colTopR')}">${_.get(card, 'inTopRowR', '')}</div>
+                </div>
+
+                <div class="cardRowMid">
+                    <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(card, 'colMidL')}">${_.get(card, 'inMidRowL', '')}</div>
+                    <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(card, 'colMidM')}">${_.get(card, 'inMidRowM', '')}</div>
+                    <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(card, 'colMidR')}">${_.get(card, 'inMidRowR', '')}</div>
+                </div>
+
+                <div class="cardRowBottom">
+                    <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(card, 'colBotL')}">${_.get(card, 'inBotRowL', '')}</div>
+                    <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(card, 'colBotM')}">${_.get(card, 'inBotRowM', '')}</div>
+                    <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(card, 'colBotR')}">${_.get(card, 'inBotRowR', '')}</div>
+                </div>
+            </div>
+        </div>`)
+    });
+
+    
+    // console.log(cardHtml)
+    document.getElementById("cardsSectId").innerHTML = _.join(_.reverse(cardsHTML), '\n');
 
     let cardKeys = _.keys(cardData)
     clearTemplate(cardKeys);
 }
 
-export function loadCard(cardData) {
-    let newCardUUID = _.uniqueId('card_')
-    // console.log('newUUID ==> ', [newCardUUID])
-    _.assign(cardData, {
-        cardId: newCardUUID
-    });
-    CARDS.push(cardData)
-
-    let cardBg = _.get(cardData, 'cardBg');
-    let cardBorder = _.get(cardData, 'cardBorder');
-    let cardGlobalTextCol = _.get(cardData, 'cardGlobalTextCol');
-
-    let isCardGlobalTextCol = cardGlobalTextCol !== '#000000';
-
-    let cardHtml = `<div class="cardContainer" id="${newCardUUID}">
-                        <button class="removeCardBtn groupingButton no-print" onclick="client.removeCard(${newCardUUID})"><i class="fas fa-times btn-delete"></i></button>
-                        <div class="card" style="background-color: ${cardBg} !important; border-color: ${cardBorder}; color: ${cardGlobalTextCol}" id="card_${newCardUUID}">
-                            <div class="cardRowTop">
-                                <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(cardData, 'colTopL')}">${_.get(cardData, 'inTopRowL', '')}</div>
-                                <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(cardData, 'colTopM')}">${_.get(cardData, 'inTopRowM', '')}</div>
-                                <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(cardData, 'colTopR')}">${_.get(cardData, 'inTopRowR', '')}</div>
-                            </div>
-
-                            <div class="cardRowMid">
-                                <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(cardData, 'colMidL')}">${_.get(cardData, 'inMidRowL', '')}</div>
-                                <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(cardData, 'colMidM')}">${_.get(cardData, 'inMidRowM', '')}</div>
-                                <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(cardData, 'colMidR')}">${_.get(cardData, 'inMidRowR', '')}</div>
-                            </div>
-
-                            <div class="cardRowBottom">
-                                <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(cardData, 'colBotL')}">${_.get(cardData, 'inBotRowL', '')}</div>
-                                <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(cardData, 'colBotM')}">${_.get(cardData, 'inBotRowM', '')}</div>
-                                <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(cardData, 'colBotR')}">${_.get(cardData, 'inBotRowR', '')}</div>
-                            </div>
-                        </div>
-                    </div>`;
-
-    // console.log(cardHtml)
-    let cardsSectHtml = document.getElementById("cardsSectId").innerHTML
-    cardHtml += cardsSectHtml;
-    document.getElementById("cardsSectId").innerHTML = cardHtml;
-}
-
-export function removeCard(element) {
+export function removeCard(cardId, element) {
     CARDS = _.filter(CARDS, c => {
-        return _.get(c, 'cardId') !== element.id;
+        return _.get(c, 'cardId') !== cardId;
     });
-    document.getElementById(element.id).remove();
+    element.remove();
 }
 
 export function resetGlobals() {
@@ -123,7 +146,7 @@ export function uploadCards(inputFile) {
     reader.onload = function () {
         let jsonCardsData = JSON.parse(_.get(reader, 'result'));
         _.each(jsonCardsData, card => {
-            loadCard(card);
+            loadCard(card, false);
         })
     };
 
@@ -149,7 +172,7 @@ export function clearTemplate(cardKeys) {
     });
 }
 
-export function updateCard(element) {
+export function updatePrevCard(element) {
     let elementId = element.id;
     let templateCard = document.getElementById('templateCard')
     let previewCard = document.getElementById('previewCard')
@@ -180,12 +203,56 @@ export function logCards() {
 }
 
 export function syncPreview(itemToSync) {
+    let cardGlobalTextCol = document.getElementById('cardGlobalTextCol').value;
     let elemTemplId = itemToSync.id;
     let elemPrevId = document.getElementById('prev' + _.replace(_.replace(_.replace(elemTemplId, 'in', ''), 'Row', ''), 'col', ''));
 
     if (_.includes(elemTemplId, 'col')) {
-        elemPrevId.style.color = itemToSync.value;
+        if (cardGlobalTextCol === '#000000')
+            elemPrevId.style.color = itemToSync.value;
     } else {
         elemPrevId.innerHTML = itemToSync.value;
     }
+}
+
+/**
+ * Enables the editing of a card by making the "Save" button visible and the "Edit" button invisible.
+ * Then it populates the input fields with the values of the card to edit.
+ * @param {HTMLElement} card the card to edit
+ * @param {HTMLElement} editCardBtn the "Edit" button of the card
+ * @param {HTMLElement} saveCardBtn the "Save" button of the card
+ */
+export function allowEditing(card, editCardBtn, saveCardBtn) {
+    editCardBtn.classList.add('hidden');
+    saveCardBtn.classList.remove('hidden');
+
+    let cardId = card.id;
+    let cardContainer = document.getElementById('container_' + cardId);
+    cardContainer.classList.add('selectedEditCard');
+
+    let cardData = _.find(CARDS, c => {
+        return _.get(c, 'cardId') === cardId;
+    });
+
+    _.each(cardData, (value, key) => {
+        let element = document.getElementById(key);
+        element.value = value;
+
+        if (!_.includes(['cardBg', 'cardBorder', 'cardGlobalTextCol', 'cardId'], key))
+            syncPreview(element);
+        else {
+            updatePrevCard(element);
+        }
+    });
+}
+
+export function updateCard(card, editCardBtn, saveCardBtn) {
+    editCardBtn.classList.remove('hidden');
+    saveCardBtn.classList.add('hidden');
+
+    let cardId = card.id;
+    let cardContainer = document.getElementById('container_' + cardId);
+    cardContainer.classList.remove('selectedEditCard');
+
+    loadCard(getValues(), false);
 }

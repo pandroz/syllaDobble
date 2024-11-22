@@ -1,4 +1,5 @@
 import importedGroupings from './groupings.json' with {type: "json"}
+import { freezePage } from '../common/commonClient.js';
 
 let GROUPS = [];
 let GROUPINGS = [];

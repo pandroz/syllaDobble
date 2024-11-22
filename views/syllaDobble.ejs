@@ -13,6 +13,13 @@
         import * as common from '../common/commonClient.js'
         window.common = common;
     </script>
+
+    <script type="text/javascript">
+        window.onload = function () {
+            client.refreshGroupings()
+        };
+
+    </script>
 </head>
 
 <body>
@@ -119,8 +126,8 @@
                             <div class="tooltip-wrapper">
                                 <div class="tooltip tooltip-top tooltip-info">Reimposta valori predefiniti dei campi
                                 </div>
-                                <button type="button" class="btn btn-secondary"
-                                    onclick="client.resetGlobals()">Reset colori</button>
+                                <button type="button" class="btn btn-secondary" onclick="client.resetGlobals()">Reset
+                                    colori</button>
                             </div>
                             <button class="btn btn-primary" onclick="client.loadCard([], true)">Aggiungi</button>
                             <button class="btn btn-primary" class="saveBtn" onclick="client.saveCards()">Salva</button>
@@ -151,6 +158,34 @@
                         </div>
                     </div>
 
+                </div>
+
+                <div class="autoGenContainter no-print">
+                    <button onclick="openAccordion(this)" class="accordion homePage-accordion">Genera carte</button>
+                    <div class="panel">
+                        <div class="autoGenSect">
+                            <div>
+                                <label for="groupingSelected" class="smallText">Seleziona un raggruppamento:</label>
+                                <div class="select-container">
+                                    <select class="custom-select" id="groupingSelected" onchange="client.getServerGroups(this.value);client.unlockButton(groupSelected.value);">
+                                        <option value="x" selected disabled>Seleziona un raggruppamento</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="groupSelected" class="smallText">Seleziona un gruppo:</label>
+                                <div class="select-container">
+                                    <select class="custom-select" id="groupSelected" onchange="client.unlockButton(this.value);">
+                                        <option value="x" selected disabled>Seleziona un gruppo</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div>
+                                <button id="generateCardsBtn" class="btn btn-primary" disabled onclick="client.generateCards(groupingSelected.value, groupSelected.value);">Crea carte</button>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
             </div>
 

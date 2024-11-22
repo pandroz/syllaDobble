@@ -1,5 +1,8 @@
 import * as common from '../common/commonClient.js'
+import { freezePage } from '../common/commonClient.js';
+
 let CARDS = [];
+let GROUPS = [];
 let isEditingCard = false;
 let editingCardId = '';
 
@@ -20,14 +23,16 @@ export function getValues() {
     return cardData;
 }
 
-export function loadCard(cardData, isNewCard) {
+export function loadCard(cardData, isNewCard, isGeneratedCard) {
     isEditingCard = false;
     editingCardId = null;
 
     let cardUUID = '';
 
     if (isNewCard) {
-        cardData = getValues();
+        if(!isGeneratedCard)
+            cardData = getValues();
+
         cardUUID = uniqueID('card_');
         _.assign(cardData, {
             cardId: cardUUID
@@ -81,7 +86,7 @@ export function loadCard(cardData, isNewCard) {
     });
 
     cardsHTML = _.reverse(cardsHTML);
-    
+
     let paddingHtml = '<div class="cardsSectPad">&nbsp;</div>'
     cardsHTML.push(paddingHtml);
 
@@ -130,7 +135,7 @@ export function stampaPagine() {
         common.onerror('<i class="fa-solid fa-triangle-exclamation"></i> Non è possibile stampare senza carte create')
         return;
     }
-    if(isEditingCard) {
+    if (isEditingCard) {
         common.onerror('<i class="fa-solid fa-triangle-exclamation"></i> Non é possibile stampare mentre una carta viene modificata.<br/>Terminare la modifica prima di stampare.')
         return;
     }
@@ -286,4 +291,245 @@ export function updateCard(card, editCardBtn, saveCardBtn) {
     cardContainer.classList.remove('selectedEditCard');
 
     loadCard(getValues(), false);
+}
+
+export function refreshGroupings(selectedGrouping) {
+    freezePage(true);
+    fetch('/get-groupings')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                handleGroupingsHtml(_.get(data, 'groupings'), selectedGrouping);
+            } else {
+                console.error('Failed retrieve groupings data:', data.error);
+            }
+
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+function handleGroupingsHtml(groupings, selectedGrouping) {
+    const groupingSelect = document.querySelector('#groupingSelected');
+
+    let groups = _.map(groupings, d => {
+        return {
+            _id: _.get(d, '_id'),
+            groupingName: _.get(d, 'groupingName')
+        };
+    });
+
+    let isDefSelected = !_.isString(selectedGrouping);
+
+    // Clear existing options
+    groupingSelect.innerHTML = '';
+
+    // Optional: Add default option
+    let defaultOption = new Option('Seleziona un raggruppamento', 'x', isDefSelected, isDefSelected);
+    defaultOption.disabled = true;
+    groupingSelect.appendChild(defaultOption);
+
+    // Add new options
+    groups.forEach(group => {
+        if (_.get(group, '_id') === selectedGrouping)
+            groupingSelect.appendChild(new Option(_.get(group, 'groupingName'), _.get(group, '_id'), true, true));
+        else
+            groupingSelect.appendChild(new Option(_.get(group, 'groupingName'), _.get(group, '_id'), false, false));
+    });
+    freezePage(false);
+}
+
+
+export function getServerGroups(groupingId) {
+    let data = {
+        groupingId: _.toNumber(groupingId)
+    }
+
+    fetch('/get-groups', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // console.log('[getServerGroups] GROUPS ==> ', data.groups);
+                GROUPS = data.groups;
+                handleGroupHtml(groupingId)
+                return data.groups
+            } else {
+                console.error('Failed to add item:', data.error);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+
+export function handleGroupHtml(groupingId) {
+    const groupSelect = document.querySelector('#groupSelected');
+
+    let groupNames = _.map(GROUPS, d => {
+        return {
+            groupid: _.get(d, 'groupid'),
+            syllable: _.get(d, 'syllable')
+        };
+    });
+
+    // Clear existing options
+    groupSelect.innerHTML = '';
+
+    // Optional: Add default option
+    let defaultOption = new Option('Seleziona un gruppo', 'x', true, true);
+    defaultOption.disabled = true;
+    groupSelect.appendChild(defaultOption);
+
+    // Add new options
+    groupNames.forEach(group => {
+        // if (_.get(group, '_id') === selectedGrouping)
+        //     groupingSelect.appendChild(new Option(_.get(group, 'groupingName'), _.get(group, '_id'), true, true));
+        // else
+        groupSelect.appendChild(new Option(_.get(group, 'syllable'), _.get(group, 'groupid'), false, false));
+    });
+    freezePage(false);
+
+
+}
+
+
+export function generateCards(groupingId, groupId) {
+    freezePage(true);
+
+    if(groupId === 'x') {
+        freezePage(false);
+        common.onerror('<i class="fa-solid fa-triangle-exclamation"></i> Selezionare un gruppo.');
+        return;
+    }
+
+    const syllables = _.get(_.find(GROUPS, { groupid: groupId }), 'possiblePairing', []);
+
+    const n = 8; // standard Dobble size
+    const totalSymbolsNeeded = n * n + n + 1;
+    const extendedSyllables = createSymbolSet(syllables, totalSymbolsNeeded);
+    try {
+        const cards = generateDobbleCards(n, extendedSyllables);
+
+        _.each(cards, card => {
+            card = assignCard(card);
+            // console.log('card ==> ', card);
+            loadCard(card, true, true);
+        });
+
+    } catch (error) {
+        console.log('Error while generating cards:', error);
+    }
+
+    freezePage(false);
+}
+
+
+
+function assignCard(card) {
+    const keys = ["inTopRowL", "inTopRowM", "inTopRowR", "inMidRowL", "inMidRowM", "inMidRowR", "inBotRowL", "inBotRowM", "inBotRowR"];
+    let assignedCard = {};
+    _.each(keys, (key, i) => {
+        _.extend(assignedCard, { [key]: card[i] });
+    });
+
+    _.assign(assignedCard, {
+        cardBg: '#ffffff',
+        cardBorder: '#000000',
+        cardGlobalTextCol: '#000000'
+    });
+
+    return assignedCard;
+}
+
+
+
+
+
+/**
+ * Generates a complete set of Dobble/Spot It! cards using custom symbols
+ * @param {number} n - Order of the projective plane (n=7 for standard Dobble)
+ * @param {string[]} symbols - Array of custom symbols to use
+ * @returns {Array<string[]>} Array of cards, where each card is an array of symbols
+ */
+function generateDobbleCards(n, symbols) {
+    // Validate input
+    if (symbols.length < n * n + n + 1) {
+        throw new Error(`Not enough symbols. Need at least ${n * n + n + 1} unique symbols.`);
+    }
+
+    const symbolsPerCard = n + 1;
+    const totalCards = n * n + n + 1;
+
+    const cards = [];
+
+    // Generate first card with first n+1 symbols
+    const firstCard = symbols.slice(0, symbolsPerCard);
+    cards.push(firstCard);
+
+    // Generate n sets of n cards each
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+            const card = [symbols[i]]; // Start with the first symbol
+
+            // Add n more symbols using the pattern
+            for (let k = 0; k < n; k++) {
+                const symbolIndex = n + 1 + (i * n + j + k * j) % (n * n);
+                card.push(symbols[symbolIndex]);
+            }
+            cards.push(card);
+        }
+    }
+
+    // Generate the last n cards
+    for (let i = 0; i < n; i++) {
+        const card = [symbols[n]];
+        for (let j = 0; j < n; j++) {
+            const symbolIndex = n + 1 + (j * n + i);
+            card.push(symbols[symbolIndex]);
+        }
+        cards.push(card);
+    }
+
+    return cards;
+}
+
+/**
+ * Validates that the generated cards follow Dobble rules
+ * @param {Array<string[]>} cards - Array of generated cards
+ * @returns {boolean} True if valid, throws error if invalid
+ */
+function validateDobbleCards(cards) {
+    // Check each pair of cards
+    for (let i = 0; i < cards.length; i++) {
+        for (let j = i + 1; j < cards.length; j++) {
+            const matchingSymbols = cards[i].filter(symbol =>
+                cards[j].includes(symbol));
+
+            if (matchingSymbols.length !== 1) {
+                throw new Error(
+                    `Invalid: Cards ${i} and ${j} have ${matchingSymbols.length} matching symbols`
+                );
+            }
+        }
+    }
+    return true;
+}
+
+// Function to help users create a symbol set
+function createSymbolSet(baseSyllables, totalNeeded) {
+    // If base symbols are not enough, repeat them
+    const extendedSymbols = [];
+    while (extendedSymbols.length < totalNeeded) {
+        extendedSymbols.push(...baseSyllables);
+    }
+    return extendedSymbols.slice(0, totalNeeded);
+}
+
+export function unlockButton(value) {
+    let generateCardsBtn = document.getElementById('generateCardsBtn');
+    generateCardsBtn.disabled = value === 'x';
 }

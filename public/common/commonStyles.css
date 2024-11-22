@@ -749,6 +749,16 @@ button.confirm {
     font-weight: bold;
 }
 
+.homePage-accordion {
+    color: white;
+    background: #1d4ed8 !important; 
+}
+
+.active,
+.homePage-accordion:hover {
+    background: rgba(0, 20, 255, 0.5) !important;
+}
+
 button.accordion:first-of-type {
     border-top-right-radius: 5px;
     border-top-left-radius: 5px;

@@ -367,3 +367,26 @@ input:nth-child(4) {
 .blackFont {
     color: black !important;
 }
+
+.autoGenContainter {
+    margin-top: 5%;
+}
+
+.autoGenContainter > .panel {
+    border: 1px solid rgba(102, 102, 102, 0.712);
+}
+
+.autoGenSect {
+    width: 70%;
+    padding: 2%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.autoGenSect > .smallText {
+    vertical-align: middle;
+}

@@ -25,21 +25,22 @@
 <body>
     <div class="page">
         <%- include('components/header.ejs'); %>
+        <%- include('components/book-loader.ejs'); %>
 
         <div class="templatingContainer">
             <button onclick="common.openModal('modal_tutorial_cardCreation')" class="btn-info no-print tutorialBtn"><i
                     class="fa-solid fa-question"></i><span>GUIDA</span></button>
-                    
+
             <div class="templateCardContainer  no-print">
 
                 <div class="dropdown btn-info no-print">
                     <button class="dropdown-button"><i class="fa-solid fa-ellipsis-vertical"></i></button>
                     <div class="dropdown-content">
                         <button onclick="client.stampaPagine()">Stampa</button>
-                        
+
                         <input type="file" id="cardsUpload" onchange="client.uploadCards(this)" style="display: none;" />
                         <label for="cardsUpload">Carica</label>
-                        
+
                     </div>
                 </div>
 
@@ -203,7 +204,7 @@
                 </div>
             </div>
         </div>
-        
+
         <%- include('components/modals.ejs'); %>
         <%- include('components/dialog.ejs'); %>
     </div>

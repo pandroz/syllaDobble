@@ -97,6 +97,19 @@ body {
     color: white;
 }
 
+.tutorialBtn {
+    font-weight: bold;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.tutorialBtn > span {
+    font-size: 0.7rem;
+}
+
 .bold {
     font-weight: bold;
 }

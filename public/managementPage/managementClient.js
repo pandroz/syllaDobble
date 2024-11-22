@@ -370,20 +370,6 @@ export function deleteGroup(group) {
 
 }
 
-/**
- * Renders the full page spinner, won't remove itself unless called again with false parameter
- * @param {Boolean} isToFreeze
- */
-export function freezePage(isToFreeze) {
-    let fullpageSpinner = document.getElementById('fullpage-spinner');
-
-    if (isToFreeze) {
-        fullpageSpinner.classList.remove('hidden');
-    } else {
-        fullpageSpinner.classList.add('hidden');
-    }
-}
-
 export function checkGroupingForm(groupingForm, groupForm) {
     if (groupingForm.classList.contains('hidden')) {
         groupForm.classList.add('padGroupspace');

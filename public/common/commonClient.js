@@ -61,3 +61,17 @@ export function toggleForm(form, buttonId) {
         form.classList.add('hidden');
     }
 }
+
+/**
+ * Renders the full page spinner, won't remove itself unless called again with false parameter
+ * @param {Boolean} isToFreeze
+ */
+export function freezePage(isToFreeze) {
+    let fullpageSpinner = document.getElementById('fullpage-spinner');
+
+    if (isToFreeze) {
+        fullpageSpinner.classList.remove('hidden');
+    } else {
+        fullpageSpinner.classList.add('hidden');
+    }
+}

@@ -1032,8 +1032,18 @@ button.accordion:last-of-type {
     justify-content: center;
 }
 
+.groupingButtonTutorial {
+    display: inline !important;
+}
+
 .groupingButton:hover {
     border: 1px solid rgb(112, 128, 144);
     border-radius: 4px;
     transform: translateY(-1px);
+}
+
+.btn-tutorial {
+    font-size: 0.7rem;
+    padding: 5px 10px;
+    min-width: 0;
 }

@@ -14,8 +14,8 @@
     }
 
     .card {
-        width: 5cm;
-        height: 5cm;
+        width: 7cm !important;
+        height: 7cm !important;
     }
 
     .cardsContainer {
@@ -24,7 +24,7 @@
         
     }
 
-    .cardContainer:nth-child(15n) {
+    .cardContainer:nth-child(6n) {
         page-break-after: always;
     }
 

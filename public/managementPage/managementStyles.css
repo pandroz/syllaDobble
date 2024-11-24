@@ -116,14 +116,12 @@
 }
 
 .addNewGroupForm {
-    width: 12.5%;
-    padding: 1%;
+    padding: 0.5% 1%;
     background: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     animation: slideDown 0.3s ease-out;
-    margin-left: 0.5%;
-
+    height: fit-content;
 }
 
 .groupingTemplate {
@@ -144,4 +142,17 @@
 
 .padGroupspace {
     margin-left: 14.5%;
+}
+
+
+@media screen and (max-width: 1584px) {
+    .buttonContainer {
+        width: 70%;
+    }   
+}
+
+@media screen and (max-width: 1244px) {
+    .buttonContainer {
+        width: 100%;
+    }   
 }

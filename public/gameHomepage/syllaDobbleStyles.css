@@ -184,23 +184,31 @@ input:nth-child(4) {
 }
 
 .settingsSect {
-    height: auto;
+    width: 100%;
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
     justify-content: flex-start;
-    margin-right: 5%;
 }
 
-.settingsSect>div>label {
-    font-weight: bold;
-    text-transform: uppercase;
+.colSect {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin-bottom: 2%;
 }
 
-.settingsSect>div {
+.colorTitle {
+    width: 10%;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center
+}
+
+.colorTitle>label {
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
 .addItemInput {
@@ -387,6 +395,22 @@ input:nth-child(4) {
     justify-content: space-between;
 }
 
+.customizeCardsSect {
+    width: 100%;
+    padding: 2%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
 .autoGenSect > .smallText {
     vertical-align: middle;
+}
+
+.warningInput {
+    background-color: rgba(255, 0, 0, 0.4) !important;
+    border: 2px solid rgb(255, 0, 0) !important;
 }

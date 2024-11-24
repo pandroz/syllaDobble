@@ -18,7 +18,10 @@ export function getValues() {
         let js = {};
         js[_.get(d, 'name')] = _.get(d, 'value');
         _.assign(cardData, js);
-    })
+    });
+
+    let fontSelector = document.getElementById('fontSelector');
+    cardData['fontFamily'] = _.get(fontSelector, 'value');
     // console.log(cardData);
     return cardData;
 }
@@ -30,7 +33,7 @@ export function loadCard(cardData, isNewCard, isGeneratedCard) {
     let cardUUID = '';
 
     if (isNewCard) {
-        if(!isGeneratedCard)
+        if (!isGeneratedCard)
             cardData = getValues();
 
         cardUUID = uniqueID('card_');
@@ -63,7 +66,7 @@ export function loadCard(cardData, isNewCard, isGeneratedCard) {
             <button id="editCard_${cardId}" class="groupingButton no-print" onclick="client.allowEditing(${cardId}, editCard_${cardId}, saveCard_${cardId})"><i class="fa-solid fa-pencil"></i></button>
             <button id="saveCard_${cardId}" class="groupingButton no-print hidden blackFont" onclick="client.updateCard(${cardId}, editCard_${cardId}, saveCard_${cardId})" ><i class="fa-regular fa-floppy-disk"></i></button>
             <button id="deleteCard_${cardId}" class="groupingButton no-print" onclick="client.removeCard(${cardId}.id, container_${cardId})"><i class="fas fa-times btn-delete"></i></button>
-            <div class="card" style="background-color: ${cardBg} !important; border-color: ${cardBorder}; color: ${cardGlobalTextCol}" id="${cardId}">
+            <div class="card" style="background-color: ${cardBg}; border-color: ${cardBorder}; color: ${cardGlobalTextCol}; font-family: ${_.get(card, 'fontFamily')}" id="${cardId}">
                 <div class="cardRowTop">
                     <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(card, 'colTopL')}">${_.get(card, 'inTopRowL', '')}</div>
                     <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(card, 'colTopM')}">${_.get(card, 'inTopRowM', '')}</div>
@@ -112,6 +115,9 @@ export function removeCard(cardId, element) {
 }
 
 export function resetGlobals() {
+    let fontSelector = document.getElementById('fontSelector');
+    fontSelector.value = 'x';
+
     let cardGlobalTextCol = document.getElementById('cardGlobalTextCol');
     cardGlobalTextCol.value = "#000000";
 
@@ -238,6 +244,8 @@ export function syncPreview(itemToSync) {
     } else {
         elemPrevId.innerHTML = itemToSync.value;
     }
+
+    validateInputs();
 }
 
 /**
@@ -291,6 +299,7 @@ export function updateCard(card, editCardBtn, saveCardBtn) {
     cardContainer.classList.remove('selectedEditCard');
 
     loadCard(getValues(), false);
+    validateInputs();
 }
 
 export function refreshGroupings(selectedGrouping) {
@@ -400,7 +409,7 @@ export function handleGroupHtml(groupingId) {
 export function generateCards(groupingId, groupId) {
     freezePage(true);
 
-    if(groupId === 'x') {
+    if (groupId === 'x') {
         freezePage(false);
         common.onerror('<i class="fa-solid fa-triangle-exclamation"></i> Selezionare un gruppo.');
         return;
@@ -428,7 +437,6 @@ export function generateCards(groupingId, groupId) {
 }
 
 
-
 function assignCard(card) {
     const keys = ["inTopRowL", "inTopRowM", "inTopRowR", "inMidRowL", "inMidRowM", "inMidRowR", "inBotRowL", "inBotRowM", "inBotRowR"];
     let assignedCard = {};
@@ -446,9 +454,6 @@ function assignCard(card) {
 }
 
 
-
-
-
 /**
  * Generates a complete set of Dobble/Spot It! cards using custom symbols
  * @param {number} n - Order of the projective plane (n=7 for standard Dobble)
@@ -462,7 +467,6 @@ function generateDobbleCards(n, symbols) {
     }
 
     const symbolsPerCard = n + 1;
-    const totalCards = n * n + n + 1;
 
     const cards = [];
 
@@ -529,7 +533,70 @@ function createSymbolSet(baseSyllables, totalNeeded) {
     return extendedSymbols.slice(0, totalNeeded);
 }
 
+
 export function unlockButton(value) {
     let generateCardsBtn = document.getElementById('generateCardsBtn');
     generateCardsBtn.disabled = value === 'x';
+}
+
+
+export function validateInputs() {
+    let inputs = $(":input").serializeArray();
+
+    let values = _.map(inputs, input => {
+        let element = document.getElementById(input.name);
+        element.classList.remove('warningInput');
+
+        return {
+            "value": input.value,
+            "id": input.name
+        };
+    });
+
+    // Remove empty values
+    values = _.filter(values, value => {
+        return !_.startsWith(value.id, 'col') && !_.startsWith(value.id, 'card') && !_.isNil(value.value) && value.value !== '';
+    });
+
+    // Trim values
+    _.map(values, value => {
+        value.value = _.trim(_.toLower(value.value));
+    })
+
+    const valueMap = new Map();
+
+    // First pass: Count occurrences and store objects
+    values.forEach(obj => {
+        if (!valueMap.has(obj.value)) {
+            valueMap.set(obj.value, {
+                count: 1,
+                objects: [obj]
+            });
+        } else {
+            const entry = valueMap.get(obj.value);
+            entry.count++;
+            entry.objects.push(obj);
+        }
+    });
+
+    // Second pass: Filter only objects with duplicate values
+    const duplicates = Array.from(valueMap.values())
+        .filter(entry => entry.count > 1)
+        .flatMap(entry => entry.objects);
+
+    if (duplicates.length > 0) {
+        _.each(duplicates, duplicate => {
+            let element = document.getElementById(duplicate.id);
+            element.classList.add('warningInput');
+        })
+    }
+}
+
+export function changeColor(element, color) {
+    element.value = color;
+}
+
+export function changeFont(font) {
+    let previewCard = document.getElementById('previewCard');
+    previewCard.style.fontFamily = font;
 }

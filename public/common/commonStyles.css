@@ -822,7 +822,7 @@ button.accordion:last-of-type {
     width: 1cm;
     height: 1cm;
     border: 1px solid rgb(95, 94, 94);
-    border-radius: 50%;
+    border-radius: 20%;
     cursor: pointer;
     padding: 0;
 }

@@ -385,7 +385,7 @@ input:nth-child(4) {
 }
 
 .autoGenSect {
-    width: 70%;
+    width: 90%;
     padding: 2%;
     height: auto;
     display: flex;
@@ -413,4 +413,10 @@ input:nth-child(4) {
 .warningInput {
     background-color: rgba(255, 0, 0, 0.4) !important;
     border: 2px solid rgb(255, 0, 0) !important;
+}
+
+.warning {
+    width: 15%;
+    font-size: 0.7rem;
+    text-align: center;
 }

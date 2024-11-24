@@ -12,11 +12,15 @@
 
         import * as common from '../common/commonClient.js'
         window.common = common;
+
+        import * as fontClient from './components/fontPicker/fontPickerClient.js'
+        window.fontClient = fontClient;
     </script>
 
     <script type="text/javascript">
         window.onload = function () {
             client.refreshGroupings()
+            fontClient.loadFonts();
         };
 
     </script>
@@ -64,47 +68,47 @@
                             <input type="hidden" id="cardId" name="cardId" />
                             <div class="cardRowTop">
                                 <input type="text" class="templateCard" id="inTopRowL"
-                                    onchange="client.syncPreview(inTopRowL)" name="inTopRowL">
+                                    onkeyup="client.syncPreview(inTopRowL)" name="inTopRowL">
                                 <input type="color" class="textColorPicker" id="colTopL"
-                                    onchange="client.syncPreview(colTopL)" name="colTopL">
+                                    onkeyup="client.syncPreview(colTopL)" name="colTopL">
                                 <input type="text" class="templateCard" id="inTopRowM"
-                                    onchange="client.syncPreview(inTopRowM)" name="inTopRowM">
+                                    onkeyup="client.syncPreview(inTopRowM)" name="inTopRowM">
                                 <input type="color" class="textColorPicker" id="colTopM"
-                                    onchange="client.syncPreview(colTopM)" name="colTopM">
+                                    onkeyup="client.syncPreview(colTopM)" name="colTopM">
                                 <input type="text" class="templateCard" id="inTopRowR"
-                                    onchange="client.syncPreview(inTopRowR)" name="inTopRowR">
+                                    onkeyup="client.syncPreview(inTopRowR)" name="inTopRowR">
                                 <input type="color" class="textColorPicker" id="colTopR"
-                                    onchange="client.syncPreview(colTopR)" name="colTopR">
+                                    onkeyup="client.syncPreview(colTopR)" name="colTopR">
                             </div>
 
                             <div class="cardRowMid">
                                 <input type="text" class="templateCard" id="inMidRowL"
-                                    onchange="client.syncPreview(inMidRowL)" name="inMidRowL">
+                                    onkeyup="client.syncPreview(inMidRowL)" name="inMidRowL">
                                 <input type="color" class="textColorPicker" id="colMidL"
-                                    onchange="client.syncPreview(colMidL)" name="colMidL">
+                                    onkeyup="client.syncPreview(colMidL)" name="colMidL">
                                 <input type="text" class="templateCard" id="inMidRowM"
-                                    onchange="client.syncPreview(inMidRowM)" name="inMidRowM">
+                                    onkeyup="client.syncPreview(inMidRowM)" name="inMidRowM">
                                 <input type="color" class="textColorPicker" id="colMidM"
-                                    onchange="client.syncPreview(colMidM)" name="colMidM">
+                                    onkeyup="client.syncPreview(colMidM)" name="colMidM">
                                 <input type="text" class="templateCard" id="inMidRowR"
-                                    onchange="client.syncPreview(inMidRowR)" name="inMidRowR">
+                                    onkeyup="client.syncPreview(inMidRowR)" name="inMidRowR">
                                 <input type="color" class="textColorPicker" id="colMidR"
-                                    onchange="client.syncPreview(colMidR)" name="colMidR">
+                                    onkeyup="client.syncPreview(colMidR)" name="colMidR">
                             </div>
 
                             <div class="cardRowBottom">
                                 <input type="text" class="templateCard" id="inBotRowL"
-                                    onchange="client.syncPreview(inBotRowL)" name="inBotRowL">
+                                    onkeyup="client.syncPreview(inBotRowL)" name="inBotRowL">
                                 <input type="color" class="textColorPicker" id="colBotL"
-                                    onchange="client.syncPreview(colBotL)" name="colBotL">
+                                    onkeyup="client.syncPreview(colBotL)" name="colBotL">
                                 <input type="text" class="templateCard" id="inBotRowM"
-                                    onchange="client.syncPreview(inBotRowM)" name="inBotRowM">
+                                    onkeyup="client.syncPreview(inBotRowM)" name="inBotRowM">
                                 <input type="color" class="textColorPicker" id="colBotM"
-                                    onchange="client.syncPreview(colBotM)" name="colBotM">
+                                    onkeyup="client.syncPreview(colBotM)" name="colBotM">
                                 <input type="text" class="templateCard" id="inBotRowR"
-                                    onchange="client.syncPreview(inBotRowR)" name="inBotRowR">
+                                    onkeyup="client.syncPreview(inBotRowR)" name="inBotRowR">
                                 <input type="color" class="textColorPicker" id="colBotR"
-                                    onchange="client.syncPreview(colBotR)" name="colBotR">
+                                    onkeyup="client.syncPreview(colBotR)" name="colBotR">
                             </div>
                         </div>
                     </div>

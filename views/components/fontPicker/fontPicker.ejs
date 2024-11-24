@@ -1,16 +1,3 @@
-<link rel="stylesheet" href="./components/fontPicker/fontPickerStyle.css">
-<script type="module">
-    import * as fontClient from './components/fontPicker/fontPickerClient.js'
-    window.fontClient = fontClient;
-</script>
-
-<script type="text/javascript">
-    window.onload = function () {
-        fontClient.loadFonts();
-    };
-
-</script>
-
 <div class="select-container">
     <select class="custom-select" id="fontSelector" onchange="client.changeFont(this.value);">
         <option value="x" selected disabled>Seleziona un font</option>

@@ -134,6 +134,7 @@ export function resetGlobals() {
     templateCard.style.borderColor = "#000000";
     previewCard.style.backgroundColor = 'transparent';
     previewCard.style.borderColor = "#000000";
+    previewCard.style.fontFamily = null;
 }
 
 export function stampaPagine() {

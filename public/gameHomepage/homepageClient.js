@@ -21,7 +21,11 @@ export function getValues() {
     });
 
     let fontSelector = document.getElementById('fontSelector');
-    cardData['fontFamily'] = _.get(fontSelector, 'value');
+    cardData['fontSelector'] = _.get(fontSelector, 'value');
+
+    let cardFormats = _.intersection(_.split(document.getElementById('previewCard').classList.value, ' '), ['bold', 'italic', 'underline']);
+    cardData['cardFormats'] = cardFormats;
+
     // console.log(cardData);
     return cardData;
 }
@@ -66,7 +70,7 @@ export function loadCard(cardData, isNewCard, isGeneratedCard) {
             <button id="editCard_${cardId}" class="groupingButton no-print" onclick="client.allowEditing(${cardId}, editCard_${cardId}, saveCard_${cardId})"><i class="fa-solid fa-pencil"></i></button>
             <button id="saveCard_${cardId}" class="groupingButton no-print hidden blackFont" onclick="client.updateCard(${cardId}, editCard_${cardId}, saveCard_${cardId})" ><i class="fa-regular fa-floppy-disk"></i></button>
             <button id="deleteCard_${cardId}" class="groupingButton no-print" onclick="client.removeCard(${cardId}.id, container_${cardId})"><i class="fas fa-times btn-delete"></i></button>
-            <div class="card" style="background-color: ${cardBg}; border-color: ${cardBorder}; color: ${cardGlobalTextCol}; font-family: ${_.get(card, 'fontFamily')}" id="${cardId}">
+            <div class="card ${_.join(_.get(card, 'cardFormats'), ' ')}" style="background-color: ${cardBg}; border-color: ${cardBorder}; color: ${cardGlobalTextCol}; font-family: ${_.get(card, 'fontFamily')}" id="${cardId}">
                 <div class="cardRowTop">
                     <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(card, 'colTopL')}">${_.get(card, 'inTopRowL', '')}</div>
                     <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(card, 'colTopM')}">${_.get(card, 'inTopRowM', '')}</div>
@@ -280,11 +284,13 @@ export function allowEditing(card, editCardBtn, saveCardBtn) {
         let element = document.getElementById(key);
         element.value = value;
 
-        if (!_.includes(['cardBg', 'cardBorder', 'cardGlobalTextCol', 'cardId'], key))
+        if (!_.includes(['cardBg', 'cardBorder', 'cardGlobalTextCol', 'cardId', 'cardFormats'], key))
             syncPreview(element);
-        else {
+        else if (_.includes(['cardBg', 'cardBorder', 'cardGlobalTextCol'], key))
             updatePrevCard(element);
-        }
+        else if (_.includes(['cardFormats'], key))
+            syncFormats(element);
+
     });
 }
 
@@ -600,4 +606,17 @@ export function changeColor(element, color) {
 export function changeFont(font) {
     let previewCard = document.getElementById('previewCard');
     previewCard.style.fontFamily = font;
+}
+
+export function syncFormats(element) {
+    let previewCard = document.getElementById('previewCard');
+    
+    _.each(element, format => {
+        previewCard.classList.toggle(format);
+
+        let btn = document.querySelector(`.format-btn-${format.charAt(0)}`);
+        btn.classList.toggle('activeFormat', previewCard.classList.contains(format));
+    });
+
+    
 }

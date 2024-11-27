@@ -185,34 +185,46 @@
                     <button onclick="openAccordion(this)" class="accordion homePage-accordion">Personalizza carta</button>
                     <div class="panel">
                         <div class="customizeCardsSect">
-                            <!-- COLORS -->
-                            <div class="settingsSect">
-                                <div class="colSect">
-                                    <div class="colorTitle">
-                                        <label for="cardBg">Sfondo</label>
-                                        <input type="color" class="color-input" id="cardBg" name="cardBg" value="#FFFFFF" onchange="client.updatePrevCard(this)" />
+                            <!-- CARD CUSTOMIZATION -->
+                            <div class="settingsContainer">
+                                <!-- COLORS -->
+                                <div class="settingSect">
+                                    <div class="colSect">
+                                        <div class="colorTitle">
+                                            <label for="cardBg">Sfondo</label>
+                                            <input type="color" class="color-input" id="cardBg" name="cardBg" value="#FFFFFF" onchange="client.updatePrevCard(this)" />
+                                        </div>
+                                        <%- include('components/colorPicker/colorPicker.ejs', { id: 'cardBg'}); %>
                                     </div>
-                                    <%- include('components/colorPicker/colorPicker.ejs', { id: 'cardBg'}); %>
+                                    <div class="colSect">
+                                        <div class="colorTitle">
+                                            <label for="cardBorder">Bordo</label>
+                                            <input type="color" class="color-input" id="cardBorder" name="cardBorder" value="#000000" onchange="client.updatePrevCard(this)" />
+                                        </div>
+                                        <%- include('components/colorPicker/colorPicker.ejs', { id: 'cardBorder'}); %>
+                                    </div>
+                                    <div class="colSect">
+                                        <div class="colorTitle">
+                                            <label for="cardGlobalTextCol">Testo</label>
+                                            <input type="color" class="color-input" id="cardGlobalTextCol" name="cardGlobalTextCol" value="#000000" onchange="client.updatePrevCard(this)" />
+                                        </div>
+                                        <%- include('components/colorPicker/colorPicker.ejs', { id: 'cardGlobalTextCol'}); %>
+                                    </div>
                                 </div>
-                                <div class="colSect">
-                                    <div class="colorTitle">
-                                        <label for="cardBorder">Bordo</label>
-                                        <input type="color" class="color-input" id="cardBorder" name="cardBorder" value="#000000" onchange="client.updatePrevCard(this)" />
+                                <div class="settingSect">
+                                    <div class="colSect">
+                                        <%- include('components/textFormatting/textFormatting.ejs', { elementToSync: 'previewCard'}); %>
                                     </div>
-                                    <%- include('components/colorPicker/colorPicker.ejs', { id: 'cardBorder'}); %>
-                                </div>
-                                <div class="colSect">
-                                    <div class="colorTitle">
-                                        <label for="cardGlobalTextCol">Testo</label>
-                                        <input type="color" class="color-input" id="cardGlobalTextCol" name="cardGlobalTextCol" value="#000000" onchange="client.updatePrevCard(this)" />
+                                    <div class="colSect">
+                                        <div class="bold ">
+                                            <label for="fontSelector">FONT</label>
+                                            <%- include('components/fontPicker/fontPicker.ejs'); %>
+                                        </div>
                                     </div>
-                                    <%- include('components/colorPicker/colorPicker.ejs', { id: 'cardGlobalTextCol'}); %>
-                                </div>
-                                <div class="colSect">
-                                    <div class="bold ">
-                                        <label for="fontSelector">FONT</label>
-                                        <%- include('components/fontPicker/fontPicker.ejs'); %>
+                                    <div class="flexCol">
+                                        <%- include('components/slider/slider.ejs', { "id": 'fontSize', "label": "Dimensione testo", "min": 1, "max": 100, "value": 32 }); %>
                                     </div>
+
                                 </div>
                             </div>
                         </div>

@@ -183,8 +183,16 @@ input:nth-child(4) {
     margin-right: 2%;
 }
 
-.settingsSect {
+.settingsContainer {
     width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+}
+
+.settingSect {
+    width: 33%;
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
@@ -200,7 +208,7 @@ input:nth-child(4) {
 }
 
 .colorTitle {
-    width: 10%;
+    width: 30%;
     display: flex;
     flex-direction: column;
     align-items: center
@@ -382,6 +390,7 @@ input:nth-child(4) {
 
 .autoGenContainter > .panel {
     border: 1px solid rgba(102, 102, 102, 0.712);
+    background: #e3e3e3;
 }
 
 .autoGenSect {

@@ -1,0 +1,52 @@
+.format-container {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.format-btn {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #4a5568;
+    border-radius: 6px;
+    background-color: white;
+    color: #4a5568;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: bold;
+}
+
+.format-btn:hover {
+    background-color: #edf2f7;
+}
+
+.format-btn.activeFormat {
+    background-color: #4a5568;
+    color: white;
+}
+
+#text-input {
+    width: 100%;
+    margin-top: 15px;
+    padding: 10px;
+    border: 1px solid #cbd5e0;
+    border-radius: 6px;
+    min-height: 100px;
+}
+
+.format-btn-b {
+    font-family: Arial, sans-serif;
+}
+
+.format-btn-i {
+    font-family: serif;
+    font-style: italic;
+}
+
+.format-btn-u {
+    text-decoration: underline;
+}

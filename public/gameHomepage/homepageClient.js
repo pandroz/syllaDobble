@@ -243,12 +243,12 @@ export function syncPreview(itemToSync) {
     let elemTemplId = itemToSync.id;
     let elemPrevId = document.getElementById('prev' + _.replace(_.replace(_.replace(elemTemplId, 'in', ''), 'Row', ''), 'col', ''));
 
-    if (_.includes(elemTemplId, 'col')) {
+    if (_.startsWith(elemTemplId, 'col')) {
         if (cardGlobalTextCol === '#000000')
             elemPrevId.style.color = itemToSync.value;
-    } else {
+
+    } else if (_.startsWith(elemTemplId, 'in'))
         elemPrevId.innerHTML = itemToSync.value;
-    }
 
     validateInputs();
 }
@@ -284,7 +284,7 @@ export function allowEditing(card, editCardBtn, saveCardBtn) {
         let element = document.getElementById(key);
         element.value = value;
 
-        if (!_.includes(['cardBg', 'cardBorder', 'cardGlobalTextCol', 'cardId', 'cardFormats'], key))
+        if (!_.includes(['cardBg', 'cardBorder', 'cardGlobalTextCol', 'cardId'], key))
             syncPreview(element);
         else if (_.includes(['cardBg', 'cardBorder', 'cardGlobalTextCol'], key))
             updatePrevCard(element);
@@ -610,7 +610,7 @@ export function changeFont(font) {
 
 export function syncFormats(element) {
     let previewCard = document.getElementById('previewCard');
-    
+
     _.each(element, format => {
         previewCard.classList.toggle(format);
 
@@ -618,5 +618,5 @@ export function syncFormats(element) {
         btn.classList.toggle('activeFormat', previewCard.classList.contains(format));
     });
 
-    
+
 }

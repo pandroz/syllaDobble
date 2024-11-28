@@ -1,5 +1,6 @@
 import * as common from '../common/commonClient.js'
 import { freezePage } from '../common/commonClient.js';
+import { cleanFormatStates } from '../components/textFormatting/textFormattingClient.js'
 
 let CARDS = [];
 let GROUPS = [];
@@ -192,6 +193,9 @@ export function uploadCards(inputFile) {
 export function clearTemplate(cardKeys) {
     // Resetting global values
     resetGlobals();
+
+    // Cleaning formattings
+    cleanFormatStates();
 
     // Resetting values inside the card
     _.each(cardKeys, key => {

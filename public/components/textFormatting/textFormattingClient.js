@@ -39,3 +39,17 @@ export function getCardFormatStates() {
     formatStates['underline'] = elementToSync.classList.contains('underline');
     return formatStates;
 }
+
+export function cleanFormatStates() {
+    formatStates['bold'] = false;
+    let formatB = document.getElementById('boldBtn');
+    formatB.classList.remove('activeFormat');
+
+    formatStates['italic'] = false;
+    let formatI = document.getElementById('italicBtn');
+    formatI.classList.remove('activeFormat');
+
+    formatStates['underline'] = false;
+    let formatU = document.getElementById('underlineBtn');
+    formatU.classList.remove('activeFormat');
+}

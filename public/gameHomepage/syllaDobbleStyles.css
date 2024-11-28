@@ -425,7 +425,12 @@ input:nth-child(4) {
 }
 
 .warning {
-    width: 15%;
+    width: 85%;
+    padding: 1%;
     font-size: 0.7rem;
     text-align: center;
+}
+
+.sliderContainer{
+    width: 25%;
 }

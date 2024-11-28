@@ -1,6 +1,6 @@
 let elementToSync = null;
 
-const formatStates = {
+let formatStates = {
     bold: false,
     italic: false,
     underline: false
@@ -9,12 +9,16 @@ const formatStates = {
 
 export function toggleFormat(type, elementToSyncId) {
     elementToSync = elementToSyncId;
-    // Toggle the state
-    formatStates[type] = !formatStates[type];
+    formatStates = getCardFormatStates();
+
+    let format = `.format-btn-${type.charAt(0)}`;
 
     // Update button active state
-    const btn = document.querySelector(`.format-btn-${type.charAt(0)}`);
-    btn.classList.toggle('activeFormat', formatStates[type]);
+    const btn = document.querySelector(format);
+    btn.classList.toggle('activeFormat');
+
+    // Toggle the state
+    formatStates[type] = !formatStates[type];
 
     // Apply formatting
     applyFormatting();
@@ -26,4 +30,12 @@ export function applyFormatting() {
     elementToSync.classList.toggle('italic', formatStates.italic);
     elementToSync.classList.toggle('underline', formatStates.underline);
 
+}
+
+export function getCardFormatStates() {
+    let formatStates = {};
+    formatStates['bold'] = elementToSync.classList.contains('bold');
+    formatStates['italic'] = elementToSync.classList.contains('italic');
+    formatStates['underline'] = elementToSync.classList.contains('underline');
+    return formatStates;
 }

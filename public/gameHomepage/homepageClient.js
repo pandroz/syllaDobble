@@ -282,15 +282,18 @@ export function allowEditing(card, editCardBtn, saveCardBtn) {
 
     _.each(cardData, (value, key) => {
         let element = document.getElementById(key);
-        element.value = value;
 
-        if (!_.includes(['cardBg', 'cardBorder', 'cardGlobalTextCol', 'cardId'], key))
+        if (!_.includes(['cardBg', 'cardBorder', 'cardGlobalTextCol', 'cardId', 'cardFormats'], key)) {
+            element.value = value;
             syncPreview(element);
-        else if (_.includes(['cardBg', 'cardBorder', 'cardGlobalTextCol'], key))
+        } else if (_.includes(['cardBg', 'cardBorder', 'cardGlobalTextCol'], key)) {
+            element.value = value;
             updatePrevCard(element);
-        else if (_.includes(['cardFormats'], key))
-            syncFormats(element);
-
+        } else if (_.includes(['cardFormats'], key)) {
+            syncFormats(value);
+        } else if ('cardId' === key) {
+            element.value = value;
+        }
     });
 }
 
@@ -608,10 +611,10 @@ export function changeFont(font) {
     previewCard.style.fontFamily = font;
 }
 
-export function syncFormats(element) {
+export function syncFormats(formats) {
     let previewCard = document.getElementById('previewCard');
 
-    _.each(element, format => {
+    _.each(formats, format => {
         previewCard.classList.toggle(format);
 
         let btn = document.querySelector(`.format-btn-${format.charAt(0)}`);

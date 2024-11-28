@@ -71,7 +71,7 @@ export function loadCard(cardData, isNewCard, isGeneratedCard) {
             <button id="editCard_${cardId}" class="groupingButton no-print" onclick="client.allowEditing(${cardId}, editCard_${cardId}, saveCard_${cardId})"><i class="fa-solid fa-pencil"></i></button>
             <button id="saveCard_${cardId}" class="groupingButton no-print hidden blackFont" onclick="client.updateCard(${cardId}, editCard_${cardId}, saveCard_${cardId})" ><i class="fa-regular fa-floppy-disk"></i></button>
             <button id="deleteCard_${cardId}" class="groupingButton no-print" onclick="client.removeCard(${cardId}.id, container_${cardId})"><i class="fas fa-times btn-delete"></i></button>
-            <div class="card ${_.join(_.get(card, 'cardFormats'), ' ')}" style="background-color: ${cardBg}; border-color: ${cardBorder}; color: ${cardGlobalTextCol}; font-family: ${_.get(card, 'fontFamily')}" id="${cardId}">
+            <div class="card ${_.join(_.get(card, 'cardFormats'), ' ')}" style="background-color: ${cardBg}; border-color: ${cardBorder}; color: ${cardGlobalTextCol}; font-family: ${_.get(card, 'fontSelector')}" id="${cardId}">
                 <div class="cardRowTop">
                     <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(card, 'colTopL')}">${_.get(card, 'inTopRowL', '')}</div>
                     <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(card, 'colTopM')}">${_.get(card, 'inTopRowM', '')}</div>
@@ -195,7 +195,7 @@ export function clearTemplate(cardKeys) {
     resetGlobals();
 
     // Cleaning formattings
-    cleanFormatStates();
+    cleanFormatStates('previewCard');
 
     // Resetting values inside the card
     _.each(cardKeys, key => {

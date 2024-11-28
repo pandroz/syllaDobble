@@ -40,16 +40,21 @@ export function getCardFormatStates() {
     return formatStates;
 }
 
-export function cleanFormatStates() {
+export function cleanFormatStates(elementIdToClear) {
+    elementToSync = document.getElementById(elementIdToClear);
+
     formatStates['bold'] = false;
     let formatB = document.getElementById('boldBtn');
     formatB.classList.remove('activeFormat');
+    elementToSync.classList.remove('bold');
 
     formatStates['italic'] = false;
     let formatI = document.getElementById('italicBtn');
     formatI.classList.remove('activeFormat');
+    elementToSync.classList.remove('italic');
 
     formatStates['underline'] = false;
     let formatU = document.getElementById('underlineBtn');
     formatU.classList.remove('activeFormat');
+    elementToSync.classList.remove('underline');
 }

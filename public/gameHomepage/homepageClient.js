@@ -420,7 +420,7 @@ export function handleGroupHtml(groupingId) {
 }
 
 
-export function generateCards(groupingId, groupId) {
+export function generateCards(groupingId, groupId, cardsNumber) {
     freezePage(true);
 
     if (groupId === 'x') {
@@ -431,14 +431,14 @@ export function generateCards(groupingId, groupId) {
 
     const syllables = _.get(_.find(GROUPS, { groupid: groupId }), 'possiblePairing', []);
 
-    const n = 8; // standard Dobble size
+    const n = cardsNumber - 1;
     const totalSymbolsNeeded = n * n + n + 1;
     const extendedSyllables = createSymbolSet(syllables, totalSymbolsNeeded);
     try {
         const cards = generateDobbleCards(n, extendedSyllables);
 
         _.each(cards, card => {
-            card = assignCard(card);
+            card = assignCard(card, n);
             // console.log('card ==> ', card);
             loadCard(card, true, true);
         });
@@ -451,9 +451,14 @@ export function generateCards(groupingId, groupId) {
 }
 
 
-function assignCard(card) {
-    const keys = ["inTopRowL", "inTopRowM", "inTopRowR", "inMidRowL", "inMidRowM", "inMidRowR", "inBotRowL", "inBotRowM", "inBotRowR"];
+function assignCard(card, syllablesUsed) {
+    let keys = ["inTopRowL", "inTopRowM", "inTopRowR", "inMidRowL", "inMidRowM", "inMidRowR", "inBotRowL", "inBotRowM", "inBotRowR"];
+
     let assignedCard = {};
+    if (syllablesUsed < 9) {
+        keys = _.take(_.shuffle(_.shuffle(keys)), syllablesUsed + 1);
+    }
+
     _.each(keys, (key, i) => {
         _.extend(assignedCard, { [key]: card[i] });
     });
@@ -624,6 +629,4 @@ export function syncFormats(formats) {
         let btn = document.querySelector(`.format-btn-${format.charAt(0)}`);
         btn.classList.toggle('activeFormat', previewCard.classList.contains(format));
     });
-
-
 }

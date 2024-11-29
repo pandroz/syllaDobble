@@ -614,9 +614,12 @@ export function changeColor(element, color) {
     element.value = color;
 }
 
-export function changeFont(font) {
+export function changeFont(fontSelector) {
+    let font = fontSelector.value;
+
     let previewCard = document.getElementById('previewCard');
     previewCard.style.fontFamily = font;
+    fontSelector.style.fontFamily = font;
 }
 
 export function syncFormats(formats) {

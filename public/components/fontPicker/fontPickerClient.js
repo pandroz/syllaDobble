@@ -44,7 +44,7 @@ const fontList = {
 export function loadFonts() {
     let $select = $('#fontSelector');
     $.each(fontList, function (key, value) {
-        let group = $('<optgroup label="' + key + '" />');
+        let group = $('<optgroup style="font-family: Arial" label="' + key + '" />');
         $.each(value, function () {
             $('<option />').html(this.name).appendTo(group).css('font-family', this.name);
         });

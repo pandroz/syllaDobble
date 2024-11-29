@@ -72,14 +72,16 @@
 }
 
 .templateCard {
-    width: 30%;
+    width: 80%;
     text-align: center;
 }
 
 .textColorPicker {
+    position: absolute;
     width: 15px;
     height: 21px;
-    margin-left: -15px;
+    right: 5%;
+    bottom: 2%;
 }
 
 .card {
@@ -102,33 +104,37 @@
     height: 10cm;
 }
 
-.card.templateCard>div>input,
-.card.templateCard>div>div {
-    font-size: 2rem;
-}
-
-.card>div>input[type=text] {
+.cardTextInput,
+.cardTextInput>input[type=text] {
     background-color: transparent;
     border-top: 0px;
     border-left: 0px;
     border-right: 0px;
+    font-size: 1.8rem;
+    position: relative;
 }
 
-.card>div>input[type=text]:focus {
+.card>div>input[type=text]:focus,
+.cardTextInput:focus,
+.cardTextInput>input[type=text] {
     outline: none;
 }
 
-.card>div>input[type=text]:focus-visible {
+.card>div>input[type=text]:focus-visible,
+.cardTextInput:focus-visible,
+.cardTextInput>input[type=text] {
     outline: none;
 }
 
-.card>div>input[type=color] {
+.card>div>input[type=color],
+.cardColorInput,
+.cardTextInput>input[type=color] {
     border: 0px;
     background-color: transparent;
 }
 
 .cardRowTop {
-    width: 80%;
+    width: 85%;
     height: 33%;
     display: flex;
     flex-direction: row;
@@ -137,7 +143,7 @@
 }
 
 .cardRowTop>div:nth-child(2) {
-    padding-bottom: 15%;
+    margin-bottom: 15%;
 }
 
 .cardRowTop>input:nth-child(3),
@@ -150,7 +156,7 @@ input:nth-child(4) {
 }
 
 .cardRowBottom {
-    width: 80%;
+    width: 85%;
     height: 33%;
     display: flex;
     flex-direction: row;
@@ -168,8 +174,8 @@ input:nth-child(4) {
 }
 
 .cardRowMid {
-    width: 90%;
-    height: 33%;
+    width: 100%;
+    height: 30%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -389,7 +395,7 @@ input:nth-child(4) {
     margin-top: 5%;
 }
 
-.autoGenContainter > .panel {
+.autoGenContainter>.panel {
     border: 1px solid rgba(102, 102, 102, 0.712);
     background: #e3e3e3;
 }
@@ -416,7 +422,7 @@ input:nth-child(4) {
     justify-content: space-between;
 }
 
-.autoGenSect > .smallText {
+.autoGenSect>.smallText {
     vertical-align: middle;
 }
 
@@ -432,6 +438,6 @@ input:nth-child(4) {
     text-align: center;
 }
 
-.sliderContainer{
+.sliderContainer {
     width: 25%;
 }

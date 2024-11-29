@@ -248,8 +248,7 @@ export function syncPreview(itemToSync) {
     let elemPrevId = document.getElementById('prev' + _.replace(_.replace(_.replace(elemTemplId, 'in', ''), 'Row', ''), 'col', ''));
 
     if (_.startsWith(elemTemplId, 'col')) {
-        if (cardGlobalTextCol === '#000000')
-            elemPrevId.style.color = itemToSync.value;
+        elemPrevId.style.background = itemToSync.value;
 
     } else if (_.startsWith(elemTemplId, 'in'))
         elemPrevId.innerHTML = itemToSync.value;

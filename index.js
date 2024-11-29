@@ -28,7 +28,7 @@ app.listen(3000, '0.0.0.0', () => {
 // PAGES
 
 app.get("/", (req, res) => {
-    res.render('./syllaDobble.ejs', { _: _ });
+    res.render('./pages/syllaDobble.ejs', { _: _ });
 })
 
 
@@ -44,7 +44,7 @@ app.get("/", (req, res) => {
 */
 
 app.get("/manage", (req, res) => {
-    res.render('./manageCards.ejs', { getGroupingsNames: mgmt.getGroupingsNames, _: _ })
+    res.render('./pages/manageCards.ejs', { getGroupingsNames: mgmt.getGroupingsNames, _: _ })
 })
 
 

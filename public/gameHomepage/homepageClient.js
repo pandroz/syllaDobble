@@ -632,3 +632,8 @@ export function syncFormats(formats) {
         btn.classList.toggle('activeFormat', previewCard.classList.contains(format));
     });
 }
+
+export function changeCardType(syllablesTemplate, imagesTemplate) {
+    syllablesTemplate.classList.toggle('hidden');
+    imagesTemplate.classList.toggle('hidden');
+}

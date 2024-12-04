@@ -21,6 +21,15 @@ export function getValues() {
         _.assign(cardData, js);
     });
 
+
+    let images = Array.from(document.querySelectorAll('img[id^="prevImg"]'));
+    _.each(images, d => {
+        let js = {};
+        // js[_.get(d, 'id')] = _.get(d, 'src');
+        js[_.get(d, 'id')] = d.getAttribute('src');
+        _.assign(cardData, js);
+    });
+
     let fontSelector = document.getElementById('fontSelector');
     cardData['fontSelector'] = _.get(fontSelector, 'value');
 
@@ -31,7 +40,18 @@ export function getValues() {
     return cardData;
 }
 
-export function loadCard(cardData, isNewCard, isGeneratedCard) {
+/**
+ * @function loadCard
+ * @description Popola una carta con i valori forniti e la aggiunge alla lista delle carte.
+ *              Se isNewCard === true, genera un nuovo ID per la carta.
+ *              Se isGeneratedCard === true, non recupera i valori dalla template.
+ *              Se isUploadedCard === true, crea una nuova carta.
+ * @param {object} cardData - Oggetto contenente i valori per la carta.
+ * @param {bool} isNewCard - Se true, genera un nuovo ID per la carta.
+ * @param {bool} isUploadedCard - Se true, crea una nuova carta.
+ * @param {bool} isGeneratedCard - Se true, non recupera i valori dalla template.
+ */
+export function loadCard(cardData, isNewCard, isUploadedCard, isGeneratedCard) {
     isEditingCard = false;
     editingCardId = null;
 
@@ -57,51 +77,131 @@ export function loadCard(cardData, isNewCard, isGeneratedCard) {
             CARDS[cardIx] = cardData;
     }
 
-    let cardsHTML = [];
+    let cardElement = formatCardValues(cardData);
 
-    _.each(CARDS, card => {
-        let cardId = _.get(card, 'cardId');
-        let cardBg = _.get(card, 'cardBg');
-        let cardBorder = _.get(card, 'cardBorder');
-        let cardGlobalTextCol = _.get(card, 'cardGlobalTextCol');
+    let cardsSect = document.getElementById("cardsSectId");
 
-        let isCardGlobalTextCol = cardGlobalTextCol !== '#000000';
-
-        cardsHTML.push(`<div class="cardContainer" id="container_${cardId}">
-            <button id="editCard_${cardId}" class="groupingButton no-print" onclick="client.allowEditing(${cardId}, editCard_${cardId}, saveCard_${cardId})"><i class="fa-solid fa-pencil"></i></button>
-            <button id="saveCard_${cardId}" class="groupingButton no-print hidden blackFont" onclick="client.updateCard(${cardId}, editCard_${cardId}, saveCard_${cardId})" ><i class="fa-regular fa-floppy-disk"></i></button>
-            <button id="deleteCard_${cardId}" class="groupingButton no-print" onclick="client.removeCard(${cardId}.id, container_${cardId})"><i class="fas fa-times btn-delete"></i></button>
-            <div class="card ${_.join(_.get(card, 'cardFormats'), ' ')}" style="background-color: ${cardBg}; border-color: ${cardBorder}; color: ${cardGlobalTextCol}; font-family: ${_.get(card, 'fontSelector')}" id="${cardId}">
-                <div class="cardRowTop">
-                    <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(card, 'colTopL')}">${_.get(card, 'inTopRowL', '')}</div>
-                    <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(card, 'colTopM')}">${_.get(card, 'inTopRowM', '')}</div>
-                    <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(card, 'colTopR')}">${_.get(card, 'inTopRowR', '')}</div>
-                </div>
-
-                <div class="cardRowMid">
-                    <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(card, 'colMidL')}">${_.get(card, 'inMidRowL', '')}</div>
-                    <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(card, 'colMidM')}">${_.get(card, 'inMidRowM', '')}</div>
-                    <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(card, 'colMidR')}">${_.get(card, 'inMidRowR', '')}</div>
-                </div>
-
-                <div class="cardRowBottom">
-                    <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(card, 'colBotL')}">${_.get(card, 'inBotRowL', '')}</div>
-                    <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(card, 'colBotM')}">${_.get(card, 'inBotRowM', '')}</div>
-                    <div style="color: ${isCardGlobalTextCol ? cardGlobalTextCol : _.get(card, 'colBotR')}">${_.get(card, 'inBotRowR', '')}</div>
-                </div>
-            </div>
-        </div>`)
-    });
-
-    cardsHTML = _.reverse(cardsHTML);
-
-    let paddingHtml = '<div class="cardsSectPad">&nbsp;</div>'
-    cardsHTML.push(paddingHtml);
-
-    document.getElementById("cardsSectId").innerHTML = _.join(cardsHTML, '\n');
+    if ((isNewCard) || (isUploadedCard)) {
+        cardsSect.insertBefore(cardElement, cardsSectPad);
+    } else {
+        cardsSect.replaceChild(cardElement, document.getElementById(`container_${cardUUID}`));
+    }
 
     let cardKeys = _.keys(cardData)
     clearTemplate(cardKeys);
+}
+
+function formatCardValues(card) {
+    let cardId = _.get(card, 'cardId');
+
+    let cardContainer = document.createElement('div');
+    cardContainer.className = 'cardContainer';
+    cardContainer.id = `container_${cardId}`;
+
+    // Edit button
+    let editButton = document.createElement('button');
+    editButton.id = 'editCard_' + cardId;
+    editButton.className = 'groupingButton no-print';
+    editButton.innerHTML = '<i class="fa-solid fa-pencil"></i>';
+    editButton.onclick = () => {
+        client.allowEditing(cardElement, editButton, saveButton);
+    };
+
+    // Save button
+    let saveButton = document.createElement('button');
+    saveButton.id = `saveCard_${cardId}`;
+    saveButton.className = 'groupingButton no-print hidden blackFont';
+    saveButton.innerHTML = '<i class="fa-regular fa-floppy-disk"></i>';
+    saveButton.onclick = () => {
+        client.updateCard(cardElement, saveButton, editButton);
+    };
+
+    // Delete button
+    let deleteButton = document.createElement('button');
+    deleteButton.id = `deleteCard_${cardId}`;
+    deleteButton.className = 'groupingButton no-print';
+    deleteButton.innerHTML = '<i class="fas fa-times btn-delete"></i>';
+    deleteButton.onclick = () => {
+        client.removeCard(cardId, cardContainer);
+    };
+
+    cardContainer.appendChild(editButton);
+    cardContainer.appendChild(saveButton);
+    cardContainer.appendChild(deleteButton);
+
+    let cardElement = document.createElement('div');
+    cardElement.id = _.get(card, 'cardId');
+    cardElement.className = `card ${_.join(_.get(card, 'cardFormats'), ' ')}`;
+    cardElement.style.backgroundColor = _.get(card, 'cardBg');
+    cardElement.style.borderColor = _.get(card, 'cardBorder');
+    cardElement.style.color = _.get(card, 'cardGlobalTextCol');
+    cardElement.style.fontFamily = _.get(card, 'fontSelector');
+
+    let groupedKeys = {};
+    let keyGroups = ['Top', 'Mid', 'Bot'];
+    _.each(keyGroups, key => {
+        groupedKeys[key] = _.pickBy(card, (v, k) => _.includes(k, key));
+    });
+
+    // CREATING CARD ELEMENTS
+    _.each(groupedKeys, (value, key) => {
+        let cardRowElement = document.createElement('div');
+
+        let position = key;
+        cardRowElement.className = `cardRow${position}`;
+
+        _.each(value, (value, key) => {
+            if (_.startsWith(key, 'col')) return;
+
+            let dataWrapper = document.createElement('div');
+            dataWrapper.id = position + _.last(key);
+            
+            let childNodes = Array.from(cardRowElement.childNodes);
+
+            // IMAGE HANDLING
+            if (_.includes(key, 'prevImg') && !_.isEmpty(value)) {
+                let img = document.createElement('img');
+                img.src = value;
+                img.className = 'card-image';
+
+                dataWrapper.appendChild(img);
+
+                let spanToReplaceIx = _.findIndex(childNodes, n => {
+                    return _.get(n, 'firstChild.tagName') === 'SPAN' && _.get(n, 'id') === position + _.last(key);
+                });
+                cardRowElement.appendChild(dataWrapper);
+                if (spanToReplaceIx !== -1) {
+                    cardRowElement.replaceChild(dataWrapper, cardRowElement.childNodes[spanToReplaceIx]);
+                }
+                
+
+                // TEXT HANDLING
+            } else if (_.includes(key, 'in')) {
+                let span = document.createElement('span');
+                let colKey = 'col' + _.join(_.slice(key, 2), '');
+                span.style.color = cardGlobalTextCol;
+                span.style.backgroundColor = _.get(card, colKey);
+                span.innerText = _.get(card, key, '');
+
+                dataWrapper.appendChild(span);
+
+                let imgToReplaceIx = _.findIndex(childNodes, n => {
+                    return _.get(n, 'firstChild.tagName') === 'IMG' && _.get(n, 'id') === position + _.last(key);
+                });
+                if (imgToReplaceIx !== -1) {
+                    cardRowElement.replaceChild(span, cardRowElement.childNodes[imgToReplaceIx].firstChild);
+                }
+                cardRowElement.appendChild(dataWrapper);
+            }
+            
+        });
+
+        cardElement.appendChild(cardRowElement);
+    });
+
+    cardContainer.appendChild(cardElement);
+
+    return cardContainer;
 }
 
 export function removeCard(cardId, element) {
@@ -137,7 +237,7 @@ export function resetGlobals() {
 
     templateCard.style.backgroundColor = 'transparent';
     templateCard.style.borderColor = "#000000";
-    previewCard.style.backgroundColor = 'transparent';
+    previewCard.style.backgroundColor = '#FFFFFF';
     previewCard.style.borderColor = "#000000";
     previewCard.style.fontFamily = null;
 }
@@ -183,7 +283,7 @@ export function uploadCards(inputFile) {
     reader.onload = function () {
         let jsonCardsData = JSON.parse(_.get(reader, 'result'));
         _.each(jsonCardsData, card => {
-            loadCard(card, false);
+            loadCard(card, false, true);
         })
     };
 
@@ -197,6 +297,12 @@ export function clearTemplate(cardKeys) {
     // Cleaning formattings
     cleanFormatStates('previewCard');
 
+    // Cleaning images
+    let images = Array.from(document.querySelectorAll('div[id^="wrapperImg"]'));
+    _.each(images, d => {
+        d.remove();
+    });
+
     // Resetting values inside the card
     _.each(cardKeys, key => {
         if (!_.includes(['cardBg', 'cardBorder', 'cardGlobalTextCol'], key)) {
@@ -206,7 +312,7 @@ export function clearTemplate(cardKeys) {
                 element.value = '';
                 prevElement.innerHTML = '';
             } else if (_.startsWith(key, 'col')) {
-                element.value = '#000000';
+                element.value = '#FFFFFF';
             }
         }
     });
@@ -243,7 +349,6 @@ export function logCards() {
 }
 
 export function syncPreview(itemToSync) {
-    let cardGlobalTextCol = document.getElementById('cardGlobalTextCol').value;
     let elemTemplId = itemToSync.id;
     let elemPrevId = document.getElementById('prev' + _.replace(_.replace(_.replace(elemTemplId, 'in', ''), 'Row', ''), 'col', ''));
 
@@ -286,9 +391,12 @@ export function allowEditing(card, editCardBtn, saveCardBtn) {
     _.each(cardData, (value, key) => {
         let element = document.getElementById(key);
 
-        if (!_.includes(['cardBg', 'cardBorder', 'cardGlobalTextCol', 'cardId', 'cardFormats'], key)) {
+        if (!_.includes(['cardBg', 'cardBorder', 'cardGlobalTextCol', 'cardId', 'cardFormats'], key) && !_.startsWith(key, 'prevImg')) {
             element.value = value;
             syncPreview(element);
+        } else if (_.startsWith(key, 'prevImg')) {
+            element.src = value;
+            element.classList.remove('hidden');
         } else if (_.includes(['cardBg', 'cardBorder', 'cardGlobalTextCol'], key)) {
             element.value = value;
             updatePrevCard(element);
@@ -312,6 +420,7 @@ export function updateCard(card, editCardBtn, saveCardBtn) {
     cardContainer.classList.remove('selectedEditCard');
 
     loadCard(getValues(), false);
+    hideImagePreviews();
     validateInputs();
 }
 
@@ -439,7 +548,7 @@ export function generateCards(groupingId, groupId, cardsNumber) {
         _.each(cards, card => {
             card = assignCard(card, n);
             // console.log('card ==> ', card);
-            loadCard(card, true, true);
+            loadCard(card, true, false, true);
         });
 
     } catch (error) {
@@ -451,11 +560,11 @@ export function generateCards(groupingId, groupId, cardsNumber) {
 
 
 function assignCard(card, syllablesUsed) {
-    let keys = ["inTopRowL", "inTopRowM", "inTopRowR", "inMidRowL", "inMidRowM", "inMidRowR", "inBotRowL", "inBotRowM", "inBotRowR"];
+    let keys = ["inTopL", "inTopM", "inTopR", "inMidL", "inMidM", "inMidR", "inBotL", "inBotM", "inBotR"];
 
     let assignedCard = {};
     if (syllablesUsed < 9) {
-        keys = _.take(_.shuffle(_.shuffle(keys)), syllablesUsed + 1);
+        keys = _.take(keys, syllablesUsed + 1);
     }
 
     _.each(keys, (key, i) => {
@@ -636,4 +745,10 @@ export function syncFormats(formats) {
 export function changeCardType(syllablesTemplate, imagesTemplate) {
     syllablesTemplate.classList.toggle('hidden');
     imagesTemplate.classList.toggle('hidden');
+}
+
+function hideImagePreviews() {
+    $('img[id^="prevImg"]').each(function () {
+        $(this).addClass('hidden');
+    });
 }

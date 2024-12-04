@@ -63,6 +63,7 @@
                 
                 <div class="flexRow">
                     <!-- TEMPLATE CARDS -->
+                    <input type="hidden" id="cardId" name="cardId" />
                     <%- include('../components/cardTemplates/syllablesTemplate.ejs') %>
                     <%- include('../components/cardTemplates/imagesTemplate.ejs') %>
 
@@ -87,21 +88,21 @@
                     <div class="templateCardSect cardsSect">
                         <div class="card templateCard" id="previewCard">
                             <div class="cardRowTop">
-                                <div class="templateCard"><span id="prevTopL" name="inTopRowL"></span></div>
-                                <div class="templateCard"><span id="prevTopM" name="inTopRowM"></span></div>
-                                <div class="templateCard"><span id="prevTopR" name="inTopRowR"></span></div>
+                                <div class="templateCard" id="contTopL"><span id="prevTopL" name="inTopL"></span><img class="card-image" id="prevImgTopL" alt="" src=""></div>
+                                <div class="templateCard" id="contTopM"><span id="prevTopM" name="inTopM"></span><img class="card-image" id="prevImgTopM" alt="" src=""></div>
+                                <div class="templateCard" id="contTopR"><span id="prevTopR" name="inTopR"></span><img class="card-image" id="prevImgTopR" alt="" src=""></div>
                             </div>
 
                             <div class="cardRowMid">
-                                <div class="templateCard"><span id="prevMidL" name="inMidRowL"></span></div>
-                                <div class="templateCard"><span id="prevMidM" name="inMidRowM"></span></div>
-                                <div class="templateCard"><span id="prevMidR" name="inMidRowR"></span></div>
+                                <div class="templateCard" id="contMidL"><span id="prevMidL" name="inMidL"></span><img class="card-image" id="prevImgMidL" alt="" src=""></div>
+                                <div class="templateCard" id="contMidM"><span id="prevMidM" name="inMidM"></span><img class="card-image" id="prevImgMidM" alt="" src=""></div>
+                                <div class="templateCard" id="contMidR"><span id="prevMidR" name="inMidR"></span><img class="card-image" id="prevImgMidR" alt="" src=""></div>
                             </div>
 
-                            <div class="cardRowBottom">
-                                <div class="templateCard"><span id="prevBotL" name="inBotRowL"></span></div>
-                                <div class="templateCard"><span id="prevBotM" name="inBotRowM"></span></div>
-                                <div class="templateCard"><span id="prevBotR" name="inBotRowR"></span></div>
+                            <div class="cardRowBot">
+                                <div class="templateCard" id="contBotL"><span id="prevBotL" name="inBotL"></span><img class="card-image" id="prevImgBotL" alt="" src=""></div>
+                                <div class="templateCard" id="contBotM"><span id="prevBotM" name="inBotM"></span><img class="card-image" id="prevImgBotM" alt="" src=""></div>
+                                <div class="templateCard" id="contBotR"><span id="prevBotR" name="inBotR"></span><img class="card-image" id="prevImgBotR" alt="" src=""></div>
                             </div>
                         </div>
                     </div>
@@ -130,7 +131,7 @@
                                 </div>
                             </div>
                             <div class="sliderContainer">
-                                <%- include('../components/slider/slider.ejs', { "id": 'cardsNumber', "label": "Sillabe per carta", "min": 1, "max": 9, "value": 9, "oninput": "client.changeCellsNumber(this.value)" }); %>
+                                <%- include('../components/slider/slider.ejs', { "id": 'cardsNumber', "label": "Sillabe per carta", "min": 1, "max": 9, "value": 9, "oninput": "" }); %>
                             </div>
 
                         </div>
@@ -153,21 +154,21 @@
                                     <div class="colSect">
                                         <div class="colorTitle">
                                             <label for="cardBg">Sfondo</label>
-                                            <input type="color" class="color-input" id="cardBg" name="cardBg" value="#FFFFFF" onchange="client.updatePrevCard(this)" />
+                                            <input type="color" class="color-input" id="cardBg" name="cardBg" value="#FFFFFF" oninput="client.updatePrevCard(this)" />
                                         </div>
                                         <%- include('../components/colorPicker/colorPicker.ejs', { id: 'cardBg'}); %>
                                     </div>
                                     <div class="colSect">
                                         <div class="colorTitle">
                                             <label for="cardBorder">Bordo</label>
-                                            <input type="color" class="color-input" id="cardBorder" name="cardBorder" value="#000000" onchange="client.updatePrevCard(this)" />
+                                            <input type="color" class="color-input" id="cardBorder" name="cardBorder" value="#000000" oninput="client.updatePrevCard(this)" />
                                         </div>
                                         <%- include('../components/colorPicker/colorPicker.ejs', { id: 'cardBorder'}); %>
                                     </div>
                                     <div class="colSect">
                                         <div class="colorTitle">
                                             <label for="cardGlobalTextCol">Testo</label>
-                                            <input type="color" class="color-input" id="cardGlobalTextCol" name="cardGlobalTextCol" value="#000000" onchange="client.updatePrevCard(this)" />
+                                            <input type="color" class="color-input" id="cardGlobalTextCol" name="cardGlobalTextCol" value="#000000" oninput="client.updatePrevCard(this)" />
                                         </div>
                                         <%- include('../components/colorPicker/colorPicker.ejs', { id: 'cardGlobalTextCol'}); %>
                                     </div>
@@ -198,7 +199,7 @@
                 </div>
 
                 <div class="cardsSect" id="cardsSectId">
-                    <div class="cardsSectPad">
+                    <div id="cardsSectPad" class="cardsSectPad">
                         &nbsp;
                     </div>
                 </div>

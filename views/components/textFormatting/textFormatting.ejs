@@ -1,0 +1,13 @@
+<link rel="stylesheet" href="./components/textFormatting/textFormattingStyle.css">
+
+<script type="module">
+    import * as textFormattingClient from "./components/textFormatting/textFormattingClient.js";
+    window.toggleFormat = textFormattingClient.toggleFormat;
+    window.loadElementToSync = textFormattingClient.loadElementToSync;
+</script>
+
+<div class="format-container">
+    <button id="boldBtn" class="format-btn format-btn-b" onclick="toggleFormat('bold', <%= elementToSync %>)">B</button>
+    <button id="italicBtn" class="format-btn format-btn-i" onclick="toggleFormat('italic', <%= elementToSync %>)">I</button>
+    <button id="underlineBtn" class="format-btn format-btn-u" onclick="toggleFormat('underline', <%= elementToSync %>)">U</button>
+</div>

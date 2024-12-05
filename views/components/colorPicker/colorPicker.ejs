@@ -1,0 +1,18 @@
+<link rel="stylesheet" href="./components/colorPicker/colorPickerStyle.css">
+
+<div class="colorsContainer">
+    <div>
+        <button class="colorBtn" onclick="client.changeColor(<%= id %>, '#ffffff'); client.updatePrevCard(<%= id %>);"><div class="white"></div></button>
+        <button class="colorBtn" onclick="client.changeColor(<%= id %>, '#000000'); client.updatePrevCard(<%= id %>);"><div class="black"></div></button>
+        <button class="colorBtn" onclick="client.changeColor(<%= id %>, '#808080'); client.updatePrevCard(<%= id %>);"><div class="gray"></div></button>
+        <button class="colorBtn" onclick="client.changeColor(<%= id %>, '#ff0000'); client.updatePrevCard(<%= id %>);"><div class="red"></div></button>
+        <button class="colorBtn" onclick="client.changeColor(<%= id %>, '#ffa500'); client.updatePrevCard(<%= id %>);"><div class="orange"></div></button>
+    </div>
+    <div>
+        <button class="colorBtn" onclick="client.changeColor(<%= id %>, '#ffff00'); client.updatePrevCard(<%= id %>); "><div class="yellow"></div></button>
+        <button class="colorBtn" onclick="client.changeColor(<%= id %>, '#008000'); client.updatePrevCard(<%= id %>); "><div class="green"></div></button>
+        <button class="colorBtn" onclick="client.changeColor(<%= id %>, '#0000ff'); client.updatePrevCard(<%= id %>); "><div class="blue"></div></button>
+        <button class="colorBtn" onclick="client.changeColor(<%= id %>, '#add8e6'); client.updatePrevCard(<%= id %>); "><div class="lightBlue"></div></button>
+        <button class="colorBtn" onclick="client.changeColor(<%= id %>, '#ffc0cb'); client.updatePrevCard(<%= id %>); "><div class="pink"></div></button>
+    </div>
+</div>

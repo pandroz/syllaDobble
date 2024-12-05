@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <link rel="stylesheet" href="./common/commonStyles.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+</head>
+
+<body>
+    <div class="header no-print">
+        <span id="pageTitle">Log-ooble!</span>
+        <div class="navBar">
+            <a href="/"><i class="fa-solid fa-house"></i></a>
+            <a href="/manage"><i class="fa-solid fa-gear"></i></a>
+        </div>
+    </div>
+
+    <script>
+        let delay = 200;
+        let title = document.getElementById("pageTitle");
+        title.innerHTML = "LOG-OBBLE!"
+            .split("")
+            .map(letter => {
+                // console.log(letter);
+                return `<span>` + letter + `</span>`;
+            })
+            .join("");
+
+        Array.from(title.children).forEach((span, index) => {
+            setTimeout(() => {
+                span.classList.add("wavy");
+            }, index * 60 + delay);
+        });
+
+    </script>
+</body>
+
+</html>

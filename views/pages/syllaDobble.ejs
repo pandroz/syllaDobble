@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Log-obble</title>
+    <link rel="stylesheet" href="./common/commonStyles.css">
+    <link rel="stylesheet" href="./gameHomepage/syllaDobbleStyles.css">
+
+    <script type="module">
+        import * as client from './gameHomepage/homepageClient.js';
+        window.client = client;
+
+        import * as common from '../common/commonClient.js'
+        window.common = common;
+
+        import * as fontClient from './components/fontPicker/fontPickerClient.js'
+        window.fontClient = fontClient;
+    </script>
+
+    <script type="text/javascript">
+        window.onload = function () {
+            client.refreshGroupings()
+            fontClient.loadFonts();
+        };
+
+    </script>
+</head>
+
+<body>
+    <div class="page">
+        <%- include('../components/header.ejs'); %>
+        <%- include('../components/loaders/book-loader.ejs'); %>
+
+        <div class="templatingContainer">
+            <button onclick="common.openModal('modal_tutorial_cardCreation')" class="btn-info no-print tutorialBtn"><i
+                    class="fa-solid fa-question"></i><span>GUIDA</span></button>
+
+            <div class="templateCardContainer  no-print">
+
+                <!-- DROPDOWN -->
+                <div class="dropdown btn-info no-print">
+                    <button class="dropdown-button"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                    <div class="dropdown-content">
+                        <button onclick="client.stampaPagine()">Stampa</button>
+                        <button onclick="client.saveCards()">Salva</button>
+
+                        <input type="file" id="cardsUpload" onchange="client.uploadCards(this)" style="display: none;" />
+                        <label for="cardsUpload">Carica</label>
+
+                    </div>
+                </div>
+
+                <!-- TITLE -->
+                <div class="buttonSect">
+                    <div class="subtitle">
+                        <span>Impostazioni carta da aggiungere</span>
+                    </div>
+                    <div class="undertitle">
+                        <span>Premi sulle opzioni per cambiare la carta</span>
+                    </div>
+                </div>
+
+                
+                <div class="flexRow">
+                    <!-- TEMPLATE CARDS -->
+                    <input type="hidden" id="cardId" name="cardId" />
+                    <%- include('../components/cardTemplates/syllablesTemplate.ejs') %>
+                    <%- include('../components/cardTemplates/imagesTemplate.ejs') %>
+
+                    <!-- BUTTONS -->
+                    <div class="actionButtonsContainer">
+                        <div class="">
+                            <%- include('../components/switchSlider/switchSlider.ejs', { "right": '<i class="fa-regular fa-image"></i>', "left": "A", 'onclick': 'client.changeCardType(imagesTemplate, syllablesTemplate)' }); %>
+                        </div>
+                        <div class="actionButtons">
+                            <div class="tooltip-wrapper">
+                                <div class="tooltip tooltip-top tooltip-info">Reimposta valori predefiniti dei campi
+                                </div>
+                                <button type="button" class="btn btn-secondary" onclick="client.resetGlobals()">Reset pers.</button>
+                            </div>
+                            <button class="btn btn-primary" onclick="client.loadCard([], true); client.validateInputs()">Aggiungi</button>
+                            <button class="btn btn-primary" style="display: none" onclick="client.logCards()">LOG
+                                CARDS</button>
+                        </div>
+                    </div>
+
+                    <!-- PREVIEW CARD -->
+                    <div class="templateCardSect cardsSect">
+                        <div class="card templateCard" id="previewCard">
+                            <div class="cardRowTop">
+                                <div class="templateCard" id="contTopL"><span id="prevTopL" name="inTopL"></span><div id="prevContImgTopL" class="preview-wrapper hidden"><img class="card-image" id="prevImgTopL" alt="" src=""></div></div>
+                                <div class="templateCard" id="contTopM"><span id="prevTopM" name="inTopM"></span><div id="prevContImgTopM" class="preview-wrapper hidden"><img class="card-image" id="prevImgTopM" alt="" src=""></div></div>
+                                <div class="templateCard" id="contTopR"><span id="prevTopR" name="inTopR"></span><div id="prevContImgTopR" class="preview-wrapper hidden"><img class="card-image" id="prevImgTopR" alt="" src=""></div></div>
+                            </div>
+
+                            <div class="cardRowMid">
+                                <div class="templateCard" id="contMidL"><span id="prevMidL" name="inMidL"></span><div id="prevContImgMidL" class="preview-wrapper hidden"><img class="card-image" id="prevImgMidL" alt="" src=""></div></div>
+                                <div class="templateCard" id="contMidM"><span id="prevMidM" name="inMidM"></span><div id="prevContImgMidM" class="preview-wrapper hidden"><img class="card-image" id="prevImgMidM" alt="" src=""></div></div>
+                                <div class="templateCard" id="contMidR"><span id="prevMidR" name="inMidR"></span><div id="prevContImgMidR" class="preview-wrapper hidden"><img class="card-image" id="prevImgMidR" alt="" src=""></div></div>
+                            </div>
+
+                            <div class="cardRowBot">
+                                <div class="templateCard" id="contBotL"><span id="prevBotL" name="inBotL"></span><div id="prevContImgBotL" class="preview-wrapper hidden"><img class="card-image" id="prevImgBotL" alt="" src=""></div></div>
+                                <div class="templateCard" id="contBotM"><span id="prevBotM" name="inBotM"></span><div id="prevContImgBotM" class="preview-wrapper hidden"><img class="card-image" id="prevImgBotM" alt="" src=""></div></div>
+                                <div class="templateCard" id="contBotR"><span id="prevBotR" name="inBotR"></span><div id="prevContImgBotR" class="preview-wrapper hidden"><img class="card-image" id="prevImgBotR" alt="" src=""></div></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- ACCORDIONS -->
+                <div class="autoGenContainter no-print">
+                    <button onclick="openAccordion(this)" class="accordion homePage-accordion">Genera carte</button>
+                    <div class="panel">
+                        <div class="autoGenSect">
+                            <div>
+                                <label for="groupingSelected" class="smallText">Seleziona un raggruppamento:</label>
+                                <div class="select-container">
+                                    <select class="custom-select" id="groupingSelected" onchange="client.getServerGroups(this.value);client.unlockButton(groupSelected.value);">
+                                        <option value="x" selected disabled>Seleziona un raggruppamento</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="groupSelected" class="smallText">Seleziona un gruppo:</label>
+                                <div class="select-container">
+                                    <select class="custom-select" id="groupSelected" onchange="client.unlockButton(this.value);">
+                                        <option value="x" selected disabled>Seleziona un gruppo</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="sliderContainer">
+                                <%- include('../components/slider/slider.ejs', { "id": 'cardsNumber', "label": "Sillabe per carta", "min": 1, "max": 9, "value": 9, "oninput": "" }); %>
+                            </div>
+
+                        </div>
+                        <div class="autoGenSect">
+                            <div class="warning">
+                                <span><i class="fa-solid fa-triangle-exclamation"></i> <b>ATTENZIONE!</b> <i class="fa-solid fa-triangle-exclamation"></i><br>La generazione delle carte potrebbe dare risultati non precisi, ricontrollare i risultati</span>
+                            </div>
+                            <div>
+                                <button id="generateCardsBtn" class="btn btn-primary" disabled onclick="client.generateCards(groupingSelected.value, groupSelected.value, cardsNumber.value);">Crea carte</button>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="openAccordion(this)" class="accordion homePage-accordion">Personalizza carta</button>
+                    <div class="panel">
+                        <div class="customizeCardsSect">
+                            <!-- CARD CUSTOMIZATION -->
+                            <div class="settingsContainer">
+                                <!-- COLORS -->
+                                <div class="settingSect">
+                                    <div class="colSect">
+                                        <div class="colorTitle">
+                                            <label for="cardBg">Sfondo</label>
+                                            <input type="color" class="color-input" id="cardBg" name="cardBg" value="#FFFFFF" oninput="client.updatePrevCard(this)" />
+                                        </div>
+                                        <%- include('../components/colorPicker/colorPicker.ejs', { id: 'cardBg'}); %>
+                                    </div>
+                                    <div class="colSect">
+                                        <div class="colorTitle">
+                                            <label for="cardBorder">Bordo</label>
+                                            <input type="color" class="color-input" id="cardBorder" name="cardBorder" value="#000000" oninput="client.updatePrevCard(this)" />
+                                        </div>
+                                        <%- include('../components/colorPicker/colorPicker.ejs', { id: 'cardBorder'}); %>
+                                    </div>
+                                    <div class="colSect">
+                                        <div class="colorTitle">
+                                            <label for="cardGlobalTextCol">Testo</label>
+                                            <input type="color" class="color-input" id="cardGlobalTextCol" name="cardGlobalTextCol" value="#000000" oninput="client.updatePrevCard(this)" />
+                                        </div>
+                                        <%- include('../components/colorPicker/colorPicker.ejs', { id: 'cardGlobalTextCol'}); %>
+                                    </div>
+                                </div>
+                                <div class="settingSect">
+                                    <div class="colSect">
+                                        <%- include('../components/textFormatting/textFormatting.ejs', { elementToSync: 'previewCard'}); %>
+                                    </div>
+                                    <div class="colSect">
+                                        <div class="bold ">
+                                            <label for="fontSelector">FONT</label>
+                                            <%- include('../components/fontPicker/fontPicker.ejs'); %>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cardsContainer">
+                <div class="loadedCardsSect no-print">
+                    <div class="title">
+                        <h3>LE TUE CARTE</h3>
+                    </div>
+                </div>
+
+                <div class="cardsSect" id="cardsSectId">
+                    <div id="cardsSectPad" class="cardsSectPad">
+                        &nbsp;
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <%- include('../components/modal/modals.ejs'); %>
+        <%- include('../components/dialog/dialog.ejs'); %>
+    </div>
+</body>
+
+</html>

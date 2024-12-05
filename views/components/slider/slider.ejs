@@ -1,0 +1,23 @@
+<link rel="stylesheet" href="./components/slider/sliderStyle.css">
+<script type="module">
+    import * as sliderClient from "./components/slider/sliderClient.js";
+    window.updateInputValue = sliderClient.updateInputValue;
+    window.updateSliderValue = sliderClient.updateSliderValue;
+</script>
+
+
+<div class="slider-container">
+    <div class="center slider-label">
+        <label class="bold" for="fontSize"><%= label %></label>
+    </div>
+    <input
+        type="range"
+        min=<%= min %>
+        max=<%= max %>
+        value=<%= value %>
+        class="custom-slider"
+        id=<%= id %>
+        oninput="updateInputValue(this);<%= oninput %>"
+    >
+    <input class="slider-value" id="<%= id %>sliderValue" value="<%= value %>" type="number" min=<%= min %> max=<%= max %> onchange="updateSliderValue(this, <%= id %>)" />
+</div>

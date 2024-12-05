@@ -1,0 +1,63 @@
+[
+  {
+    "_id": 1,
+    "groupingName": "RAGGR. TEST 01",
+    "groups": [
+      {
+        "groupid": "g_1",
+        "possiblePairing": [
+          "DA",
+          "RA",
+          "TA"
+        ],
+        "syllable": "DA"
+      },
+      {
+        "groupid": "g_2",
+        "possiblePairing": [
+          "BA",
+          "GA",
+          "JA",
+          "AO"
+        ],
+        "syllable": "TA"
+      }
+    ]
+  },
+  {
+    "_id": 2,
+    "groupingName": "RAGGR. TEST 02",
+    "groups": [
+      {
+        "groupid": "g_1",
+        "syllable": "TE",
+        "possiblePairing": [
+          "DA",
+          "RA",
+          "TA",
+          "LMAO"
+        ]
+      },
+      {
+        "groupid": "g_2",
+        "syllable": "ST",
+        "possiblePairing": [
+          "BA",
+          "GA",
+          "JA",
+          "AO"
+        ]
+      },
+      {
+        "groupid": "g_3",
+        "syllable": "GROUPING",
+        "possiblePairing": [
+          "GAB",
+          "BA",
+          "GO",
+          "OOLS"
+        ]
+      }
+    ]
+  }
+]

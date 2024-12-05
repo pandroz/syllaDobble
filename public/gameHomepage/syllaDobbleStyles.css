@@ -1,0 +1,484 @@
+* {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+.card:nth-child(6n) {
+    page-break-after: always;
+}
+
+.title {
+    text-align: center;
+}
+
+.buttonSect {
+    padding: 2% 0%;
+    display: flex;
+    flex-direction: column;
+}
+
+.templatingContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    border-top: 1px solid rgba(102, 102, 102, 0.712);
+    position: relative;
+}
+
+.templateCardContainer {
+    width: 60%;
+    padding: 1% 2%;
+    position: relative;
+}
+
+.cardsContainer {
+    width: 40%;
+    border-left: 1px solid rgba(102, 102, 102, 0.712);
+}
+
+.cardsContainer>.cardsSect {
+    width: 100%;
+    overflow-y: scroll;
+    padding-top: 1%;
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 2%;
+}
+
+.cardsSectPad {
+    width: 100%;
+    height: 83.4vh;
+}
+
+.descriptionSection {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+}
+
+.instructionSect {
+    padding: 2%;
+    width: 100%;
+    height: 100%;
+}
+
+.cardsSect {
+    width: 35%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    max-height: 83.4vh;
+}
+
+.templateCard {
+    width: 80%;
+    text-align: center;
+}
+
+.textColorPicker {
+    position: absolute;
+    width: 15px;
+    height: 21px;
+    right: 5%;
+    bottom: 2%;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid black;
+    border-radius: 100%;
+    width: 7cm;
+    height: 7cm;
+    margin: 5px;
+    font-size: 24px;
+    page-break-inside: avoid;
+    background-color: transparent;
+    position: relative;
+}
+
+.card.templateCard {
+    width: 10cm;
+    height: 10cm;
+}
+
+.cardTextInput,
+.cardTextInput>input[type=text] {
+    background-color: transparent;
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    font-size: 1.8rem;
+    position: relative;
+}
+
+.card>div>input[type=text]:focus,
+.cardTextInput:focus,
+.cardTextInput>input[type=text] {
+    outline: none;
+}
+
+.card>div>input[type=text]:focus-visible,
+.cardTextInput:focus-visible,
+.cardTextInput>input[type=text] {
+    outline: none;
+}
+
+.card>div>input[type=color],
+.cardColorInput,
+.cardTextInput>input[type=color] {
+    border: 0px;
+    background-color: transparent;
+}
+
+.cardRowTop {
+    width: 85%;
+    height: 33%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-end;
+}
+
+.cardRowTop>div:nth-child(2) {
+    margin-bottom: 15%;
+}
+
+.cardRowTop>input:nth-child(3),
+.cardRowTop>input:nth-child(4) {
+    margin-bottom: 15%;
+}
+
+input:nth-child(4) {
+    margin-left: -14px;
+}
+
+.cardRowBot {
+    width: 85%;
+    height: 33%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+.cardRowBot>div:nth-child(2) {
+    padding-top: 15%;
+}
+
+.cardRowBot>input:nth-child(3),
+.cardRowBot>input:nth-child(4) {
+    margin-top: 15%;
+}
+
+.cardRowMid {
+    width: 90%;
+    height: 30%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cardRowMid>input:nth-child(3) {
+    margin-left: 2%;
+}
+
+.cardRowMid>input:nth-child(4) {
+    margin-right: 2%;
+}
+
+.settingsContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+}
+
+.settingSect {
+    width: 33%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+}
+
+.colSect {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin-bottom: 2%;
+}
+
+.colorTitle {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center
+}
+
+.colorTitle>label {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.addItemInput {
+    width: 30%;
+}
+
+.cardContainer {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: flex-start;
+    text-align: center;
+}
+
+.cardBtn {
+    width: 25px !important;
+    height: 25px !important;
+}
+
+.resetBtn {
+    margin-top: 3%;
+    width: 50px;
+}
+
+.saveBtn {
+    margin-top: 3%;
+}
+
+.actionButtonsContainer {
+    width: 12%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-right: 3%;
+}
+
+.actionButtons {
+    padding: 0 2%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.actionButtons>button,
+.actionButtons>label {
+    margin-top: 5%;
+}
+
+.fileManage {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: flex-end;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.hidden {
+    display: none !important;
+}
+
+@media screen and (max-width: 1700px) {
+    .warning {
+        width: 75% !important;
+    }
+}
+
+@media screen and (max-width: 1244px) {
+    .buttonContainer {
+        width: 100%;
+    }   
+}
+
+
+
+.instructionSect>ul>li {
+    margin: 2% 0%;
+}
+
+.instructionSect>ul>li>button {
+    border: 0px;
+    background-color: transparent;
+    text-decoration: underline;
+}
+
+.labelBtn {
+    width: 80px !important;
+    height: 18px !important;
+    padding: 10px 0px !important;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    /* Right align the menu */
+    min-width: 160px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 8px 0;
+    margin-top: 8px;
+    z-index: 1000;
+}
+
+.dropdown-content button {
+    display: block;
+    width: 100%;
+    background-color: transparent;
+    border: 0;
+    font-size: 1.3rem;
+    padding: 12px 16px;
+    text-decoration: none;
+    color: #4a5568;
+    transition: background-color 0.2s;
+}
+
+.dropdown-content label {
+    display: block;
+    width: auto;
+    text-align: center;
+    background-color: transparent;
+    border: 0;
+    font-size: 1.3rem;
+    padding: 12px 16px;
+    text-decoration: none;
+    color: #4a5568;
+    transition: background-color 0.2s;
+}
+
+
+.dropdown-content button:hover,
+.dropdown-content div:hover,
+.dropdown-content label:hover {
+    background-color: rgba(247, 250, 252);
+    color: #1a202c;
+}
+
+/* Show dropdown when button is clicked */
+.dropdown-button:focus+.dropdown-content,
+.dropdown-content:hover {
+    display: block;
+}
+
+/* Add a subtle arrow at the top of dropdown */
+.dropdown-content::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    right: 20px;
+    width: 12px;
+    height: 12px;
+    background-color: white;
+    transform: rotate(45deg);
+    box-shadow: -2px -2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.selectedEditCard {
+    border: 1px solid rgba(102, 102, 102, 0.712);
+    border-radius: 5px;
+    background-color: rgba(102, 102, 102, 0.40);
+}
+
+.blackFont {
+    color: black !important;
+}
+
+.autoGenContainter {
+    margin-top: 5%;
+}
+
+.autoGenContainter>.panel {
+    border: 1px solid rgba(102, 102, 102, 0.712);
+    background: #e3e3e3;
+}
+
+.autoGenSect {
+    width: 90%;
+    padding: 2%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.customizeCardsSect {
+    width: 100%;
+    padding: 2%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.autoGenSect>.smallText {
+    vertical-align: middle;
+}
+
+.warningInput {
+    background-color: rgba(255, 0, 0, 0.4) !important;
+    border: 2px solid rgb(255, 0, 0) !important;
+}
+
+.warning {
+    width: 85%;
+    padding: 1%;
+    font-size: 0.7rem;
+    text-align: center;
+}
+
+.sliderContainer {
+    width: 25%;
+}
+
+.switcherContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-image {
+    max-height: 2cm !important;
+    max-width: 2cm !important;    
+}
+
+.preview-wrapper {
+    position: relative;
+}
+
+.remove-image {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: rgba(255, 0, 0, 0.4) !important;
+    border: 1px solid rgb(255, 0, 0) !important;
+    border-radius: 50%;
+}
+
+#previewCard {
+    background-color: #FFFFFF;
+}

@@ -1,0 +1,60 @@
+<script type="module">
+    import * as imagesClient from "./components/cardTemplates/imagesTemplatesClient.js";
+    window.imagesClient = imagesClient;
+</script>
+
+<div id="imagesTemplate" class="templateCardSect cardsSect hidden">
+    <div class="card templateCard" id="templateCard">
+
+        
+        <div class="cardRowTop">
+            <div class="cardTextInput">
+                <label id="imgLblTopL" for="imgTopL" class="image-label"> <i class="fa-solid fa-plus"></i> </label>
+                <input type="file" id="imgTopL" src="" onchange="imagesClient.uploadImage(this)" name="imgTopL" class="image-input hidden" aria-labelledby="imgLblTopL" accept="image/*">
+            </div>
+            <div class="cardTextInput">
+
+                <label id="imgLblTopM" for="imgTopM" class="image-label"> <i class="fa-solid fa-plus"></i> </label>
+                <input type="file" id="imgTopM" src="" onchange="imagesClient.uploadImage(this)" name="imgTopM" class="image-input hidden" aria-labelledby="imgLblTopM" accept="image/*">
+            </div>
+            <div class="cardTextInput">
+                <label id="imgLblTopR" for="imgTopR" class="image-label"> <i class="fa-solid fa-plus"></i> </label>
+                <input type="file" id="imgTopR" src="" onchange="imagesClient.uploadImage(this)" name="imgTopR" class="image-input hidden" aria-labelledby="imgLblTopR" accept="image/*">
+            </div>
+        </div>
+
+
+
+        <div class="cardRowMid">
+            <div class="cardTextInput">
+                <label id="imgLblMidL" for="imgMidL" class="image-label"> <i class="fa-solid fa-plus"></i> </label>
+                <input type="file" id="imgMidL" src="" onchange="imagesClient.uploadImage(this)" name="imgMidL" class="image-input hidden" aria-labelledby="imgLblMidL" accept="image/*">
+            </div>
+            <div class="cardTextInput">
+                <label id="imgLblMidM" for="imgMidM" class="image-label"> <i class="fa-solid fa-plus"></i> </label>
+                <input type="file" id="imgMidM" src="" onchange="imagesClient.uploadImage(this)" name="imgMidM" class="image-input hidden" aria-labelledby="imgLblMidM" accept="image/*">
+            </div>
+            <div class="cardTextInput">
+                <label id="imgLblMidR" for="imgMidR" class="image-label"> <i class="fa-solid fa-plus"></i> </label>
+                <input type="file" id="imgMidR" src="" onchange="imagesClient.uploadImage(this)" name="imgMidR" class="image-input hidden" aria-labelledby="imgLblMidR" accept="image/*">
+            </div>
+        </div>
+
+
+
+        <div class="cardRowBot">
+            <div class="cardTextInput">
+                <label id="imgLblBotL" for="imgBotL" class="image-label"> <i class="fa-solid fa-plus"></i> </label>
+                <input type="file" id="imgBotL" src="" onchange="imagesClient.uploadImage(this)" name="imgBotL" class="image-input hidden" aria-labelledby="imgLblBotL" accept="image/*">
+            </div>
+            <div class="cardTextInput">
+                <label id="imgLblBotM" for="imgBotM" class="image-label"> <i class="fa-solid fa-plus"></i> </label>
+                <input type="file" id="imgBotM" src="" onchange="imagesClient.uploadImage(this)" name="imgBotM" class="image-input hidden" aria-labelledby="imgLblBotM" accept="image/*">
+            </div>
+            <div class="cardTextInput">
+                <label id="imgLblBotR" for="imgBotR" class="image-label"> <i class="fa-solid fa-plus"></i> </label>
+                <input type="file" id="imgBotR" src="" onchange="imagesClient.uploadImage(this)" name="imgBotR" class="image-input hidden" aria-labelledby="imgLblBotR" accept="image/*">
+            </div>
+        </div>
+    </div>
+</div>

@@ -394,9 +394,24 @@ export function allowEditing(card, editCardBtn, saveCardBtn) {
         if (!_.includes(['cardBg', 'cardBorder', 'cardGlobalTextCol', 'cardId', 'cardFormats'], key) && !_.startsWith(key, 'prevImg')) {
             element.value = value;
             syncPreview(element);
-        } else if (_.startsWith(key, 'prevImg')) {
+        } else if (_.startsWith(key, 'prevImg') && !_.isEmpty(value)) {
             element.src = value;
             element.classList.remove('hidden');
+            let parentElement = element.parentElement;
+            parentElement.classList.remove('hidden');
+            
+            
+            const removeBtn = document.createElement('button');            
+            removeBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+            removeBtn.id = 'remove' + _.upperFirst(key);
+            removeBtn.className = 'remove-image';
+            removeBtn.onclick = () => {
+                removeBtn.remove();
+                element.src = '';
+                element.classList.add('hidden');
+            };
+            parentElement.appendChild(removeBtn);
+
         } else if (_.includes(['cardBg', 'cardBorder', 'cardGlobalTextCol'], key)) {
             element.value = value;
             updatePrevCard(element);
@@ -750,5 +765,9 @@ export function changeCardType(syllablesTemplate, imagesTemplate) {
 function hideImagePreviews() {
     $('img[id^="prevImg"]').each(function () {
         $(this).addClass('hidden');
+    });
+
+    $('button[id^="removePrevImg"]').each(function () {
+        $(this).remove();
     });
 }

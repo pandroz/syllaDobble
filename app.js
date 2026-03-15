@@ -11,6 +11,8 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
+app.use(express.static(path.join(__dirname, 'public')));
+
 
 // const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
 // const __dirname = path.dirname(__filename); // get the name of the directory
@@ -19,18 +21,19 @@ app.set('views', 'views');
 // app.use(express.static(path.join(__dirname, "./public")));
 // app.use(express.json());
 
-app.listen(3000, () => {
-    console.log("Server running on port 3000");
+app.listen(3001, () => {
+    console.log("Server running on port 3001");
 })
 
 
 
 // ROUTES
-const logobbleRoutes = require('./routes/logobbleRoutes.js');
-// const managementRoutes = require('./routes/managementRoutes.js');
+const logobbleRoutes = require('./routes/logobble.js');
+const managementRoutes = require('./routes/management.js');
 
 
 app.use('/', logobbleRoutes);
+app.use('/management', managementRoutes);
 
 
 // // PAGES
@@ -59,7 +62,7 @@ app.use('/', logobbleRoutes);
 // // GET
 
 // app.get("/get-groupings", (req, res) => {
-//     const groupings = mgmt.getGroupings();
+    // const groupings = mgmt.getGroupings();
 //     res.json(groupings);
 // });
 

@@ -1,33 +1,13 @@
-<%- include('../includes/header.ejs'); %>
-<link rel="stylesheet" href="css/syllaDobbleStyles.css">
-
-    <script type="module">
-        import * as client from './gameHomepage/homepageClient.js';
-        window.client = client;
-
-        import * as common from '../common/commonClient.js'
-        window.common = common;
-
-        import * as fontClient from './components/fontPicker/fontPickerClient.js'
-        window.fontClient = fontClient;
-    </script>
-
-    <script type="text/javascript">
-        window.onload = function () {
-            client.refreshGroupings()
-            fontClient.loadFonts();
-        };
-
-    </script>
+    <%- include('../includes/header.ejs'); %>
+    <link rel="stylesheet" href="css/syllaDobbleStyles.css">
 </head>
 
 <body>
     <div class="page">
-        <%- include('../components/header.ejs'); %>
-        <%- include('../components/loaders/book-loader.ejs'); %>
-
+        <%- include('../components/navbar.ejs'); %>
+        
         <div class="templatingContainer">
-            <button onclick="common.openModal('modal_tutorial_cardCreation')" class="btn-info no-print tutorialBtn"><i
+            <button onclick="openModal('modal_tutorial_cardCreation')" class="btn-info no-print tutorialBtn"><i
                     class="fa-solid fa-question"></i><span>GUIDA</span></button>
 
             <div class="templateCardContainer  no-print">
@@ -36,10 +16,10 @@
                 <div class="dropdown btn-info no-print">
                     <button class="dropdown-button"><i class="fa-solid fa-ellipsis-vertical"></i></button>
                     <div class="dropdown-content">
-                        <button onclick="client.stampaPagine()">Stampa</button>
-                        <button onclick="client.saveCards()">Salva</button>
+                        <button onclick="stampaPagine()">Stampa</button>
+                        <button onclick="saveCards()">Salva</button>
 
-                        <input type="file" id="cardsUpload" onchange="client.uploadCards(this)" style="display: none;" />
+                        <input type="file" id="cardsUpload" onchange="uploadCards(this)" style="display: none;" />
                         <label for="cardsUpload">Carica</label>
 
                     </div>
@@ -55,7 +35,7 @@
                     </div>
                 </div>
 
-                
+
                 <div class="flexRow">
                     <!-- TEMPLATE CARDS -->
                     <input type="hidden" id="cardId" name="cardId" />
@@ -65,16 +45,16 @@
                     <!-- BUTTONS -->
                     <div class="actionButtonsContainer">
                         <div class="">
-                            <%- include('../components/switchSlider/switchSlider.ejs', { "right": '<i class="fa-regular fa-image"></i>', "left": "A", 'onclick': 'client.changeCardType(imagesTemplate, syllablesTemplate)' }); %>
+                            <%- include('../components/switchSlider/switchSlider.ejs', { "right": '<i class="fa-regular fa-image"></i>', "left": "A", 'onclick': 'changeCardType(imagesTemplate, syllablesTemplate)' }); %>
                         </div>
                         <div class="actionButtons">
                             <div class="tooltip-wrapper">
                                 <div class="tooltip tooltip-top tooltip-info">Reimposta valori predefiniti dei campi
                                 </div>
-                                <button type="button" class="btn btn-secondary" onclick="client.resetGlobals()">Reset pers.</button>
+                                <button type="button" class="btn btn-secondary" onclick="resetGlobals()">Reset pers.</button>
                             </div>
-                            <button class="btn btn-primary" onclick="client.loadCard([], true); client.validateInputs()">Aggiungi</button>
-                            <button class="btn btn-primary" style="display: none" onclick="client.logCards()">LOG
+                            <button class="btn btn-primary" onclick="loadCard([], true); validateInputs()">Aggiungi</button>
+                            <button class="btn btn-primary" style="display: none" onclick="logCards()">LOG
                                 CARDS</button>
                         </div>
                     </div>
@@ -112,7 +92,7 @@
                             <div>
                                 <label for="groupingSelected" class="smallText">Seleziona un raggruppamento:</label>
                                 <div class="select-container">
-                                    <select class="custom-select" id="groupingSelected" onchange="client.getServerGroups(this.value);client.unlockButton(groupSelected.value);">
+                                    <select class="custom-select" id="groupingSelected" onchange="getServerGroups(this.value);unlockButton(groupSelected.value);">
                                         <option value="x" selected disabled>Seleziona un raggruppamento</option>
                                     </select>
                                 </div>
@@ -120,7 +100,7 @@
                             <div>
                                 <label for="groupSelected" class="smallText">Seleziona un gruppo:</label>
                                 <div class="select-container">
-                                    <select class="custom-select" id="groupSelected" onchange="client.unlockButton(this.value);">
+                                    <select class="custom-select" id="groupSelected" onchange="unlockButton(this.value);">
                                         <option value="x" selected disabled>Seleziona un gruppo</option>
                                     </select>
                                 </div>
@@ -135,7 +115,7 @@
                                 <span><i class="fa-solid fa-triangle-exclamation"></i> <b>ATTENZIONE!</b> <i class="fa-solid fa-triangle-exclamation"></i><br>La generazione delle carte potrebbe dare risultati non precisi, ricontrollare i risultati</span>
                             </div>
                             <div>
-                                <button id="generateCardsBtn" class="btn btn-primary" disabled onclick="client.generateCards(groupingSelected.value, groupSelected.value, cardsNumber.value);">Crea carte</button>
+                                <button id="generateCardsBtn" class="btn btn-primary" disabled onclick="generateCards(groupingSelected.value, groupSelected.value, cardsNumber.value);">Crea carte</button>
                             </div>
                         </div>
                     </div>
@@ -149,21 +129,21 @@
                                     <div class="colSect">
                                         <div class="colorTitle">
                                             <label for="cardBg">Sfondo</label>
-                                            <input type="color" class="color-input" id="cardBg" name="cardBg" value="#FFFFFF" oninput="client.updatePrevCard(this)" />
+                                            <input type="color" class="color-input" id="cardBg" name="cardBg" value="#FFFFFF" oninput="updatePrevCard(this)" />
                                         </div>
                                         <%- include('../components/colorPicker/colorPicker.ejs', { id: 'cardBg'}); %>
                                     </div>
                                     <div class="colSect">
                                         <div class="colorTitle">
                                             <label for="cardBorder">Bordo</label>
-                                            <input type="color" class="color-input" id="cardBorder" name="cardBorder" value="#000000" oninput="client.updatePrevCard(this)" />
+                                            <input type="color" class="color-input" id="cardBorder" name="cardBorder" value="#000000" oninput="updatePrevCard(this)" />
                                         </div>
                                         <%- include('../components/colorPicker/colorPicker.ejs', { id: 'cardBorder'}); %>
                                     </div>
                                     <div class="colSect">
                                         <div class="colorTitle">
                                             <label for="cardGlobalTextCol">Testo</label>
-                                            <input type="color" class="color-input" id="cardGlobalTextCol" name="cardGlobalTextCol" value="#000000" oninput="client.updatePrevCard(this)" />
+                                            <input type="color" class="color-input" id="cardGlobalTextCol" name="cardGlobalTextCol" value="#000000" oninput="updatePrevCard(this)" />
                                         </div>
                                         <%- include('../components/colorPicker/colorPicker.ejs', { id: 'cardGlobalTextCol'}); %>
                                     </div>
@@ -201,9 +181,12 @@
             </div>
         </div>
 
-        <%- include('../components/modal/modals.ejs'); %>
-        <%- include('../components/dialog/dialog.ejs'); %>
-    </div>
-</body>
 
-</html>
+    </div>
+
+    <%- include('../components/modal/modals.ejs'); %>
+    <%- include('../components/dialog/dialog.ejs'); %>
+    <%- include('../components/loaders/book-loader.ejs'); %>
+    <script src="js/logobble.js"></script>
+    <script src="js/fontPicker.js"></script>
+    <%- include('../includes/footer.ejs'); %>

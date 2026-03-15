@@ -1,0 +1,28 @@
+<div class="header no-print">
+    <span id="pageTitle">Log-ooble!</span>
+    <div class="navBar">
+        <a href="/"><i class="fa-solid fa-house"></i></a>
+        <a href="/management"><i class="fa-solid fa-gear"></i></a>
+    </div>
+</div>
+
+<script>
+    let delay = 200;
+    let title = document.getElementById("pageTitle");
+    title.innerHTML = "LOG-OBBLE!"
+        .split("")
+        .map(letter => {
+            // console.log(letter);
+            return `<span>` + letter + `</span>`;
+        })
+        .join("");
+
+    Array.from(title.children).forEach((span, index) => {
+        setTimeout(
+            () => {
+                span.classList.add("wavy");
+            },
+            index * 60 + delay,
+        );
+    });
+</script>

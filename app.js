@@ -21,7 +21,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // app.use(express.static(path.join(__dirname, "./public")));
 // app.use(express.json());
 
-app.listen(3001, () => {
+app.listen(3000, () => {
     console.log("Server running on port 3001");
 })
 

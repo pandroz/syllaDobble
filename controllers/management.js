@@ -1,8 +1,8 @@
 const _ = require('lodash');
-const fs = require('fs/promises');
-const fsSync = require('fs');
+const fs = require('fs');
+// const fsSync = require('fs');
 
-const filePath = './public/managementPage/groupings.json';
+const filePath = './data/groupings.json';
 
 function uniqueID() {
     return Math.floor(Math.random() * Date.now())
@@ -10,7 +10,7 @@ function uniqueID() {
 
 function getJsonData() {
     try {
-        let jsonData = fsSync.readFileSync(filePath, 'utf8');
+        let jsonData = fs.readFileSync(filePath, 'utf8');
         return JSON.parse(jsonData);
     } catch (e) {
         console.log('[ERROR:getJsonData()]: ', e)
@@ -25,14 +25,14 @@ exports.getManagement = (req, res, next) => {
     });
 }
 
-exports.getGroupings = () => {
+exports.getGroupings = (req, res, next) => {
     console.log('[getGroupings] called');
     try {
         let jsonData = getJsonData() || [];
-        return {
+        res.json({
             success: true,
             groupings: jsonData
-        };
+        });
     } catch (e) {
         console.log('[ERROR: getGroupings()]: ', e)
         return {
@@ -42,7 +42,7 @@ exports.getGroupings = () => {
     }
 }
 
-exports.getGroupingsNames = () => {
+exports.getGroupingsNames = (req, res, next) => {
     try {
         let jsonData = getJsonData();
         let groupingNames = _.map(jsonData, d => {

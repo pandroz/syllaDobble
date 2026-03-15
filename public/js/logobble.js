@@ -10,6 +10,7 @@ let editingCardId = '';
 
 document.addEventListener('DOMContentLoaded', () => {
     refreshGroupings();
+    loadFonts();
     freezePage(false);
 });
 
@@ -111,7 +112,7 @@ function formatCardValues(card) {
     editButton.className = 'groupingButton no-print';
     editButton.innerHTML = '<i class="fa-solid fa-pencil"></i>';
     editButton.onclick = () => {
-        client.allowEditing(cardElement, editButton, saveButton);
+        allowEditing(cardElement, editButton, saveButton);
     };
 
     // Save button
@@ -120,7 +121,7 @@ function formatCardValues(card) {
     saveButton.className = 'groupingButton no-print hidden blackFont';
     saveButton.innerHTML = '<i class="fa-regular fa-floppy-disk"></i>';
     saveButton.onclick = () => {
-        client.updateCard(cardElement, saveButton, editButton);
+        updateCard(cardElement, saveButton, editButton);
     };
 
     // Delete button
@@ -129,7 +130,7 @@ function formatCardValues(card) {
     deleteButton.className = 'groupingButton no-print';
     deleteButton.innerHTML = '<i class="fas fa-times btn-delete"></i>';
     deleteButton.onclick = () => {
-        client.removeCard(cardId, cardContainer);
+        removeCard(cardId, cardContainer);
     };
 
     cardContainer.appendChild(editButton);
@@ -446,10 +447,13 @@ function updateCard(card, editCardBtn, saveCardBtn) {
     validateInputs();
 }
 
-function refreshGroupings(selectedGrouping) {
-    fetch('/management/get-groupings')
+
+const refreshGroupings = async (selectedGrouping) => {
+    await fetch('/management/get-groupings')
         .then(response => response.json())
         .then(data => {
+            GROUPS = data.groupings;
+            console.log('[getGroupings] data ==> ', data);
             if (data.success) {
                 handleGroupingsHtml(_.get(data, 'groupings'), selectedGrouping);
             } else {

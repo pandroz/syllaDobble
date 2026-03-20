@@ -1,33 +1,9 @@
-<!DOCTYPE html>
-<html lang="">
-
-<head>
-    <title>Gestione Carte</title>
-    <link rel="stylesheet" href="./common/commonStyles.css">
-    <link rel="stylesheet" href="./managementPage/managementStyles.css">
-
-    <script type="module">
-        // window.addGrouping = addGrouping;
-        import * as client from './managementPage/managementClient.js'
-        window.client = client;
-
-        // import { openModal } from '../common/commonClient.js'
-        // window.openModal = openModal;
-        import * as common from '../common/commonClient.js'
-        window.common = common;
-    </script>
-
-    <script type="text/javascript">
-        window.onload = function () {
-            client.loadGroupings()
-            // common.openDialog('dialog_saveError', 'error')
-        };
-
-    </script>
+    <%- include('../includes/header.ejs'); %>
+    <link rel="stylesheet" href="/css/managementStyles.css">
 </head> 
 
 <body>
-    <%- include('../includes/header.ejs'); %>
+    <%- include('../components/navbar.ejs'); %>
     <%- include('../components/modal/modals.ejs'); %>
     <%- include('../components/dialog/dialog.ejs'); %>
     <%- include('../components/loaders/book-loader.ejs'); %>
@@ -36,23 +12,23 @@
         <div class="pageContainer">
             <div class="groupingsTitle subtitle">
                 <div>Impostazioni</div>
-                <button onclick="common.openModal('modal_tutorial_management')" class="btn-info tutorialBtn"><i
+                <button onclick="openModal('modal_tutorial_management')" class="btn-info tutorialBtn"><i
                         class="fa-solid fa-question"></i><span>GUIDA</span></button>
             </div>
             <div class="settingsContainer">
                 <div class="buttonContainer">
-                    <button class="btn btn-primary" id="toggle-btn" onclick="common.toggleForm(newGroupingForm); client.checkGroupingForm(newGroupingForm, addNewGroupForm)">Nuovo
+                    <button class="btn btn-primary" id="toggle-btn" onclick="toggleForm(newGroupingForm); checkGroupingForm(newGroupingForm, addNewGroupForm)">Nuovo
                         raggruppamento</button>
                     <button class="btn btn-primary" id="addGroupBtn"
-                        onclick="common.toggleForm(addNewGroupForm); client.checkGroupingForm(newGroupingForm, addNewGroupForm)">Aggiungi gruppo</button>
+                        onclick="toggleForm(addNewGroupForm); checkGroupingForm(newGroupingForm, addNewGroupForm)">Aggiungi gruppo</button>
                     <div class="select-container">
                         <select class="custom-select" id="groupingSelected"
-                            onchange="client.loadGroupings(this.value);">
+                            onchange="loadGroupings(this.value);">
                             <option value="x" selected disabled>Seleziona un raggruppamento</option>
                         </select>
                     </div>
                     <button class="btn btn-danger" id="deleteGroupingBtn"
-                        onclick="common.openModal('modal_confirmDeletion')">Elimina raggruppamento</button>
+                        onclick="openModal('modal_confirmDeletion')">Elimina raggruppamento</button>
                 </div>
                 <div class="flexRow">
                     <!-- New grouping form -->
@@ -62,7 +38,7 @@
                             <input type="text" id="groupingName" name="name">
                         </div>
                         <button class="btn btn-primary"
-                            onclick="client.saveNewGrouping(groupingName.value);common.toggleForm(newGroupingForm)">Aggiungi</button>
+                            onclick="saveNewGrouping(groupingName.value);toggleForm(newGroupingForm)">Aggiungi</button>
                     </div>
                     <!-- END New grouping form -->
 
@@ -80,7 +56,7 @@
 
                             <div class="groupAdd">
                                 <button class="btn btn-primary"
-                                    onclick="client.addGroup(grouping_syllable, grouping_syllables); common.toggleForm(addNewGroupForm)">AGGIUNGI</button>
+                                    onclick="addGroup(grouping_syllable, grouping_syllables); toggleForm(addNewGroupForm)">AGGIUNGI</button>
                             </div>
                         </div>
                     </div>
@@ -95,6 +71,6 @@
             </div>
         </div>
     </div>
-</body>
-
-</html>
+    
+    <script src="/js/management.js"></script>
+    <%- include('../includes/footer.ejs'); %>

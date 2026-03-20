@@ -1,0 +1,158 @@
+.pageContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.settingsContainer {
+    border-bottom: 1px solid #888;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding: 1%;
+}
+
+.syllableContainer {
+    padding: 2%;
+}
+
+.groupingsTitle {
+    position: relative;
+    width: 100%;
+    text-transform: uppercase;
+    padding: 0.5% 0;
+}
+
+.buttonContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0.5%;
+    width: 55%;
+}
+
+.groupingContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.groupingHeader {
+    display: flex;
+    width: 98%;
+}
+
+.grouping {
+    margin: 2% 1.5%;
+    width: 12.5%;
+}
+
+.groupingTitle {
+    width: 100%;
+    font-size: 1.4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-weight: bold;
+    text-align: center;
+    background-color: transparent;
+    border: 0;
+}
+
+.groupingPairs {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.groupingPairs>textarea {
+    resize: none;
+    min-height: 5cm;
+    width: 95%;
+    font-size: 1.2rem;
+}
+
+
+.addGroupContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.addGroupForm {
+    width: 11.5%;
+}
+
+.addGroupTemplate {
+    width: 24%;
+}
+
+.addGroupTemplate>div {
+    width: 100%;
+}
+
+.addGroupingInput {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 17%;
+}
+
+.addGroupingInput>input {
+    width: 100%;
+    border: 0;
+    border-bottom: 1px solid #888;
+}
+
+.addGroupingInput>input[type=text]:focus {
+    outline: none;
+}
+
+.addGroupingInput>input[type=text]:focus-visible {
+    outline: none;
+}
+
+.addNewGroupForm {
+    padding: 0.5% 1%;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    animation: slideDown 0.3s ease-out;
+    height: fit-content;
+}
+
+.groupingTemplate {
+    margin: 2% 1.5%;
+}
+
+.groupAdd {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding: 3% 0%;
+}
+
+.groupingTemplate>.groupingTitle>input,
+.groupingTemplate>.groupingPairs>textarea {
+    width: 97%;
+}
+
+.padGroupspace {
+    margin-left: 14.5%;
+}
+
+
+@media screen and (max-width: 1584px) {
+    .buttonContainer {
+        width: 70%;
+    }   
+}
+
+@media screen and (max-width: 1244px) {
+    .buttonContainer {
+        width: 100%;
+    }   
+}

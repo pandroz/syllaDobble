@@ -449,12 +449,11 @@ function updateCard(card, editCardBtn, saveCardBtn) {
 
 
 const refreshGroupings = async (selectedGrouping) => {
-    await fetch('/management/get-groupings')
-        .then(response => response.json())
-        .then(data => {
-            GROUPS = data.groupings;
-            console.log('[getGroupings] data ==> ', data);
+    await axios.get('/management/get-groupings')
+        .then(res => {
+            let data = res.data;
             if (data.success) {
+                GROUPS = data.groupings;
                 handleGroupingsHtml(_.get(data, 'groupings'), selectedGrouping);
             } else {
                 console.error('Failed retrieve groupings data:', data.error);
@@ -495,29 +494,25 @@ function handleGroupingsHtml(groupings, selectedGrouping) {
 
 
 function getServerGroups(groupingId) {
-    let data = {
-        groupingId: _.toNumber(groupingId)
-    }
 
-    fetch('/get-groups', {
-        method: 'POST',
+    axios.post('/management/get-groups', {
+        groupingId: _.toNumber(groupingId)
+    }, {
         headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
         },
-        body: JSON.stringify(data)
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // console.log('[getServerGroups] GROUPS ==> ', data.groups);
-                GROUPS = data.groups;
-                handleGroupHtml(groupingId)
-                return data.groups
-            } else {
-                console.error('Failed to add item:', data.error);
-            }
-        })
-        .catch(error => console.error('Error:', error));
+    }).then(res => {
+        if (res.data.success) {
+            // console.log('[getServerGroups] GROUPS ==> ', data.groups);
+            GROUPS = res.data.groups;
+            handleGroupHtml(groupingId)
+            return res.data.groups
+        } else {
+            console.error('Failed to add item:', data.error);
+        }
+    }).catch(error => {
+        console.error('Error:', error)
+    });
 }
 
 

@@ -8,16 +8,18 @@ router.get('/', managementController.getManagement);
 
 router.get('/get-groupings', managementController.getGroupings);
 
-router.get('/get-groups', managementController.getGroups);
-
 router.get('/get-groupings-names', managementController.getGroupingsNames);
 
 // POST
+router.post('/get-groups', managementController.getGroups);
+
 router.post('/save-grouping', managementController.saveGrouping);
 
 router.post('/add-new-grouping', managementController.addNewGrouping);
 
 router.post('/delete-grouping', managementController.deleteGrouping);
+
+router.post('/delete-group', managementController.deleteGroup);
 
 
 

@@ -1,5 +1,6 @@
 const _ = require("lodash");
 const fs = require("fs");
+const e = require("express");
 // const fsSync = require('fs');
 
 const filePath = "./data/groupings.json";
@@ -34,10 +35,10 @@ exports.getGroupings = (req, res, next) => {
 		});
 	} catch (e) {
 		console.log("[ERROR: getGroupings()]: ", e);
-		return {
+		res.status(500).json({
 			success: true,
 			error: e,
-		};
+		});
 	}
 };
 
@@ -45,14 +46,20 @@ exports.getGroupingsNames = (req, res, next) => {
 	try {
 		let jsonData = getJsonData();
 		let groupingNames = _.map(jsonData, (d) => {
-			return {
+			res.status(200).json({
 				_id: _.get(d, "_id"),
 				groupingName: _.get(d, "groupingName"),
-			};
+			});
 		});
-		return groupingNames;
+		res.status(200).json({
+			success: true,
+			groupingNames: groupingNames
+		});
 	} catch (e) {
 		console.log("[ERROR: getGroupingsNames()]: ", e);
+		res.status(500).json({
+			error: e
+		});
 	}
 };
 
@@ -72,10 +79,10 @@ exports.getGroups = async (req, res, next) => {
 		});
 	} catch (e) {
 		console.log("[ERROR: getGroups()]: ", e);
-		return {
+		res.status(500).json({
 			success: false,
-			error: e,
-		};
+			error: e
+		});
 	}
 };
 
@@ -97,15 +104,16 @@ exports.addNewGrouping = async (req, res, next) => {
 		// Write back to file
 		fs.writeFileSync(filePath, JSON.stringify(jsonData, null, 2));
 
-		return {
+		res.status(200).json({
 			success: true,
 			newId: newId,
-		};
+		});
 	} catch (error) {
 		console.error("[addNewGrouping] Error: ", error);
-		return {
+		res.status(500).json({
 			success: false,
-		};
+			error
+		});
 	}
 };
 
@@ -129,7 +137,10 @@ exports.saveGrouping = async (req, res, next) => {
 		});
 	} catch (error) {
 		console.log("[saveGrouping] Error: ", error);
-		return false;
+		res.status(500).json({
+			success: false,
+			error
+		});
 	}
 };
 
@@ -145,20 +156,20 @@ exports.deleteGrouping = async (req, res, next) => {
 		if (!_.eq(itemIx, -1)) {
 			jsonData.splice(itemIx, 1);
 		} else {
-			return {
+			res.status(200).json({
 				success: false,
 				error: "No grouping found with this id",
-			};
+			});
 		}
 
-		await fs.writeFile(filePath, JSON.stringify(jsonData, null, 2));
+		fs.writeFileSync(filePath, JSON.stringify(jsonData, null, 2));
 
-		return {
+		res.status(200).json({
 			success: true,
-		};
+		});
 	} catch (error) {
 		console.log("[deleteGrouping] Error: ", error);
-		return false;
+		res.status(500).json({ error });
 	}
 };
 

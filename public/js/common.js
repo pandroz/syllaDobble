@@ -4,7 +4,7 @@
 let modals, dialogs;
 
 Promise.all([getModals(), getDialogs()]).then((values) => {
-    modals = values[0].data;
+	modals = values[0].data;
     dialogs = values[1].data;
 });
 

@@ -3,7 +3,7 @@
         "_id": "modal_baseHtml",
         "title": "Basic Modal HTML",
         "lang": "IT",
-        "body": "<div class=\"modal-content\">\n<div class=\"modal-header\">\n<button class=\"close\" onclick=\"common.closeModal(modal_tutorial)\">&times;</button>\n<h2 id=\"modal-header\">##TitleText##</h2>\n</div>\n<div class=\"modal-body\" id=\"modal-body\">\n##BodyText##\n</div>\n<div class=\"modal-footer\">\n<span></span>\n</div>\n</div>"
+        "body": "<div class=\"modal-content\">\n<div class=\"modal-header\">\n<button class=\"close\" onclick=\"closeModal(modal_tutorial)\">&times;</button>\n<h2 id=\"modal-header\">##TitleText##</h2>\n</div>\n<div class=\"modal-body\" id=\"modal-body\">\n##BodyText##\n</div>\n<div class=\"modal-footer\">\n<span></span>\n</div>\n</div>"
     },
     {
         "_id": "modal_accordionBasic",
@@ -26,7 +26,7 @@
     {
         "_id": "modal_confirmDeletion",
         "title": "Conferma eliminazione?",
-        "bodyText": "<div><div><p class=\"confirmText\">Confermare eliminazione?</p></div><div class=\"confirmDeletionBtns\"><button class=\"btn btn-secondary\" onclick=\"common.closeModal(modal_tutorial)\">Annulla</button><button class=\"btn btn-danger\" id=\"deleteGroupingBtn\" onclick=\"client.deleteGrouping(groupingSelected.value);common.closeModal(modal_tutorial)\">Conferma</button></div></div>",
+        "bodyText": "<div><div><p class=\"confirmText\">Confermare eliminazione?</p></div><div class=\"confirmDeletionBtns\"><button class=\"btn btn-secondary\" onclick=\"closeModal(modal_tutorial)\">Annulla</button><button class=\"btn btn-danger\" id=\"deleteGroupingBtn\" onclick=\"deleteGrouping(groupingSelected.value);closeModal(modal_tutorial)\">Conferma</button></div></div>",
         "lang": "IT"
     }
 ]

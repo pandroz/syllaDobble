@@ -15,7 +15,7 @@ function getJsonData() {
 
 exports.getModals = (req, res, next) => {
     try {
-        res.status(200).json(fs.readFileSync(path.join(folderPath, "modals.json"), "utf8"));
+        res.status(200).json(JSON.parse(fs.readFileSync(path.join(folderPath, "modals.json"), "utf8")));
     } catch (error) {
         console.log("[ERROR:getModals()]: ", error);
         res.status(500).json({error});
@@ -24,7 +24,7 @@ exports.getModals = (req, res, next) => {
 
 exports.getDialogs = (req, res, next) => {
     try {
-        res.status(200).json(fs.readFileSync(path.join(folderPath, "dialogs.json"), "utf8"));
+        res.status(200).json(JSON.parse(fs.readFileSync(path.join(folderPath, "dialogs.json"), "utf8")));
     } catch (error) {
         console.log("[ERROR:getModals()]: ", error);
         res.status(500).json({error});

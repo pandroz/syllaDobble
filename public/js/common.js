@@ -1,16 +1,16 @@
-// import modals from './modalsData/modals.json' with {type: "json"}
-// import dialogs from './dialogsData/dialogs.json' with {type: "json"}
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
 
 let modals, dialogs;
 
 Promise.all([getModals(), getDialogs()]).then((values) => {
 	modals = values[0].data;
-    dialogs = values[1].data;
+	dialogs = values[1].data;
 });
 
 
-
-const dialogForm = '<form method="dialog"><button>OK</button></form>';
+const dialogForm = '<form method="dialog"><button class="btn btn-primary">OK</button></form>';
 
 function openModal(modalJSONId) {
 	let baseModalHtml = _.get(_.find(modals, { _id: "modal_baseHtml" }), "body");
@@ -90,7 +90,7 @@ function getModals() {
 }
 
 function getDialogs() {
-    return axios.get("/data/dialogs").then((res) => {
+	return axios.get("/data/dialogs").then((res) => {
 		if (res.status === 200) return res;
 		else return {};
 	});

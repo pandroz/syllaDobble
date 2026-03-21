@@ -156,7 +156,7 @@ function handleGroupHtml(groups) {
                                 <div class="groupingHeader">
                                     <input class="groupingTitle" id="syllableGroup_${groupId}" value="${_.get(grp, "syllable", "")}" disabled></input>
                                     <button class="groupingButton" onclick="allowEditing(syllableGroup_${groupId}, textarea_${groupId}, editGroup_${groupId}, saveGroup_${groupId}, deleteGroup_${groupId})" id="editGroup_${groupId}"><i class="fa-solid fa-pencil"></i></button>
-                                    <button class="groupingButton hidden" onclick="deleteGroup(${groupId})" id="deleteGroup_${groupId}"><i class="fas fa-times btn-delete"></i></button>
+                                    <button class="groupingButton hidden" onclick="deleteGroup(${groupId})" id="deleteGroup_${groupId}"><i class="fas fa-times text-danger"></i></button>
                                     <button class="groupingButton hidden" onclick="updateGroup(${groupId}.id, syllableGroup_${groupId}, textarea_${groupId}, editGroup_${groupId}, saveGroup_${groupId}, deleteGroup_${groupId})" id="saveGroup_${groupId}"><i class="fa-regular fa-floppy-disk"></i></button>
                                 </div>
                             <div class="groupingPairs">

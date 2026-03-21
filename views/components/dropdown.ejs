@@ -1,0 +1,13 @@
+<div class="dropdown">
+    <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fa-solid fa-ellipsis-vertical"></i>
+    </button>
+    <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="#" onclick="stampaPagine()">Stampa</a></li>
+        <li><a class="dropdown-item" href="#" onclick="saveCards()">Salva</a></li>
+        <li>
+            <input type="file" id="cardsUpload" onchange="uploadCards(this)" style="display: none" />
+            <label class="dropdown-item" for="cardsUpload">Carica</label>
+        </li>
+    </ul>
+</div>

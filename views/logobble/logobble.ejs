@@ -3,85 +3,82 @@
 </head>
 
 <body>
+    
     <%- include('../components/navbar.ejs'); %>
-    <div class="page">
+    <div class="container-fluid">
 
-        <div class="templatingContainer">
-            <button onclick="openModal('modal_tutorial_cardCreation')" class="btn-info no-print tutorialBtn"><i
-                    class="fa-solid fa-question"></i><span>GUIDA</span></button>
-
-            <div class="t   emplateCardContainer  no-print">
-
+        <div class="row">
+            <div class="col-6 templatingContainer no-print">
+                
+                
                 <!-- DROPDOWN -->
-                <div class="dropdown btn-info no-print">
-                    <button class="dropdown-button"><i class="fa-solid fa-ellipsis-vertical"></i></button>
-                    <div class="dropdown-content">
-                        <button onclick="stampaPagine()">Stampa</button>
-                        <button onclick="saveCards()">Salva</button>
-
-                        <input type="file" id="cardsUpload" onchange="uploadCards(this)" style="display: none;" />
-                        <label for="cardsUpload">Carica</label>
-
-                    </div>
-                </div>
+                <%- include('../components/dropdown') %>
 
                 <!-- TITLE -->
-                <div class="buttonSect">
-                    <div class="subtitle">
-                        <span>Impostazioni carta da aggiungere</span>
-                    </div>
-                    <div class="undertitle">
-                        <span>Premi sulle opzioni per cambiare la carta</span>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="buttonSect">
+                            <div class="subtitle">
+                                <span>Impostazioni carta da aggiungere</span>
+                            </div>
+                            <div class="undertitle">
+                                <span>Premi sulle opzioni per cambiare la carta</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-
-                <div class="flexRow">
+                <div class="row">
                     <!-- TEMPLATE CARDS -->
-                    <input type="hidden" id="cardId" name="cardId" />
-                    <%- include('../components/cardTemplates/syllablesTemplate.ejs') %>
-                    <%- include('../components/cardTemplates/imagesTemplate.ejs') %>
+                    <div class="col-5">
+                        <input type="hidden" id="cardId" name="cardId" />
+                        <%- include('../components/cardTemplates/syllablesTemplate.ejs') %>
+                        <%- include('../components/cardTemplates/imagesTemplate.ejs') %>
+                    </div>
 
                     <!-- BUTTONS -->
-                    <div class="actionButtonsContainer">
-                        <div class="">
-                            <%- include('../components/switchSlider/switchSlider.ejs', { "right": '<i class="fa-regular fa-image"></i>', "left": "A", 'onclick': 'changeCardType(imagesTemplate, syllablesTemplate)' }); %>
+                    <div class="col-2">
+                        <div class="actionButtonsContainer">
+                            <div class="">
+                                <%- include('../components/switchSlider/switchSlider.ejs', { "right": '<i class="fa-regular fa-image"></i>', "left": "A", 'onclick': 'changeCardType(imagesTemplate, syllablesTemplate)' }); %>
+                            </div>
+                            <div class="actionButtons">
+                                <button type="button" class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" onclick="resetGlobals()" data-bs-title="Reimposta valori predefiniti dei campi">
+                                    Reset pers.
+                                </button>
+                                
+                                <button class="btn btn-primary" onclick="loadCard([], true); validateInputs()">Aggiungi</button>
+                                <button class="btn btn-primary" style="display: none" onclick="logCards()">LOG CARDS</button>
+                            </div>
                         </div>
-                        <div class="actionButtons">
-                            <div class="tooltip-wrapper">
-                                <div class="tooltip tooltip-top tooltip-info">Reimposta valori predefiniti dei campi
+
+                    </div>
+
+                    <div class="col-5">
+                        <!-- PREVIEW CARD -->
+                        <div class="templateCardSect cardsSect">
+                            <div class="card templateCard" id="previewCard">
+                                <div class="cardRowTop">
+                                    <div class="templateCard" id="contTopL"><span id="prevTopL" name="inTopL"></span><div id="prevContImgTopL" class="preview-wrapper hidden"><img class="card-image" id="prevImgTopL" alt="" src=""></div></div>
+                                    <div class="templateCard" id="contTopM"><span id="prevTopM" name="inTopM"></span><div id="prevContImgTopM" class="preview-wrapper hidden"><img class="card-image" id="prevImgTopM" alt="" src=""></div></div>
+                                    <div class="templateCard" id="contTopR"><span id="prevTopR" name="inTopR"></span><div id="prevContImgTopR" class="preview-wrapper hidden"><img class="card-image" id="prevImgTopR" alt="" src=""></div></div>
                                 </div>
-                                <button type="button" class="btn btn-secondary" onclick="resetGlobals()">Reset pers.</button>
-                            </div>
-                            <button class="btn btn-primary" onclick="loadCard([], true); validateInputs()">Aggiungi</button>
-                            <button class="btn btn-primary" style="display: none" onclick="logCards()">LOG
-                                CARDS</button>
-                        </div>
-                    </div>
 
-                    <!-- PREVIEW CARD -->
-                    <div class="templateCardSect cardsSect">
-                        <div class="card templateCard" id="previewCard">
-                            <div class="cardRowTop">
-                                <div class="templateCard" id="contTopL"><span id="prevTopL" name="inTopL"></span><div id="prevContImgTopL" class="preview-wrapper hidden"><img class="card-image" id="prevImgTopL" alt="" src=""></div></div>
-                                <div class="templateCard" id="contTopM"><span id="prevTopM" name="inTopM"></span><div id="prevContImgTopM" class="preview-wrapper hidden"><img class="card-image" id="prevImgTopM" alt="" src=""></div></div>
-                                <div class="templateCard" id="contTopR"><span id="prevTopR" name="inTopR"></span><div id="prevContImgTopR" class="preview-wrapper hidden"><img class="card-image" id="prevImgTopR" alt="" src=""></div></div>
-                            </div>
+                                <div class="cardRowMid">
+                                    <div class="templateCard" id="contMidL"><span id="prevMidL" name="inMidL"></span><div id="prevContImgMidL" class="preview-wrapper hidden"><img class="card-image" id="prevImgMidL" alt="" src=""></div></div>
+                                    <div class="templateCard" id="contMidM"><span id="prevMidM" name="inMidM"></span><div id="prevContImgMidM" class="preview-wrapper hidden"><img class="card-image" id="prevImgMidM" alt="" src=""></div></div>
+                                    <div class="templateCard" id="contMidR"><span id="prevMidR" name="inMidR"></span><div id="prevContImgMidR" class="preview-wrapper hidden"><img class="card-image" id="prevImgMidR" alt="" src=""></div></div>
+                                </div>
 
-                            <div class="cardRowMid">
-                                <div class="templateCard" id="contMidL"><span id="prevMidL" name="inMidL"></span><div id="prevContImgMidL" class="preview-wrapper hidden"><img class="card-image" id="prevImgMidL" alt="" src=""></div></div>
-                                <div class="templateCard" id="contMidM"><span id="prevMidM" name="inMidM"></span><div id="prevContImgMidM" class="preview-wrapper hidden"><img class="card-image" id="prevImgMidM" alt="" src=""></div></div>
-                                <div class="templateCard" id="contMidR"><span id="prevMidR" name="inMidR"></span><div id="prevContImgMidR" class="preview-wrapper hidden"><img class="card-image" id="prevImgMidR" alt="" src=""></div></div>
-                            </div>
-
-                            <div class="cardRowBot">
-                                <div class="templateCard" id="contBotL"><span id="prevBotL" name="inBotL"></span><div id="prevContImgBotL" class="preview-wrapper hidden"><img class="card-image" id="prevImgBotL" alt="" src=""></div></div>
-                                <div class="templateCard" id="contBotM"><span id="prevBotM" name="inBotM"></span><div id="prevContImgBotM" class="preview-wrapper hidden"><img class="card-image" id="prevImgBotM" alt="" src=""></div></div>
-                                <div class="templateCard" id="contBotR"><span id="prevBotR" name="inBotR"></span><div id="prevContImgBotR" class="preview-wrapper hidden"><img class="card-image" id="prevImgBotR" alt="" src=""></div></div>
+                                <div class="cardRowBot">
+                                    <div class="templateCard" id="contBotL"><span id="prevBotL" name="inBotL"></span><div id="prevContImgBotL" class="preview-wrapper hidden"><img class="card-image" id="prevImgBotL" alt="" src=""></div></div>
+                                    <div class="templateCard" id="contBotM"><span id="prevBotM" name="inBotM"></span><div id="prevContImgBotM" class="preview-wrapper hidden"><img class="card-image" id="prevImgBotM" alt="" src=""></div></div>
+                                    <div class="templateCard" id="contBotR"><span id="prevBotR" name="inBotR"></span><div id="prevContImgBotR" class="preview-wrapper hidden"><img class="card-image" id="prevImgBotR" alt="" src=""></div></div>
+                                </div>
                             </div>
                         </div>
                     </div>
-
+                    
                 </div>
 
                 <!-- ACCORDIONS -->
@@ -106,7 +103,10 @@
                                 </div>
                             </div>
                             <div class="sliderContainer">
-                                <%- include('../components/slider/slider.ejs', { "id": 'cardsNumber', "label": "Sillabe per carta", "min": 1, "max": 9, "value": 9, "oninput": "" }); %>
+                                <label for="cardsNumber" class="form-label">Sillabe per carta</label>
+                                <input type="range" class="form-range" id="cardsNumber" min="1" max="9" value="5">
+                                <output for="cardsNumber" id="rangeValue" aria-hidden="true"></output>
+
                             </div>
 
                         </div>
@@ -166,22 +166,23 @@
                 </div>
             </div>
 
-            <div class="cardsContainer">
+            <div class="col-6 cardsContainer">
+                <button onclick="openModal('modal_tutorial_cardCreation')" class="btn-info no-print tutorialBtn">
+                    <i class="fa-solid fa-question"></i><span>GUIDA</span>
+                </button>
                 <div class="loadedCardsSect no-print">
                     <div class="title">
                         <h3>LE TUE CARTE</h3>
                     </div>
                 </div>
 
-                <div class="cardsSect" id="cardsSectId">
+                <div class="cardsSect row" id="cardsSectId">
                     <div id="cardsSectPad" class="cardsSectPad">
                         &nbsp;
                     </div>
                 </div>
             </div>
         </div>
-
-
     </div>
 
     <%- include('../components/modal/modals.ejs'); %>

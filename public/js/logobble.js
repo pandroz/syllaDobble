@@ -1,6 +1,12 @@
-// import * as common from '../common/commonClient.js'
-// import { freezePage } from '../common/commonClient.js';
-// import { cleanFormatStates } from '../components/textFormatting/textFormattingClient.js'
+const rangeInput = document.getElementById('cardsNumber');
+const rangeOutput = document.getElementById('rangeValue');
+
+// Set initial value
+rangeOutput.textContent = rangeInput.value;
+
+rangeInput.addEventListener('input', function () {
+    rangeOutput.textContent = this.value;
+});
 
 let CARDS = [];
 let GROUPS = [];
@@ -103,7 +109,7 @@ function formatCardValues(card) {
     let cardId = _.get(card, 'cardId');
 
     let cardContainer = document.createElement('div');
-    cardContainer.className = 'cardContainer';
+    cardContainer.className = 'cardContainer col-6';
     cardContainer.id = `container_${cardId}`;
 
     // Edit button
@@ -128,7 +134,7 @@ function formatCardValues(card) {
     let deleteButton = document.createElement('button');
     deleteButton.id = `deleteCard_${cardId}`;
     deleteButton.className = 'groupingButton no-print';
-    deleteButton.innerHTML = '<i class="fas fa-times btn-delete"></i>';
+    deleteButton.innerHTML = '<i class="fas fa-times text-danger"></i>';
     deleteButton.onclick = () => {
         removeCard(cardId, cardContainer);
     };
@@ -163,7 +169,7 @@ function formatCardValues(card) {
 
             let dataWrapper = document.createElement('div');
             dataWrapper.id = position + _.last(key);
-            
+
             let childNodes = Array.from(cardRowElement.childNodes);
 
             // IMAGE HANDLING
@@ -181,7 +187,7 @@ function formatCardValues(card) {
                 if (spanToReplaceIx !== -1) {
                     cardRowElement.replaceChild(dataWrapper, cardRowElement.childNodes[spanToReplaceIx]);
                 }
-                
+
 
                 // TEXT HANDLING
             } else if (_.includes(key, 'in')) {
@@ -201,7 +207,7 @@ function formatCardValues(card) {
                 }
                 cardRowElement.appendChild(dataWrapper);
             }
-            
+
         });
 
         cardElement.appendChild(cardRowElement);
@@ -214,7 +220,7 @@ function formatCardValues(card) {
 
 function removeCard(cardId, element) {
     if (isEditingCard && cardId !== editingCardId) {
-        common.onerror('<i class="fa-solid fa-triangle-exclamation"></i> Non possono essere eliminate altre carte mentre una carta viene modificata.<br/>Terminare la modifica prima di cancellare altre carte.');
+        onerror('<i class="fa-solid fa-triangle-exclamation"></i> Non possono essere eliminate altre carte mentre una carta viene modificata.<br/>Terminare la modifica prima di cancellare altre carte.');
         return;
     }
 
@@ -252,11 +258,11 @@ function resetGlobals() {
 
 function stampaPagine() {
     if (_.size(CARDS) < 1) {
-        common.onerror('<i class="fa-solid fa-triangle-exclamation"></i> Non è possibile stampare senza carte create')
+        onerror('<i class="fa-solid fa-triangle-exclamation"></i> Non è possibile stampare senza carte create')
         return;
     }
     if (isEditingCard) {
-        common.onerror('<i class="fa-solid fa-triangle-exclamation"></i> Non é possibile stampare mentre una carta viene modificata.<br/>Terminare la modifica prima di stampare.')
+        onerror('<i class="fa-solid fa-triangle-exclamation"></i> Non é possibile stampare mentre una carta viene modificata.<br/>Terminare la modifica prima di stampare.')
         return;
     }
     window.print();
@@ -264,7 +270,7 @@ function stampaPagine() {
 
 function saveCards() {
     if (_.size(CARDS) < 1) {
-        common.onerror('<i class="fa-solid fa-triangle-exclamation"></i> Non è possibile salvare senza carte create')
+        onerror('<i class="fa-solid fa-triangle-exclamation"></i> Non è possibile salvare senza carte create')
         return 1;
     }
     let date = new Date();
@@ -378,7 +384,7 @@ function syncPreview(itemToSync) {
  */
 function allowEditing(card, editCardBtn, saveCardBtn) {
     if (isEditingCard && card.id !== editingCardId) {
-        common.onerror('<i class="fa-solid fa-triangle-exclamation"></i> Non possono essere modificate altre carte mentre una carta viene modificata.<br/>Terminare la modifica prima di modificare altre carte.');
+        onerror('<i class="fa-solid fa-triangle-exclamation"></i> Non possono essere modificate altre carte mentre una carta viene modificata.<br/>Terminare la modifica prima di modificare altre carte.');
         return;
     }
 
@@ -407,9 +413,9 @@ function allowEditing(card, editCardBtn, saveCardBtn) {
             element.classList.remove('hidden');
             let parentElement = element.parentElement;
             parentElement.classList.remove('hidden');
-            
-            
-            const removeBtn = document.createElement('button');            
+
+
+            const removeBtn = document.createElement('button');
             removeBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
             removeBtn.id = 'remove' + _.upperFirst(key);
             removeBtn.className = 'remove-image';
@@ -552,7 +558,7 @@ function generateCards(groupingId, groupId, cardsNumber) {
 
     if (groupId === 'x') {
         freezePage(false);
-        common.onerror('<i class="fa-solid fa-triangle-exclamation"></i> Selezionare un gruppo.');
+        onerror('<i class="fa-solid fa-triangle-exclamation"></i> Selezionare un gruppo.');
         return;
     }
 

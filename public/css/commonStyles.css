@@ -18,13 +18,17 @@
         height: 8.5cm !important;
     }
 
+    .cardsContainer {
+        border-left: 0 !important;
+    }
+
 
     .cardContainer:nth-child(6n) {
         page-break-after: always;
     }
 
-    .cardsContainer>.cardsSect {
-        overflow-y: initial;
+    .cardsContainer > .cardsSect {
+        overflow-y: inherit !important;
     }
 
     .cardsSectPad {

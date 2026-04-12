@@ -58,8 +58,8 @@ function getValues() {
  * @function loadCard
  * @description Popola una carta con i valori forniti e la aggiunge alla lista delle carte.
  *              Se isNewCard === true, genera un nuovo ID per la carta.
- *              Se isGeneratedCard === true, non recupera i valori dalla template.
  *              Se isUploadedCard === true, crea una nuova carta.
+ *              Se isGeneratedCard === true, non recupera i valori dalla template.
  * @param {object} cardData - Oggetto contenente i valori per la carta.
  * @param {bool} isNewCard - Se true, genera un nuovo ID per la carta.
  * @param {bool} isUploadedCard - Se true, crea una nuova carta.
@@ -568,7 +568,7 @@ function generateCards(groupingId, groupId, cardsNumber) {
     const totalSymbolsNeeded = n * n + n + 1;
     const extendedSyllables = createSymbolSet(syllables, totalSymbolsNeeded);
     try {
-        const cards = generateDobbleCards(n, extendedSyllables);
+        const cards = generateDobbleCards(extendedSyllables);
 
         _.each(cards, card => {
             card = assignCard(card, n);
@@ -586,15 +586,28 @@ function generateCards(groupingId, groupId, cardsNumber) {
 
 function assignCard(card, syllablesUsed) {
     let keys = ["inTopL", "inTopM", "inTopR", "inMidL", "inMidM", "inMidR", "inBotL", "inBotM", "inBotR"];
+    let usedKeys = [];
+    console.log('card ==> ', card);
 
     let assignedCard = {};
-    if (syllablesUsed < 9) {
-        keys = _.take(keys, syllablesUsed + 1);
-    }
+    // if (syllablesUsed < 9) {
+    //     keys = _.take(keys, syllablesUsed + 1);
+    // }
 
-    _.each(keys, (key, i) => {
-        _.extend(assignedCard, { [key]: card[i] });
+    _.each(card, (symbol) => {
+        let key = _.nth(keys, _.random(0, _.size(keys) - 1));
+        if (_.includes(usedKeys, key)) {
+            let availableKeys = _.difference(keys, usedKeys);
+            key = _.nth(availableKeys, _.random(0, _.size(availableKeys) - 1));
+        }
+        _.extend(assignedCard, { [key]: symbol });
+        usedKeys.push(key);
     });
+
+    // _.each(keys, (key, i) => {
+    //     // if (_.includes(usedKeys, key))
+    //     _.extend(assignedCard, { [key]: card[i] });
+    // });
 
     _.assign(assignedCard, {
         cardBg: '#ffffff',
@@ -612,42 +625,53 @@ function assignCard(card, syllablesUsed) {
  * @param {string[]} symbols - Array of custom symbols to use
  * @returns {Array<string[]>} Array of cards, where each card is an array of symbols
  */
-function generateDobbleCards(n, symbols) {
-    // Validate input
-    if (symbols.length < n * n + n + 1) {
-        throw new Error(`Not enough symbols. Need at least ${n * n + n + 1} unique symbols.`);
+function generateDobbleCards(symbols) {
+    const total = symbols.length;
+
+    // Find valid n
+    let n = null;
+    for (let i = 2; i < total; i++) {
+        if (i * i + i + 1 === total) {
+            n = i;
+            break;
+        }
     }
 
-    const symbolsPerCard = n + 1;
+    if (!n) {
+        throw new Error("Symbol count must be n^2 + n + 1");
+    }
 
     const cards = [];
 
-    // Generate first card with first n+1 symbols
-    const firstCard = symbols.slice(0, symbolsPerCard);
+    // --- First card
+    const firstCard = [];
+    for (let i = 0; i <= n; i++) {
+        firstCard.push(symbols[i]);
+    }
     cards.push(firstCard);
 
-    // Generate n sets of n cards each
+    // --- n cards
     for (let i = 0; i < n; i++) {
+        const card = [symbols[0]];
         for (let j = 0; j < n; j++) {
-            const card = [symbols[i]]; // Start with the first symbol
-
-            // Add n more symbols using the pattern
-            for (let k = 0; k < n; k++) {
-                const symbolIndex = n + 1 + (i * n + j + k * j) % (n * n);
-                card.push(symbols[symbolIndex]);
-            }
-            cards.push(card);
-        }
-    }
-
-    // Generate the last n cards
-    for (let i = 0; i < n; i++) {
-        const card = [symbols[n]];
-        for (let j = 0; j < n; j++) {
-            const symbolIndex = n + 1 + (j * n + i);
-            card.push(symbols[symbolIndex]);
+            card.push(symbols[1 + n * i + j]);
         }
         cards.push(card);
+    }
+
+    // --- Remaining n^2 cards
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+            const card = [symbols[i + 1]];
+
+            for (let k = 0; k < n; k++) {
+                const index =
+                    1 + n + n * k + ((i * k + j) % n);
+                card.push(symbols[index]);
+            }
+
+            cards.push(card);
+        }
     }
 
     return cards;
